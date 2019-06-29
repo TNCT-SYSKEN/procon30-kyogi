@@ -162,6 +162,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="algorithm\Action_manager.cpp" />
+    <ClCompile Include="algorithm\Field_test.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +242,12 @@
     <Text Include="Engine\dll(x86)\libmpg123\COPYING.txt" />
     <Text Include="Engine\dll(x86)\SoundTouch\COPYING.TXT" />
     <Text Include="Engine\LogMessages.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="algorithm\Action_manager.h" />
+    <ClInclude Include="algorithm\Hyouka.h" />
+    <ClInclude Include="field.h" />
+    <ClInclude Include="general.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

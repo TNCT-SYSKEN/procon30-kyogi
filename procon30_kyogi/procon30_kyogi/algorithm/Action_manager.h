@@ -4,7 +4,7 @@
 
 class Action_manager {
 public:
-
+	int hyouka(int);
 
 
 
