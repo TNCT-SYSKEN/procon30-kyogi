@@ -10,7 +10,7 @@ public:
 	int height = 4;
 	//teamID
 	int my_teamID = 5;
-	int other_teamID = 9;
+	int other_teamID = 6;
 
 	//ポイント情報
 	vector<vector<int>>points{
@@ -27,6 +27,15 @@ public:
 		{11,3,1},
 		{12,6,3}
 	};
+
+	//タイル状況
+	vector<vector<int>>tiled{
+		{0, 0, 6, 0, 0, 0},
+		{5, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 6},
+		{0, 0, 0, 5, 0, 0}
+	};
+
 	
 
 	//タイルポイント,領域ポイント,合計ポイント
@@ -35,10 +44,11 @@ public:
 	vector<int>my_team_point{
 		5,0,5
 	};
+
 	//相手のチーム
 	vector<int>other_team_point{
 		5,0,5
-	}
+	};
 
 };
 

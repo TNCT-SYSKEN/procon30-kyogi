@@ -10,7 +10,7 @@
 int Action_manager::Action(int)
 {
 	//Hyouka.cppの関数を呼び出す
-
+	//現在の得点などをちゃんと別のファイル、もしくは関数で取得する必要がある。
 
 
 
