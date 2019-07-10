@@ -9,4 +9,6 @@ public:
 	//‚»‚ê‚¼‚ê‚ğˆø”‚Æ‚µ‚Äˆµ‚¤
 
 	vector<vector<int>>hyouka_keisan(vector < vector<int>>, vector<vector<int>>, vector<vector<int>>, vector<int>, vector<int>);
+	vector<vector<int>>hyouka_point;//•]‰¿“_‚ª“ü‚é
+
 };
