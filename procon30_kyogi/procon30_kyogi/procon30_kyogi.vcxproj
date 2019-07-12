@@ -162,6 +162,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Data\Agents.cpp" />
+    <ClCompile Include="Data\AgentsAction.cpp" />
+    <ClCompile Include="Data\Field.cpp" />
+    <ClCompile Include="Data\Map.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +244,12 @@
     <Text Include="Engine\dll(x86)\libmpg123\COPYING.txt" />
     <Text Include="Engine\dll(x86)\SoundTouch\COPYING.TXT" />
     <Text Include="Engine\LogMessages.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Data\Agents.h" />
+    <ClInclude Include="Data\AgentsAction.h" />
+    <ClInclude Include="Data\Field.h" />
+    <ClInclude Include="Data\Map.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
