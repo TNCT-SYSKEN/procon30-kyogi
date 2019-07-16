@@ -166,6 +166,9 @@
     <ClCompile Include="Data\AgentsAction.cpp" />
     <ClCompile Include="Data\Field.cpp" />
     <ClCompile Include="Data\Map.cpp" />
+    <ClCompile Include="algorithm\Action_manager.cpp" />
+    <ClCompile Include="algorithm\Field_test.cpp" />
+    <ClCompile Include="algorithm\Hyouka.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +253,11 @@
     <ClInclude Include="Data\AgentsAction.h" />
     <ClInclude Include="Data\Field.h" />
     <ClInclude Include="Data\Map.h" />
+    <ClInclude Include="algorithm\Action_manager.h" />
+    <ClInclude Include="algorithm\Field_test.h" />
+    <ClInclude Include="algorithm\Hyouka.h" />
+    <ClInclude Include="field.h" />
+    <ClInclude Include="general.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
