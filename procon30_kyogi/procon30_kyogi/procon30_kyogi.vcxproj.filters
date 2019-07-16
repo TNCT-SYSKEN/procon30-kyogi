@@ -81,6 +81,20 @@
     <ClCompile Include="Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+
+    <ClCompile Include="Data\Agents.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Map.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\AgentsAction.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Field.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+
     <ClCompile Include="algorithm\Field_test.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -88,6 +102,7 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="algorithm\Hyouka.cpp">
+
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -307,6 +322,20 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
+
+    <ClInclude Include="Data\Agents.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Map.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\AgentsAction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Field.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+
     <ClInclude Include="field.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -320,6 +349,7 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="algorithm\Field_test.h">
+
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
