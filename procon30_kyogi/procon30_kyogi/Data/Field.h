@@ -3,9 +3,9 @@
 
 class Field {
 public:
-	//TilePointsMap
+	//TilePoints
 	vector<vector<int>> points;
-	//TiledPointsMap
+	//TiledPoints
 	vector<vector<int>> tiled;
 
 	static Field* getField();

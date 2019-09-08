@@ -3,7 +3,7 @@
 
 class Field_test {
 public:
-	void fieldTest();
+	static void fieldTest();
 };
 
 
