@@ -162,13 +162,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Data\AgentsEvalution.cpp" />
+    <ClCompile Include="algorithm\Evalution.cpp" />
     <ClCompile Include="Data\Agents.cpp" />
     <ClCompile Include="Data\AgentsAction.cpp" />
     <ClCompile Include="Data\Field.cpp" />
     <ClCompile Include="Data\Map.cpp" />
-    <ClCompile Include="algorithm\Action_manager.cpp" />
+    <ClCompile Include="algorithm\ActionManager.cpp" />
     <ClCompile Include="algorithm\Field_test.cpp" />
-    <ClCompile Include="algorithm\Hyouka.cpp" />
+    <ClCompile Include="algorithm\Prefetching.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -249,13 +251,15 @@
     <Text Include="Engine\LogMessages.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Data\AgentsEvalution.h" />
+    <ClInclude Include="algorithm\Evalution.h" />
     <ClInclude Include="Data\Agents.h" />
     <ClInclude Include="Data\AgentsAction.h" />
     <ClInclude Include="Data\Field.h" />
     <ClInclude Include="Data\Map.h" />
-    <ClInclude Include="algorithm\Action_manager.h" />
+    <ClInclude Include="algorithm\ActionManager.h" />
     <ClInclude Include="algorithm\Field_test.h" />
-    <ClInclude Include="algorithm\Hyouka.h" />
+    <ClInclude Include="algorithm\Prefetching.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="general.h" />
   </ItemGroup>

@@ -1,5 +1,5 @@
 #include"Prefetching.h"
-
+#include"Evalution.h"
 
 
 int dx[] = { 1,1,1,0,0,0,-1,-1,-1 };
@@ -65,7 +65,9 @@ vector<int> Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route
 	rep(turn,9) {
 		agentPosition.first += dx[turn];
 		agentPosition.second += dy[turn];
+
 		route.push_back(make_pair(agentnum, agentPosition));
+
 		if (turn == 4) {}//à⁄ìÆÇµÇ»Ç¢
 		else {
 			sum += calculateScore(agentPosition);
@@ -77,7 +79,8 @@ vector<int> Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route
 		}
 		else {
 			//é}êÊ(ï]âøåvéZ)
-
+			Evalution evalution;
+			evalution.calculateEvalution(route,readTurn,sum);
 		}
 	}
 	return vector<int>();
