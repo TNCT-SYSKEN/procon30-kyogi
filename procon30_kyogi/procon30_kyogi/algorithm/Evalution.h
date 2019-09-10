@@ -3,8 +3,8 @@
 class Evalution {
 public:
 	//•]‰¿“_ŒvŽZ
-	void calculateEvalution(vector<pair<int,pair<int,int>>> route,int readTurn,int sum);
+	void calculateEvalution(vector<pair<int,pair<int,int>>>,int);
 
 private:
-	int calculateAreaPoint();
+	int calculateAreaPoint(vector<pair<int,pair<int,int>>>);
 };
