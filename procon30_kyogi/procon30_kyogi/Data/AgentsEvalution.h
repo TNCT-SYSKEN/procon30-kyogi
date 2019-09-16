@@ -1,5 +1,5 @@
 #pragma once
-#include"../algorithm/ActionManager.h"
+#include"../algorithm/Action_manager.h"
 class AgentsEvalution {
 public:
 	//Å‚•]‰¿“_ƒ‹[ƒg

@@ -16,6 +16,8 @@ public:
 	//ターン数
 	int turn;
 
+	int readTurn = 3;
+
 	//自分チームID
 	int ourTeaMID;
 	//相手チームID

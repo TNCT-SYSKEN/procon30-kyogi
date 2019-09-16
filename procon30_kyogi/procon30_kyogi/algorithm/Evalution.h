@@ -1,5 +1,5 @@
 #pragma once
-#include"ActionManager.h"
+#include"Action_manager.h"
 class Evalution {
 public:
 	//•]‰¿“_ŒvŽZ
