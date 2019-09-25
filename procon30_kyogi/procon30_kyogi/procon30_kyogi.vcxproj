@@ -170,7 +170,6 @@
     <ClCompile Include="Data\Field.cpp" />
     <ClCompile Include="Data\Map.cpp" />
     <ClCompile Include="algorithm\Action_manager.cpp" />
-    <ClCompile Include="algorithm\Field_test.cpp" />
     <ClCompile Include="algorithm\Hyouka.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>

@@ -1,5 +1,5 @@
 #pragma once
-#include"ActionManager.h"
+#include"Action_manager.h"
 
 class Prefetching {
 public:
@@ -8,7 +8,7 @@ public:
 
 private:
 	int calculateScore(pair<int,int>);
-	vector<int> calculateEvalution(vector<pair<int,pair<int,int>>>,int,pair<int,int>,int,int);
+	pair<int,int> calculateEvalution(vector<pair<int,pair<int,int>>>,int,pair<int,int>,int,int);
 
 	
 };

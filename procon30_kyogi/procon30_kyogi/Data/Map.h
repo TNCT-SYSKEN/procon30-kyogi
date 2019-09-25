@@ -19,7 +19,7 @@ public:
 	int readTurn = 3;
 
 	//自分チームID
-	int ourTeaMID;
+	int ourTeamID;
 	//相手チームID
 	int otherTeamID;
 

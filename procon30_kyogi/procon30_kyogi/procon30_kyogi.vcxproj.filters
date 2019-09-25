@@ -93,9 +93,6 @@
     <ClCompile Include="Data\Field.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="algorithm\Field_test.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="algorithm\Action_manager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
