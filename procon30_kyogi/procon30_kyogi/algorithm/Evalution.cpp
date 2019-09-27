@@ -1,7 +1,6 @@
 #include"Evalution.h"
 
-dx[] = { 1,1,1,0,0,0,-1,-1,-1 };
-dy[] = { 1,0,-1,1,0,-1,1,0,-1 };
+
 
 float evalution[4] = { 6,5,4,3, };
 // 領域, 相手の点が高いか, 移動可能マス,　移動先の点数の高さ
@@ -18,6 +17,10 @@ float magnificat[] = { 1,1.5,1,1,1,1 };
 
 void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, int sum)
 {
+
+	int dx[] = { 1,1,1,0,0,0,-1,-1,-1 };
+	int dy[] = { 1,0,-1,1,0,-1,1,0,-1 };
+
 
 	Map *map;
 	map = map->getMap();
@@ -81,7 +84,9 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, int 
 	}
 
 	//エージェント回数ループ
-	rep(i, agents->ourAgents.size()) {
+
+	int agentsSize = agents->ourAgents.size();
+	rep(i, agentsSize) {
 		if (route[0].first != agents->ourAgents[i][0]) {
 			//味方　３
 			tiledArea[agents->ourAgents[i][1]][agents->ourAgents[i][2]] = 3;
