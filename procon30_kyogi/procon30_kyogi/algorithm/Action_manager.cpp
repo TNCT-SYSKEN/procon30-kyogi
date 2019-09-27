@@ -10,18 +10,18 @@
 
 int Action_manager::Action(int)
 {	
-	Field_test FT;
+
 	//Hyouka.cppの関数を呼び出す
 	//現在の得点などをちゃんと別のファイル、もしくは関数で取得する必要がある。
 
 
-	Hyouka Hy;
-	Action_manager Ac_m;
+	Prefetching prefetching;
+	prefetching.hyoukaKeisan();
 
-	Ac_m.Now_Optim = Hy.hyouka_keisan(FT.points, FT.tiled, FT.agents, FT.my_team_point, FT.other_team_point);
+	AgentsEvalution *agentsEvalution;
+	agentsEvalution = agentsEvalution->getAgentsEvalution();
 
-
-
+	
 
 
 

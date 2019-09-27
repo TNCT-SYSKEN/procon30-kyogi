@@ -1,7 +1,11 @@
 #pragma once
 #include"../general.h"
-#include"Field_test.h"
-#include"Hyouka.h"
+#include"Prefetching.h"
+#include"../Data/Agents.h"
+#include"../Data/AgentsAction.h"
+#include"../Data/AgentsEvalution.h"
+#include"../Data/Field.h"
+#include"../Data/Map.h"
 
 class Action_manager {
 public:
