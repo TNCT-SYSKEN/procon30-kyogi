@@ -9,4 +9,6 @@ public:
 
 	int calculateAreaPoint(vector<pair<int,pair<int,int>>>);
 	int calculateEnemyAreaPoint(vector<pair<int, pair<int, int>>>);
+
+	
 };
