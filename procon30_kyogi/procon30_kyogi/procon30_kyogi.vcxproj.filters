@@ -306,6 +306,7 @@
     <None Include="Engine\Config.ini">
       <Filter>リソース ファイル\Engine</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Engine\dll(x64)\libmpg123\COPYING.txt">
