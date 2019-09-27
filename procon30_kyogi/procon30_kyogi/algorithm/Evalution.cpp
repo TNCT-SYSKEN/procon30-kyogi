@@ -144,6 +144,8 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, int 
 
 }
 
+
+
 //領域ポイント計算
 int Evalution::calculateAreaPoint(vector<pair<int,pair<int,int>>>route) {
 	Field *field;
