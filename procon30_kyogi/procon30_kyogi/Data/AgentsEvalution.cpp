@@ -1,9 +1,9 @@
 #include"AgentsEvalution.h"
-AgentsEvalution* agentsEvalution = nullptr;
-AgentsEvalution * AgentsEvalution::getAgentsEvalution()
+AgentsEvalution* AgentsEvalution::gentsEvalution = nullptr;
+AgentsEvalution* AgentsEvalution::getAgentsEvalution()
 {
-	if (agentsEvalution == nullptr) {
-		agentsEvalution = new AgentsEvalution;
+	if (gentsEvalution == nullptr) {
+		gentsEvalution = new AgentsEvalution;
 	}
-	return agentsEvalution;
+	return gentsEvalution;
 }

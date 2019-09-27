@@ -1,13 +1,13 @@
 #pragma once
-#include"../algorithm/Action_manager.h"
+#include"../general.h"
 class AgentsEvalution {
 public:
 	//ç≈çÇï]âøì_ÉãÅ[Ég
 	vector<pair<int, int>> maxRoute;
-	int maxEvalutionPoint;
+	float maxEvalutionPoint;
 
 	static AgentsEvalution* getAgentsEvalution();
 
 private:
-	static AgentsEvalution* agentsEvalution;
+	static AgentsEvalution* gentsEvalution;
 };

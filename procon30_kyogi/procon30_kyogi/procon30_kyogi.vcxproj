@@ -170,7 +170,6 @@
     <ClCompile Include="Data\Field.cpp" />
     <ClCompile Include="Data\Map.cpp" />
     <ClCompile Include="algorithm\Action_manager.cpp" />
-    <ClCompile Include="algorithm\Field_test.cpp" />
     <ClCompile Include="algorithm\Hyouka.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
@@ -182,6 +181,7 @@
     <Image Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="Engine\Assets\engine_textures.s3a" />
     <None Include="Engine\Config.ini" />
     <None Include="Engine\dll(x64)\D3D\d3dcompiler_47.dll" />

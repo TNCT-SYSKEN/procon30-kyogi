@@ -93,9 +93,6 @@
     <ClCompile Include="Data\Field.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="algorithm\Field_test.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="algorithm\Action_manager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -309,6 +306,7 @@
     <None Include="Engine\Config.ini">
       <Filter>リソース ファイル\Engine</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Engine\dll(x64)\libmpg123\COPYING.txt">
