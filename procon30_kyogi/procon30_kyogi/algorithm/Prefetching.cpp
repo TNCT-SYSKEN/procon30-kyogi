@@ -4,7 +4,7 @@
 
 int dx[] = { 1,1,1,0,0,0,-1,-1,-1 };
 int dy[] = { 1,0,-1,1,0,-1,1,0,-1 };
-vector<vector<int>> Prefetching::hyoukaKeisan()
+void Prefetching::hyoukaKeisan()
 {
 	Map *map;
 	map = map->getMap();
@@ -50,12 +50,6 @@ vector<vector<int>> Prefetching::hyoukaKeisan()
 		}
 
 	}
-
-	
-
-	
-
-	return vector<vector<int>>();
 }
 
 

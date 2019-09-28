@@ -2,7 +2,7 @@
 class OutputData
 {
 public:
-	OutputData();
-	~OutputData();
+	void outputData();
+
 };
 

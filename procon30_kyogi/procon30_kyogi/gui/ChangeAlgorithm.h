@@ -2,7 +2,7 @@
 class ChangeAlgorithm
 {
 public:
-	ChangeAlgorithm();
-	~ChangeAlgorithm();
+	void changeAlgorithm();
+	
 };
 

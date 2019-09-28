@@ -1,8 +1,9 @@
 #pragma once
+#include "InputOutputManager.h"
+
 class DrawData
 {
 public:
-	DrawData();
-	~DrawData();
+	void drawData();
 };
 

@@ -33,7 +33,13 @@ void CreateMap::createMapFrame(const int vertical,const int side) {
 	}
 }
 
-void CreateMap::createMapState(){
+bool CreateMap::createMapClass() {
 
+	//if(json flg==false){	return false;}
+	return false;
+
+
+
+
+	return true;
 }
-
