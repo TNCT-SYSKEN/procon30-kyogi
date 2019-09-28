@@ -1,5 +1,3 @@
-#include<iostream>
-#include<Siv3D.hpp>
 #include"CreateMap.h"
 void CreateMap::createMapFrame(const int vertical,const int side) {
 	int k, c;
@@ -38,8 +36,11 @@ bool CreateMap::createMapClass() {
 	//if(json flg==false){	return false;}
 	return false;
 
+	Map* map;
+	map = map->getMap();
 
+	map->turn = 0;
 
-
+	
 	return true;
 }

@@ -1,3 +1,5 @@
+#include"../general.h"
+#include"../Data/Map.h"
 class CreateMap {
 public :
 

@@ -1,19 +1,15 @@
 #include "InputOutputManager.h"
-#include "DrawData.h"
-#include "CreateMap.h"
-#include "OutputData.h"
-#include "TurnManager.h"
-#include <Siv3D.hpp>
-#include<string>
-
 using namespace std;
+
+CreateMap createMap;
 
 void InputOutputManager::init()
 {
+	//json‚È‚©‚Á‚½‚ç–³ŒÀƒ‹[ƒv
 	bool flg;
 	do {
 
-
+		flg = createMap.createMapClass();
 	} while (!flg);
 
 }
@@ -21,6 +17,5 @@ void InputOutputManager::init()
 
 void InputOutputManager::inputOutputManager()
 {
-	DrawData drawdata;
-	drawdata.drawData();
+
 }
