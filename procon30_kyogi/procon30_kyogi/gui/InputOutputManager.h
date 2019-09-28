@@ -1,6 +1,6 @@
 class InputOutputManager
 {
 public:
-	void inputID();
+	void inputoutputmanager();
 };
 
