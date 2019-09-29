@@ -14,6 +14,7 @@ public:
 	void drawTiledScore();
 	void drawAreaScore();
 	void drawSumScore();
+	void outputTurn();
 
 	void inputID();
 };
