@@ -15,7 +15,7 @@ DrawData::DrawData()
 
 	//ボタン
 	//ゲームスタート
-	gui.add(L"gameStart", GUIButton::Create(L"ゲームスタート！"));
+	gui.add(L"gameStart", GUIButton::Create(L"gameStart"));
 
 	//行動確定
 	gui.add(L"bt1", GUIButton::Create(L"決定"));
@@ -28,8 +28,14 @@ DrawData::DrawData()
 
 	//先読みターン数変更
 	gui.add(L"text0", GUIText::Create(L"先読みターン数"));
-	gui.add(L"ptnc", GUITextArea::Create(1,3));
-	gui.add(L"bt3", GUIButton::Create(L"OK"));
+	gui.add(L"ptnc", GUITextArea::Create(1,2));
+	gui.addln(L"bt3", GUIButton::Create(L"OK"));
+
+	//最大ターン数
+	//全探索で使う
+	gui.add(L"textMT", GUIText::Create(L"最大ターン数"));
+	gui.add(L"readMT", GUITextArea::Create(1, 2));
+	gui.add(L"btnMT", GUIButton::Create(L"決定"));
 
 	//水平線
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
@@ -195,7 +201,7 @@ void DrawData::clickedButton() {
 		//先読みターン数更新
 		map->readTurn = Parse<int>(gui.textArea(L"ptnc").text);
 		
-		gui.textArea(L"turn").setText(Widen(to_string(map->readTurn)));
+		//gui.textArea(L"turn").setText(Widen(to_string(map->readTurn)));
 	}
 	//ID入力ボタン
 	if (gui.button(L"bt4").pushed) {
@@ -203,6 +209,11 @@ void DrawData::clickedButton() {
 	}
 	//JsonFileの読み込み
 	if (gui.button(L"bt5").pushed) {
+
+	}
+	//MaxTurn入力ボタン
+	if (gui.button(L"btMT").pushed) {
+		map->finalTurn = Parse<int>(gui.textArea(L"readMT").text);
 
 	}
 
