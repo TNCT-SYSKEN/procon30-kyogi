@@ -64,6 +64,26 @@ void CreateMap::createMapState2(const int state, const int x, const int y) {
 	}
 }
 
-void CreateMap::createMapAgent(const int who, const int x, const int y) {
+void CreateMap::createMapAgent1(const int who, const int x, const int y) {
+	Circle circle(300 + 40 * (x - 1) + 20, 30 + 40 * (y - 1) + 20,15);
+	switch (who) {
+	case 1:
+		circle.draw(Palette::Lightskyblue);
+		break;
+	case 2:
+		circle.draw(Palette::Pink);
+		break;
+	}
+}
 
+void CreateMap::createMapAgent2(const int who, const int x, const int y) {
+	Circle circle(1100 + 40 * (x - 1) + 20, 30 + 40 * (y - 1) + 20, 15);
+	switch (who) {
+	case 1:
+		circle.draw(Palette::Lightskyblue);
+		break;
+	case 2:
+		circle.draw(Palette::Pink);
+		break;
+	}
 }
