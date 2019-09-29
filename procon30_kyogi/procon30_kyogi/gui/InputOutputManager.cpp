@@ -1,5 +1,5 @@
-#include "InputOutputManager.h"
-#include <Siv3D.hpp>
+#include"InputOutputManager.h"
+#include<Siv3D.hpp>
 #include"Gui.h"
 
 using namespace std;
