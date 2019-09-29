@@ -40,7 +40,10 @@ bool CreateMap::createMapClass() {
 	map = map->getMap();
 
 	map->turn = 0;
+	//æ“Ç‚İƒ^[ƒ“”‚Ì‰Šú‰»
+	map->readTurn = 3;
 
+	map->isGameStarted = false;
 	
 	return true;
 }

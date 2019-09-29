@@ -4,18 +4,21 @@
 #include"SystemManager.h"
 #include"gui/InputOutputManager.h"
 SystemManager sys;
-	InputOutputManager iOManager;
+	
 	
 void Main()
 {
-
-	DrawData drawData;
+	InputOutputManager iOManager;
+	
 	//jsonなかったら無限ループ
 	//iOManager.init();
-	Map* map;
+	Map *map;
 	map = map->getMap();
 	map->turnFlg = false;
 
+	iOManager.init();
+	DrawData drawData;
+	Profiler::EnableWarning(false);
 
 	while (System::Update()) {
 		//drawManager
