@@ -23,6 +23,8 @@ public:
 	//‘Šèƒ`[ƒ€ID
 	int otherTeamID;
 
+	//ŒvZ‚µ‚½‚©‚Ç‚¤‚©
+	bool turnFlg;
 
 private:
 	static Map* stayMap;

@@ -34,7 +34,7 @@ void CreateMap::createMapFrame(const int vertical,const int side) {
 bool CreateMap::createMapClass() {
 
 	//if(json flg==false){	return false;}
-	return false;
+	//return false;
 
 	Map* map;
 	map = map->getMap();

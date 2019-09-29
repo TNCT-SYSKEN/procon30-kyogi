@@ -179,6 +179,7 @@
     <ClCompile Include="gui\OutputData.cpp" />
     <ClCompile Include="gui\TurnManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SystemManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
@@ -278,6 +279,7 @@
     <ClInclude Include="gui\InputOutputManager.h" />
     <ClInclude Include="gui\OutputData.h" />
     <ClInclude Include="gui\TurnManager.h" />
+    <ClInclude Include="SystemManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

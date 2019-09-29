@@ -1,5 +1,6 @@
 #include"../general.h"
 #include"../Data/Map.h"
+#pragma once
 class CreateMap {
 public :
 

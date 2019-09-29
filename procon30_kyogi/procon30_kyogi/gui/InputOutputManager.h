@@ -1,6 +1,6 @@
 #include "CreateMap.h"
 #include"../general.h"
-
+#pragma once
 class InputOutputManager
 {
 public:

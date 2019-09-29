@@ -1,31 +1,25 @@
 ﻿
 # include <Siv3D.hpp>
-#include"SystemManager.h"
-#include "gui/InputOutputManager.h"
-#include"gui/DrawData.h"
 
+#include"SystemManager.h"
+#include"gui/InputOutputManager.h"
+SystemManager sys;
+	InputOutputManager iOManager;
+	
 void Main()
 {
 
-	// Windowの設定
-	Window::Resize(1920, 1080);
-	const Size targetSize(1920, 1080);
-	//バックグラウンドを白
-	Graphics::SetBackground(Palette::Gray);
-	//フルスクリーン
-	if (!Window::SetFullscreen(true, targetSize))
-	{
-		System::Exit();
-	}
-	SystemManager sys;
-	InputOutputManager inputOutputManager;
 	DrawData drawData;
 	//jsonなかったら無限ループ
-	inputOutputManager.init();
+	//iOManager.init();
+	Map* map;
+	map = map->getMap();
+	map->turnFlg = false;
+
 
 	while (System::Update()) {
 		//drawManager
 		drawData.drawDataManager();
-		inputOutputManager.inputOutputManager();
+		sys.systemManager();
 	}
 }

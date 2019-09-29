@@ -98,9 +98,22 @@ DrawData::DrawData()
 	gui.addln(L"redID", GUIText::Create(L""));
 	//ID入力ボタン
 	gui.add(L"bt4", GUIButton::Create(L"ID入力"));
+	gui.style.showTitle = true;
+
+
+	// Windowの設定
+	Window::Resize(1920, 1080);
+	const Size targetSize(1920, 1080);
+	//バックグラウンドを白
+	Graphics::SetBackground(Palette::Gray);
+	//フルスクリーン
+	if (!Window::SetFullscreen(true, targetSize))
+	{
+		System::Exit();
+	}
 }
 
-
+//一括実行
 void DrawData::drawDataManager() {
 
 	drawTiledScore();
@@ -110,6 +123,7 @@ void DrawData::drawDataManager() {
 	drawData();
 }
 
+//タイル点表示更新
 void DrawData::drawTiledScore() {
 	Map* map;
 	map = map->getMap();
@@ -123,7 +137,7 @@ void DrawData::drawTiledScore() {
 	gui.textArea(L"OtherTileScore").setText(OtherTileScore);
 	
 }
-
+//領域表示更新
 void DrawData::drawAreaScore() {
 	Map* map;
 	map = map->getMap();
@@ -134,7 +148,7 @@ void DrawData::drawAreaScore() {
 	gui.textArea(L"OurAreaScore").setText(OurAreaScore);
 	gui.textArea(L"OtherAreaScore").setText(OtherAreaScore);
 }
-
+//総合展表示更新
 void DrawData::drawSumScore() {
 	Map* map;
 	map = map->getMap();
@@ -184,7 +198,7 @@ void DrawData::drawData()
 {
 	CreateMap map;
 
-	gui.style.showTitle = true;
+	
 	const Font font(30);
 	
 	//mapマスの数_JsonFileから取得

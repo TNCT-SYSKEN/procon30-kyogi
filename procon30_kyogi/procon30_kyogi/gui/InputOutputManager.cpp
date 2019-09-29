@@ -1,12 +1,13 @@
 #include "InputOutputManager.h"
 using namespace std;
 
-CreateMap createMap;
+
 
 void InputOutputManager::init()
 {
+	CreateMap createMap;
 	//json‚È‚©‚Á‚½‚ç–³ŒÀƒ‹[ƒv
-	bool flg;
+	bool flg=false;
 	do {
 
 		flg = createMap.createMapClass();
