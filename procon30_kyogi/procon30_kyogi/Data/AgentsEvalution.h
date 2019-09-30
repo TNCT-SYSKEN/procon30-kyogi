@@ -10,8 +10,8 @@ public:
 	//nターン先読み JudgeEvalutionで要素数は定義
 	vector < int > tileMoveupCheck;
 
-	vector<pair<int, int>>enemyMaxRoute;
-	float enamyMaxEvalutionPoint;
+	vector<vector<pair<int,pair<int,int>>>>enemyMaxRoute;
+	vector<int> enemyMaxGetPoint;
 
 	static AgentsEvalution* getAgentsEvalution();
 

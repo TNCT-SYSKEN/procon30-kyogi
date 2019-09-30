@@ -4,12 +4,6 @@
 //全てのエージェントについて一気に評価点計算をしたほうが
 //場所変更などをしやすい
 
-//評価点計算に必要な情報は
-//フィールド情報、タイル状況、エージェントの位置
-//自分のチームの得点、相手のチームの得点
-//それぞれを引数として扱う
-
-
 
 //注意
 //踏んだ後のタイルをもう一度取るかもしれない
@@ -38,7 +32,7 @@ void Judge::fullSearch() {
 	vector<pair<int, pair<int, int>>>moveUpTile;
 
 	pair<int,int>agentsPosition;
-	for (int agentsnum = agents->otherAgents[0][0]; agentsnum < agents->otherAgents[0][0]; agentsnum++) {
+	for (int agentsnum = agents->otherAgents[0][0]; agentsnum < agents->otherAgents[0][0] +ourAgentsS; agentsnum++) {
 		//agents[0][1]などにアクセス
 		agentsPosition.first = agents->otherAgents[agentsnum - agents->otherAgents[0][0]][1] - 1;
 		agentsPosition.second = agents->otherAgents[agentsnum - agents->otherAgents[0][0]][2] - 1;
@@ -49,8 +43,8 @@ void Judge::fullSearch() {
 		/*	ここで先読みターン数に応じたサイズを初期化する	*/
 		agentsEvalution->maxRoute.resize(map->finalTurn - map->turn);
 		agentsEvalution->maxEvalutionPoint = 0;
-		agentsEvalution->enemyMaxRoute.resize(0);
-		agentsEvalution->enamyMaxEvalutionPoint = 0;
+		agentsEvalution->enemyMaxRoute.resize(ourAgentsS);
+		agentsEvalution->enemyMaxGetPoint.resize(ourAgentsS,0);
 		
 
 		

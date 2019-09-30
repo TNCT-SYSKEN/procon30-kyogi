@@ -11,6 +11,11 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 	map = map->getMap();
 	Field* field;
 	field = field->getField();
+	AgentsEvalution* agentsEvalution;
+	agentsEvalution = agentsEvalution->getAgentsEvalution();
+	Agents* agents;
+	agents = agents->getAgents();
+
 
 	int nowX = route[0].second.first;
 	int nowY = route[0].second.second;
@@ -35,7 +40,8 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 			//タイル除去
 			if ((i + 1) == moveUpTile[moveUpTile.size() - moveup].first) {
 				//moveUpTileの
-				tiled[moveUpTile[moveUpTile.size() - moveup].second.first][moveUpTile[moveUpTile.size() - moveup].second.second];
+				tiled[moveUpTile[moveUpTile.size() - moveup].second.first][moveUpTile[moveUpTile.size() - moveup].second.second] = 0;
+				getPoint += field->points[moveUpTile[moveUpTile.size() - moveup].second.first][moveUpTile[moveUpTile.size() - moveup].second.second];
 			}
 			else if (route[i + 1].second.first == 0 && route[i + 1].second.second == 0) {
 
@@ -48,9 +54,32 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 			}
 
 		}
+		else if (route[i + 1].second.first == 0 && route[i + 1].second.second == 0) {
+
+		}
+		else {
+			tiled[nowX][nowY] = map->otherTeamID;
+			getPoint += field->points[nowX][nowY];
+
+			getPoint += calcAreaPoint(tiled, map->otherTeamID);
+		}
 	}
 
+	//もし最高得点の取れるルートならば
+	if (getPoint > agentsEvalution->enemyMaxGetPoint[route[0].first - agents->otherAgents[0][0]]) {
+		
+		agentsEvalution->enemyMaxGetPoint[route[0].first - agents->otherAgents[0][0]] = getPoint;
+		//enemy route更新
+		agentsEvalution->enemyMaxRoute[route[0].first - agents->otherAgents[0][0]] = route;
+		
+	}
+
+
+
 }
+
+
+
 
 int JudgeEvalution::calcAreaPoint(vector<vector<int>>tiled, int agentsnum) {
 	Map* map;
