@@ -91,7 +91,7 @@ pair<int,int> Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>rou
 		agentPosition.first += dx[turn];
 		agentPosition.second += dy[turn];
 
-		route.push_back(make_pair(agentnum, agentPosition));
+		route.push_back(make_pair(agentnum, make_pair(dx[turn],dy[turn])));
 
 		if (turn == 4) 
 		{
