@@ -1,4 +1,7 @@
 #include"CreateMap.h"
+
+#include"../Data/Agents.h"
+
 void CreateMap::createMapFrame(const int vertical,const int side) {
 	int k, c;
 	for (int i = 0; i < side + 1; i++) {
@@ -42,8 +45,17 @@ bool CreateMap::createMapClass() {
 	map->turn = 0;
 	//æ“Ç‚Ýƒ^[ƒ“”‚Ì‰Šú‰»
 	map->readTurn = 3;
-
+	rep(i, 2) {
+		rep(j, 3) {
+			map->score[i][j] = 0;
+		}
+	}
 	map->isGameStarted = false;
-	
+
+	Agents* agents;
+	agents = agents->getAgents();
+
+	agents->ourAgents.resize(3,vector<int>(2,0));
+	agents->ourAgents[0][0] = 1;
 	return true;
 }

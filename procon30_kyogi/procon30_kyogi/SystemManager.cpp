@@ -10,7 +10,13 @@ void SystemManager::systemManager() {
 	map = map->getMap();
 
 
-	if (map->turnFlg) {
+	if (map->isGameStarted) {
+
+		if (map->turnFlg) {
+			acManager.Action();
+				
+		}
+
 
 	}
 }

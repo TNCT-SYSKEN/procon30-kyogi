@@ -8,7 +8,7 @@
 //	2.ˆÚ“®î•ñ‚ğ•\¦
 
 
-int Action_manager::Action(int)
+int Action_manager::Action()
 {	
 
 	//Hyouka.cpp‚ÌŠÖ”‚ğŒÄ‚Ño‚·
