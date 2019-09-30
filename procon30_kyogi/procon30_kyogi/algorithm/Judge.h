@@ -10,4 +10,12 @@ public:
 
 	void fullSearch();
 
+
+
+private:
+	
+	void calculateEnemyEvalution(vector<pair<int, pair<int,int>>>,int);
+	void calculateAreaPoint(vector<pair<int, pair<int, int>>>, int,int);
+	void calculateTilePoint(vector<pair<int, pair<int, int>>>, int);
+	
 };

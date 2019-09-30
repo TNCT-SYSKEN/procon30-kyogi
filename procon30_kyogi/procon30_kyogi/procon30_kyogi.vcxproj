@@ -163,6 +163,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="algorithm\Evalution.cpp" />
+    <ClCompile Include="algorithm\Judge.cpp" />
     <ClCompile Include="algorithm\Prefetching.cpp" />
     <ClCompile Include="Data\Agents.cpp" />
     <ClCompile Include="Data\AgentsAction.cpp" />
@@ -170,7 +171,6 @@
     <ClCompile Include="Data\Field.cpp" />
     <ClCompile Include="Data\Map.cpp" />
     <ClCompile Include="algorithm\Action_manager.cpp" />
-    <ClCompile Include="algorithm\Hyouka.cpp" />
     <ClCompile Include="gui\ChangeAlgorithm.cpp" />
     <ClCompile Include="gui\ChangeStatus.cpp" />
     <ClCompile Include="gui\CreateMap.cpp" />
@@ -261,6 +261,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithm\Evalution.h" />
+    <ClInclude Include="algorithm\Judge.h" />
     <ClInclude Include="algorithm\Prefetching.h" />
     <ClInclude Include="Data\Agents.h" />
     <ClInclude Include="Data\AgentsAction.h" />
@@ -269,7 +270,6 @@
     <ClInclude Include="Data\Map.h" />
     <ClInclude Include="algorithm\Action_manager.h" />
     <ClInclude Include="algorithm\Field_test.h" />
-    <ClInclude Include="algorithm\Hyouka.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="general.h" />
     <ClInclude Include="gui\ChangeAlgorithm.h" />
