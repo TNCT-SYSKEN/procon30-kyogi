@@ -31,6 +31,9 @@ void Judge::fullSearch() {
 	//タイル除去したマスの座標、先読みターン数の記録
 	vector<pair<int, pair<int, int>>>moveUpTile;
 
+	//敵の獲得最大ポイント（合計）
+	int enemyGetPointMax = 0;
+
 	pair<int,int>agentsPosition;
 	for (int agentsnum = agents->otherAgents[0][0]; agentsnum < agents->otherAgents[0][0] +ourAgentsS; agentsnum++) {
 		//agents[0][1]などにアクセス
@@ -46,16 +49,20 @@ void Judge::fullSearch() {
 		agentsEvalution->enemyMaxRoute.resize(ourAgentsS);
 		agentsEvalution->enemyMaxGetPoint.resize(ourAgentsS,0);
 		
-
-		
-
-
-		
 		//行動予測
 		calculateEnemyRoute(enemyRoute, agentsPosition,moveUpTile ,0,map->finalTurn-map->turn, 0);
 
-
+		//最大点を相手チームが獲得する
+		enemyGetPointMax += agentsEvalution->enemyMaxGetPoint[agentsnum - agents->otherAgents[0][0]];
 	}
+
+
+	/* ここから相手の最大点を超える点をとるように設定する */
+	
+	//取るべき点数
+	//相手の総合点ー自分の総合点 + 相手の取りうる最大点
+	int needGetPoint = map->score[1][0] - map->score[0][0] + enemyGetPointMax;
+
 
 
 

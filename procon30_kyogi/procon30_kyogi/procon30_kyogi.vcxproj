@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="algorithm\Evalution.cpp" />
     <ClCompile Include="algorithm\Judge.cpp" />
+    <ClCompile Include="algorithm\JudgeEvalution.cpp" />
     <ClCompile Include="algorithm\Prefetching.cpp" />
     <ClCompile Include="Data\Agents.cpp" />
     <ClCompile Include="Data\AgentsAction.cpp" />
@@ -262,6 +263,7 @@
   <ItemGroup>
     <ClInclude Include="algorithm\Evalution.h" />
     <ClInclude Include="algorithm\Judge.h" />
+    <ClInclude Include="algorithm\JudgeEvalution.h" />
     <ClInclude Include="algorithm\Prefetching.h" />
     <ClInclude Include="Data\Agents.h" />
     <ClInclude Include="Data\AgentsAction.h" />

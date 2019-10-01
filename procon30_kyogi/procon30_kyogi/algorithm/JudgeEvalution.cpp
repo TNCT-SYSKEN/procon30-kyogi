@@ -61,7 +61,8 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 			tiled[nowX][nowY] = map->otherTeamID;
 			getPoint += field->points[nowX][nowY];
 
-			getPoint += calcAreaPoint(tiled, map->otherTeamID);
+			//1ターン先の領域ポイントの差分
+			getPoint += calcAreaPoint(tiled, map->otherTeamID)-map->score[1][0];
 		}
 	}
 
