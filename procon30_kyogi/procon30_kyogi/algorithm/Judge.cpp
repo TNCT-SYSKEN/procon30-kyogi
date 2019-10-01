@@ -59,9 +59,18 @@ void Judge::fullSearch() {
 
 	/* ここから相手の最大点を超える点をとるように設定する */
 	
+
+
 	//取るべき点数
 	//相手の総合点ー自分の総合点 + 相手の取りうる最大点
 	int needGetPoint = map->score[1][0] - map->score[0][0] + enemyGetPointMax;
+
+
+	//自分のチームの最大点求めるべ
+	for (int agentsnum = agents->ourAgents[0][0]; agentsnum < agents->ourAgents[0][0] + ourAgentsS; agentsnum++) {
+
+
+	}
 
 
 
@@ -124,7 +133,7 @@ void Judge::calculateEnemyRoute(vector<pair<int, pair<int, int>>>route, pair<int
 
 					//1,2,3,4,5
 					moveUpTile[moveup] = make_pair(map->finalTurn - map->turn + 1 - readTurn,
-						(nowAgentPosition.first + dx[turn], nowAgentPosition.second + dy[turn]));
+						make_pair(nowAgentPosition.first + dx[turn], nowAgentPosition.second + dy[turn]));
 					moveup++;
 					moveCheck = true;
 					movedTiled[nowAgentPosition.first + dx[turn]][nowAgentPosition.second + dy[turn]];

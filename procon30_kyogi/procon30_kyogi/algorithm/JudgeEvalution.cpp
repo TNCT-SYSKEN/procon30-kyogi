@@ -23,6 +23,11 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 	//tiled　の複製
 	vector<vector<int>>tiled(MAX_WIDTH ,vector<int>(MAX_VERTICAL));
 
+	//領域差分の保持
+	int getOurAreaP = map->score[0][2];
+	int getOtherAreaP = map->score[1][2];
+	int sta = 0;
+
 	rep(i, map->width) {
 		rep(j, map->vertical) {
 			tiled[i][j] = field->tiled[i][j];
@@ -42,6 +47,10 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 				//moveUpTileの
 				tiled[moveUpTile[moveUpTile.size() - moveup].second.first][moveUpTile[moveUpTile.size() - moveup].second.second] = 0;
 				getPoint += field->points[moveUpTile[moveUpTile.size() - moveup].second.first][moveUpTile[moveUpTile.size() - moveup].second.second];
+				
+				sta = calcAreaPoint(tiled, map->ourTeamID);
+				getPoint += getOurAreaP-sta;
+				getOurAreaP = sta;
 			}
 			else if (route[i + 1].second.first == 0 && route[i + 1].second.second == 0) {
 
@@ -50,7 +59,10 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 				tiled[nowX][nowY] = map->otherTeamID;
 				getPoint += field->points[nowX][nowY];
 
-				getPoint += calcAreaPoint(tiled, map->otherTeamID);
+
+				sta = calcAreaPoint(tiled, map->otherTeamID);
+				getPoint += sta - getOtherAreaP;
+				getOtherAreaP = sta;
 			}
 
 		}
@@ -62,7 +74,9 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 			getPoint += field->points[nowX][nowY];
 
 			//1ターン先の領域ポイントの差分
-			getPoint += calcAreaPoint(tiled, map->otherTeamID)-map->score[1][0];
+			sta = calcAreaPoint(tiled, map->otherTeamID) - map->score[1][2];
+			getPoint += sta-getOtherAreaP;
+			getOtherAreaP = sta;
 		}
 	}
 
@@ -74,7 +88,6 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 		agentsEvalution->enemyMaxRoute[route[0].first - agents->otherAgents[0][0]] = route;
 		
 	}
-
 
 
 }
