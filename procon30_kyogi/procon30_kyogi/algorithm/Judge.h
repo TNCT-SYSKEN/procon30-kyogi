@@ -16,5 +16,5 @@ public:
 private:
 	
 	void calculateEnemyRoute(vector<pair<int, pair<int,int>>>,pair<int,int>,vector<pair<int,pair<int,int>>>,int ,int, int);
-
+	void calculateOurRoute(vector<pair<int, pair<int, int>>>, pair<int, int>, vector < pair<int, pair<int, int>>>, int, int, int);
 };

@@ -36,9 +36,6 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 	//タイルポイント何点取れる
 	rep(i, map->finalTurn - map->turn) {
 
-		nowX += route[i + 1].second.first;
-		nowY += route[i + 1].second.second;
-
 		if (moveup > 0) {
 
 
@@ -56,6 +53,8 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 
 			}
 			else {
+				nowX += route[i + 1].second.first;
+				nowY += route[i + 1].second.second;
 				tiled[nowX][nowY] = map->otherTeamID;
 				getPoint += field->points[nowX][nowY];
 
@@ -70,6 +69,8 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 
 		}
 		else {
+			nowX += route[i + 1].second.first;
+			nowY += route[i + 1].second.second;
 			tiled[nowX][nowY] = map->otherTeamID;
 			getPoint += field->points[nowX][nowY];
 
@@ -89,6 +90,94 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 		
 	}
 
+
+}
+
+
+void JudgeEvalution::calculateOurEvalution(vector<pair<int, pair<int, int>>>route,
+	vector<pair<int, pair<int, int>>>moveUpTile, int moveup, int sum) {
+	Map* map;
+	map = map->getMap();
+	Field* field;
+	field = field->getField();
+	AgentsEvalution* agentsEvalution;
+	agentsEvalution = agentsEvalution->getAgentsEvalution();
+	Agents* agents;
+	agents = agents->getAgents();
+
+	//tiled　の複製
+	vector<vector<int>>tiled;
+	tiled.resize(map->width, vector<int>(map->vertical));
+
+	int nowX = route[0].second.first;
+	int nowY = route[0].second.second;
+
+
+
+	//領域差分の保持
+	int getOurAreaP = map->score[0][2];
+	int getOtherAreaP = map->score[1][2];
+	int sta = 0;
+
+	rep(i, map->width) {
+		rep(j, map->vertical) {
+			tiled[i][j] = field->tiled[i][j];
+		}
+	}
+
+	int getPoint = 0;
+
+	rep(i, map->finalTurn - map->turn) {
+		if (moveup > 0) {
+
+
+			//タイル除去
+			if ((i + 1) == moveUpTile[moveUpTile.size() - moveup].first) {
+				//moveUpTileの
+				tiled[moveUpTile[moveUpTile.size() - moveup].second.first][moveUpTile[moveUpTile.size() - moveup].second.second] = 0;
+				getPoint += field->points[moveUpTile[moveUpTile.size() - moveup].second.first][moveUpTile[moveUpTile.size() - moveup].second.second];
+
+				sta = calcAreaPoint(tiled, map->otherTeamID);
+				getPoint += getOtherAreaP - sta;
+				getOtherAreaP = sta;
+			}
+			else if (route[i + 1].second.first == 0 && route[i + 1].second.second == 0) {
+
+			}
+			else {
+				nowX += route[i + 1].second.first;
+				nowY += route[i + 1].second.second;
+				tiled[nowX][nowY] = map->ourTeamID;
+				getPoint += field->points[nowX][nowY];
+
+
+				sta = calcAreaPoint(tiled, map->ourTeamID);
+				getPoint += sta - getOurAreaP;
+				getOurAreaP = sta;
+			}
+
+		}
+		else if (route[i + 1].second.first == 0 && route[i + 1].second.second == 0) {
+
+		}
+		else {
+			nowX += route[i + 1].second.first;
+			nowY += route[i + 1].second.second;
+			tiled[nowX][nowY] = map->ourTeamID;
+			getPoint += field->points[nowX][nowY];
+
+			//1ターン先の領域ポイントの差分
+			sta = calcAreaPoint(tiled, map->ourTeamID) - map->score[0][2];
+			getPoint += sta - getOurAreaP;
+			getOurAreaP = sta;
+		}
+
+	}
+
+	if (getPoint > agentsEvalution->ourMaxGetPoint[route[0].first - agents->ourAgents[0][0]]) {
+		agentsEvalution->ourMaxGetPoint[route[0].first - agents->ourAgents[0][0]] = getPoint;
+		agentsEvalution->ourMaxRoute[route[0].first - agents->ourAgents[0][0]] = route;
+	}
 
 }
 
