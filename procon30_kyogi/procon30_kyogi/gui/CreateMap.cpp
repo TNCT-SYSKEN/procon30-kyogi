@@ -87,3 +87,11 @@ void CreateMap::createMapAgent2(const int who, const int x, const int y) {
 		break;
 	}
 }
+
+void CreateMap::createMapPoint1(const int point, const int x, const int y) {
+
+}
+
+void CreateMap::createMapPoint2(const int point, const int x, const int y) {
+
+}

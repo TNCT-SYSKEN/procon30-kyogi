@@ -120,6 +120,8 @@ void Gui::gui() {
 	{
 		map.createMapState1(1,2,3);
 		map.createMapState2(2, 1, 2 );
+		map.createMapAgent1(2, 2, 3);
+		map.createMapAgent2(1, 1, 2);
 		map.createMapFrame(vertical, side);
 		//行動確定ボタン
 		if (gui.button(L"bt1").pushed) {
