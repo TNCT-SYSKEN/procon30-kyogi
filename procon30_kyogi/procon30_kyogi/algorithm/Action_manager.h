@@ -9,7 +9,7 @@
 
 class Action_manager {
 public:
-	int Action(int);
+	int Action();
 	vector<vector<int>>Now_Optim;
 
 

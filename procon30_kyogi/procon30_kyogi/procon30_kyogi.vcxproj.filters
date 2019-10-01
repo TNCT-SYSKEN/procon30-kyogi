@@ -96,9 +96,6 @@
     <ClCompile Include="algorithm\Action_manager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="algorithm\Hyouka.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="algorithm\Evalution.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -129,13 +126,10 @@
     <ClCompile Include="gui\TurnManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="SystemManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="gui\Gui.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="gui\GuiInput.cpp">
+    <ClCompile Include="algorithm\Judge.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -378,9 +372,6 @@
     <ClInclude Include="algorithm\Action_manager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="algorithm\Hyouka.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="algorithm\Field_test.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -414,10 +405,10 @@
     <ClInclude Include="gui\TurnManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="gui\Gui.h">
+    <ClInclude Include="SystemManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="gui\GuiInput.h">
+    <ClInclude Include="algorithm\Judge.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

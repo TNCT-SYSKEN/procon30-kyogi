@@ -131,7 +131,7 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, int 
 
 
 
-	int routeS = route.size() - 1;
+	int routeS = map->readTurn;
 	//Route更新（評価最大）
 	if (agentsEvalution->maxEvalutionPoint < sumOfEvalution) {
 		
@@ -146,6 +146,14 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, int 
 
 
 
+
+
+
+
+
+
+
+
 //領域ポイント計算
 int Evalution::calculateAreaPoint(vector<pair<int,pair<int,int>>>route) {
 	Field *field;
@@ -157,218 +165,226 @@ int Evalution::calculateAreaPoint(vector<pair<int,pair<int,int>>>route) {
 
 	int nowX = route[0].second.first;
 	int nowY = route[0].second.second;
-	//領域チェックもしや
-	bool IF = false;
+	
+
 
 	//相手の領域ポイント
 	int lastAreaPoint = 0;
 
 
-	pair<int,int> lastPos;
 
-
-	vector<vector<int>>tiledArea;
-	//初期化
-	rep(i, map->width) {
-		rep(j, map->vertical) {
-			if (field->tiled[i][j]==0)
-			{
-				tiledArea[i][j] = 0;
-			}
-			else if(field->tiled[i][j]==map->ourTeamID)
-			{
-				tiledArea[i][j] = 1;
-			}
-		}
-	}
 	
-
+	vector<vector<int>> tiledArea;
+	
+	vector<pair<int, int>>lastMove;
+	
+	int ddx[4] = { 1,-1,0,0 };
+	int ddy[4] = { 0,0,1,-1 };
+	int lastSize = 1;
 	//先読みの数だけループ
 	rep(count, map->readTurn) {
+		//初期化
+		rep(i, map->width + 2) {
+			rep(j, map->vertical + 2) {
+				tiledArea[i][j] = 0;
+			}
+		}
+
+		rep(i, map->width) {
+			rep(j, map->vertical) {
+				if (field->tiled[i][j] == map->ourTeamID)
+				{
+					tiledArea[i + 1][j + 1] = 5;
+				}
+
+			}
+		}
+
+
+
+		lastMove[0] = make_pair(0, 0);
+
 		nowX += route[count + 1].second.first;
 		nowY += route[count + 1].second.second;
 
+		tiledArea[nowX+1][nowY+1] = 5;
+		tiledArea[0][0] = 1;
+		lastSize = 1;
 
-		tiledArea[nowX][nowY] = 1;
+		//lastMoveを更新した時にすぐに書き換えたくない
+		vector<pair<int,int>>stac;
+		while (1) {
+			//脱出
+			if (lastSize == 0) {
+				goto calc;
+			}
+			int counter = 0;
 
+			rep(i, lastSize) {
+				rep(k, 4) {
+					if (lastMove[i].first + ddx[k] < map->width + 1 &&
+						lastMove[i].first +ddx[k] >0 &&
+						lastMove[i].second+ddy[k]<map->vertical+1 &&
+						lastMove[i].second+ddy[k]>0) {
 
-
-		//width 横
-		rep(i, map->width) {
-			IF = false;
-
-			//verticala 縦
-			rep(j, map->vertical) {
-				if (tiledArea[i][j]==1) {
-					if (IF) {
-
-						//
-						for (int last = lastPos.second; last < j; last++) {
-							tiledArea[i][last] = 5;
+						
+						if (tiledArea[lastMove[i].first + ddx[k]][lastMove[i].second + ddy[k]]==0) {
+							tiledArea[lastMove[i].first + ddx[k]][lastMove[i].second + ddy[k]] = 1;
+							
+							stac[counter].first = lastMove[i].first + ddx[k];
+							stac[counter].second = lastMove[i].second + ddy[k];
+							counter++;
 						}
 					}
-					else {
-						IF = true;
-						lastPos = make_pair(i, j);
-					}
-				}
-				else {
-					tiledArea[i][j] = 0;
 				}
 			}
-		}
-
-		//vertical 縦
-		rep(j, map->vertical) {
-			IF = false;
-
-			//width 横
-			rep(i, map->width) {
-				if (tiledArea[i][j] == 1) {
-					if (IF) {
-
-						//
-						for (int last = lastPos.first+1; last < i; last++) {
-							tiledArea[i][last] = 5;
-						}
-					}
-					else {
-						IF = true;
-						lastPos = make_pair(i, j);
-					}
-				}
-				else {
-					tiledArea[i][j] = 0;
-				}
+			//上書き
+			rep(i, counter) {
+				lastMove[i].first = stac[i].first;
+				lastMove[i].second = stac[i].second;
 			}
+			
+			lastSize = counter;
+
+
 		}
-		//領域計算
-		rep(i, map->width) {
-			rep(j, map->vertical) {
-				if (tiledArea[i][j] == 5) {
-					lastAreaPoint += field->points[i][j];
-				}
-			}
-		}
-		lastAreaPoint -= map->score[1][2];
+
+
+
+		calc:;
+		
+		
+		
 
 	}
+	//領域計算
+	rep(i, map->width) {
+		rep(j, map->vertical) {
+			if (tiledArea[i + 1][j + 1]==0) {
+				lastAreaPoint += field->points[i][j];
+			}
+
+		}
+	}
+	lastAreaPoint -= map->score[0][2]*map->readTurn;
 
 	return lastAreaPoint;
 }
 
+
+
 //敵タイル除去した時の敵領域ポイントの変化
 int Evalution::calculateEnemyAreaPoint(vector<pair<int, pair<int, int>>>route) {
-	Map *map;
-	map = map->getMap();
-
 	Field *field;
 	field = field->getField();
 
-	vector<vector<int>>enemyTiledArea;
-	int nowX = route[0].second.first;
-	int nowY = route[0].second.first;
-	   
+	Map *map;
+	map = map->getMap();
 
-	bool IF = false;
+
+	int nowX = route[0].second.first;
+	int nowY = route[0].second.second;
+
+
 
 	//相手の領域ポイント
 	int lastAreaPoint = 0;
 
-	pair<int, int> lastPos;
 
 
 
-	//初期化
-	rep(i, map->width) {
-		rep(j, map->vertical) {
-			if (field->tiled[i][j] == 0) {
-				enemyTiledArea[i][j] = 0;
+	vector<vector<int>> tiledArea;
 
+	vector<pair<int, int>>lastMove;
+
+	int ddx[4] = { 1,-1,0,0 };
+	int ddy[4] = { 0,0,1,-1 };
+	int lastSize = 1;
+	//先読みの数だけループ
+	rep(count, map->readTurn) {
+		//初期化
+		rep(i, map->width + 2) {
+			rep(j, map->vertical + 2) {
+				tiledArea[i][j] = 0;
 			}
-			else if (field->tiled[i][j] == map->otherTeamID) {
-				enemyTiledArea[i][j] = 1;
+		}
+
+		rep(i, map->width) {
+			rep(j, map->vertical) {
+				if (field->tiled[i][j] == map->otherTeamID)
+				{
+					tiledArea[i + 1][j + 1] = 5;
+				}
 
 			}
 		}
-	}
 
 
-	//先読みの数だけループ
-	rep(count, map->readTurn) {
+		lastMove[0] = make_pair(0, 0);
+
 		nowX += route[count + 1].second.first;
 		nowY += route[count + 1].second.second;
 
+		tiledArea[nowX + 1][nowY + 1] = 0;
+		tiledArea[0][0] = 1;
+		lastSize = 1;
 
-		if (enemyTiledArea[nowX][nowY]==1) {
-			nowX -= route[count + 1].second.first;
-			nowY -= route[count + 1].second.second;
-		}
+		//lastMoveを更新した時にすぐに書き換えたくない
+		vector<pair<int, int>>stac;
+		while (1) {
+			//脱出
+			if (lastSize == 0) {
+				goto calc;
+			}
+			int counter = 0;
 
-		enemyTiledArea[nowX][nowY] = 0;
+			rep(i, lastSize) {
+				rep(k, 4) {
+					if (lastMove[i].first + ddx[k] < map->width + 1 &&
+						lastMove[i].first + ddx[k] >0 &&
+						lastMove[i].second + ddy[k] < map->vertical + 1 &&
+						lastMove[i].second + ddy[k]>0) {
 
 
+						if (tiledArea[lastMove[i].first + ddx[k]][lastMove[i].second + ddy[k]] == 0) {
+							tiledArea[lastMove[i].first + ddx[k]][lastMove[i].second + ddy[k]] = 1;
 
-		//width 横
-		rep(i, map->width) {
-			IF = false;
-
-			//verticala 縦
-			rep(j, map->vertical) {
-				if (enemyTiledArea[i][j] == 1) {
-					if (IF) {
-
-						//
-						for (int last = lastPos.second; last < j; last++) {
-							enemyTiledArea[i][last] = 5;
+							stac[counter].first = lastMove[i].first + ddx[k];
+							stac[counter].second = lastMove[i].second + ddy[k];
+							counter++;
 						}
 					}
-					else {
-						IF = true;
-						lastPos = make_pair(i, j);
-					}
-				}
-				else {
-					enemyTiledArea[i][j] = 0;
 				}
 			}
-		}
-
-		//vertical 縦
-		rep(j, map->vertical) {
-			IF = false;
-
-			//width 横
-			rep(i, map->width) {
-				if (enemyTiledArea[i][j] == 1) {
-					if (IF) {
-
-						//
-						for (int last = lastPos.first + 1; last < i; last++) {
-							enemyTiledArea[i][last] = 5;
-						}
-					}
-					else {
-						IF = true;
-						lastPos = make_pair(i, j);
-					}
-				}
-				else {
-					enemyTiledArea[i][j] = 0;
-				}
+			//上書き
+			rep(i, counter) {
+				lastMove[i].first = stac[i].first;
+				lastMove[i].second = stac[i].second;
 			}
+
+			lastSize = counter;
+
+
 		}
-		//領域計算
-		rep(i, map->width) {
-			rep(j, map->vertical) {
-				if (enemyTiledArea[i][j] == 5) {
-					lastAreaPoint += field->points[i][j];
-				}
-			}
-		}
-		lastAreaPoint = map->score[0][2] - lastAreaPoint;
+
+
+
+	calc:;
+
+
+
 
 	}
-	//最終的には相手の領域ポイントをどれだけ削れたかがわかる
+	//領域計算
+	rep(i, map->width) {
+		rep(j, map->vertical) {
+			if (tiledArea[i + 1][j + 1] == 0) {
+				lastAreaPoint += field->points[i][j];
+			}
+
+		}
+	}
+	lastAreaPoint -= map->score[1][2] * map->readTurn;
+
 	return lastAreaPoint;
 }
