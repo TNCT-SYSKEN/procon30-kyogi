@@ -31,7 +31,7 @@ int main(void)
 	std::cout << "startedAtUnixTime: " << obj["startedAtUnixTime"].get<double>() << std::endl;
 	std::cout << "turn: " << obj["turn"].get<double>() << std::endl;
 	std::cout << "points: ";
-	picojson::points& ary = obj["points"].get<picojson::arraypoints>();
+	picojson::array& ary = obj["points"].get<picojson::array>();
 	for (const auto& e : ary) {  // vector‚ğrange-based-for‚Å‚Ü‚í‚µ‚Ä‚¢‚éB
 		std::cout << e.get<std::string>() << " ";
 	}
