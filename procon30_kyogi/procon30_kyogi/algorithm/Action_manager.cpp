@@ -8,7 +8,7 @@
 //	2.移動情報を表示
 
 
-void Action_manager::Action()
+int Action_manager::Action(int)
 {	
 
 	//Hyouka.cppの関数を呼び出す
@@ -16,21 +16,14 @@ void Action_manager::Action()
 
 
 	Prefetching prefetching;
+	prefetching.hyoukaKeisan();
 
 	AgentsEvalution *agentsEvalution;
 	agentsEvalution = agentsEvalution->getAgentsEvalution();
 
-	Judge judge;
 	
-	Map* map;
-	map = map->getMap();
 
-	//全探索モードでなかったら
-	if (!map->isSearchAll) {
-		prefetching.hyoukaKeisan();
-	}
-	else {
-		judge.fullSearch();
-	}
 
+
+	return 0;
 }

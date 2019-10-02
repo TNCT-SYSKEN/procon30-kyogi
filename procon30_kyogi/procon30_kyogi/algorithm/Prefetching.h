@@ -4,11 +4,11 @@
 class Prefetching {
 public:
 
-	void hyoukaKeisan();
+	vector<vector<int>>hyoukaKeisan();
 
 private:
 	int calculateScore(pair<int,int>);
-	void calculateEvalution(vector<pair<int,pair<int,int>>>,pair<int,int>,vector<pair<int,pair<int,int>>>,int, int,int);
+	pair<int,int> calculateEvalution(vector<pair<int,pair<int,int>>>,int,pair<int,int>,int,int);
 
 	
 };

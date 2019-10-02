@@ -10,7 +10,7 @@ public:
 	//1‚È‚çmove 0‚È‚çstay
 	vector<vector<int>> actionType;
 	//{{number,{{dx(turn1),dy(turn1)},{dx(turn2),dx(turn2)}...}},..}
-	vector<vector<pair<int,pair<int,int>>>>actionDxDy;
+	vector<pair<int,vector<pair<int,int>>>> actionDxDy;
 	
 
 	static AgentsAction* getAgentsAction();
