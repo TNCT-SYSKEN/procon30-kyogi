@@ -2,7 +2,7 @@
 class TurnManager
 {
 public:
-	void turnManager();
-
+	TurnManager();
+	~TurnManager();
 };
 

@@ -6,11 +6,10 @@
 #include"../Data/AgentsEvalution.h"
 #include"../Data/Field.h"
 #include"../Data/Map.h"
-#include"Judge.h"
 
 class Action_manager {
 public:
-	void Action();
+	int Action(int);
 	vector<vector<int>>Now_Optim;
 
 
