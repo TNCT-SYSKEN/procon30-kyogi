@@ -73,5 +73,6 @@ int main(void)
 	std::cout << "turn: " << obj["turn"].get<double>() << std::endl;
 	std::cout << "points" << obj["points"].get<picojson::array>().at(0);
 
+
 	return 0;
 }
