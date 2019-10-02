@@ -2,11 +2,7 @@
 
 
 
-TurnManager::TurnManager()
+void TurnManager::turnManager()
 {
 }
 
-
-TurnManager::~TurnManager()
-{
-}

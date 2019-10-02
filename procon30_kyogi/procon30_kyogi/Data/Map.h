@@ -9,20 +9,35 @@ public:
 	//横
 	int width;
 
+
+
+	Map(): score(2,vector<int>(3,0)){};
+
+	
 	//自分のチームのスコア{総合点,タイル,領域},
 	//相手				  {総合点,タイル,領域}
 	vector<vector<int>> score;
 	
 	//ターン数
-	int turn;
+	int turn = 0;
 
-	int readTurn = 3;
+	//先読みターン数
+	int readTurn;
+
+	//最終ターン数
+	int finalTurn;
 
 	//自分チームID
 	int ourTeamID;
 	//相手チームID
 	int otherTeamID;
 
+
+
+	//計算したかどうか
+	bool turnFlg;
+	bool isGameStarted;
+	bool isSearchAll;
 
 private:
 	static Map* stayMap;

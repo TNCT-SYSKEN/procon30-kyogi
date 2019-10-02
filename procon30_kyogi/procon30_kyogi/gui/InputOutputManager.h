@@ -1,6 +1,11 @@
+#include "CreateMap.h"
+#include"../general.h"
+#pragma once
 class InputOutputManager
 {
 public:
-	void inputID();
+	//json‚È‚©‚Á‚½‚ç–³ŒÀƒ‹[ƒv
+	void init();
+	void inputOutputManager();
 };
 

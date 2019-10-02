@@ -163,6 +163,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="algorithm\Evalution.cpp" />
+    <ClCompile Include="algorithm\Judge.cpp" />
+    <ClCompile Include="algorithm\JudgeEvalution.cpp" />
     <ClCompile Include="algorithm\Prefetching.cpp" />
     <ClCompile Include="Data\Agents.cpp" />
     <ClCompile Include="Data\AgentsAction.cpp" />
@@ -170,8 +172,15 @@
     <ClCompile Include="Data\Field.cpp" />
     <ClCompile Include="Data\Map.cpp" />
     <ClCompile Include="algorithm\Action_manager.cpp" />
-    <ClCompile Include="algorithm\Hyouka.cpp" />
+    <ClCompile Include="gui\ChangeAlgorithm.cpp" />
+    <ClCompile Include="gui\ChangeStatus.cpp" />
+    <ClCompile Include="gui\CreateMap.cpp" />
+    <ClCompile Include="gui\DrawData.cpp" />
+    <ClCompile Include="gui\InputOutputManager.cpp" />
+    <ClCompile Include="gui\OutputData.cpp" />
+    <ClCompile Include="gui\TurnManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SystemManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
@@ -253,6 +262,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithm\Evalution.h" />
+    <ClInclude Include="algorithm\Judge.h" />
+    <ClInclude Include="algorithm\JudgeEvalution.h" />
     <ClInclude Include="algorithm\Prefetching.h" />
     <ClInclude Include="Data\Agents.h" />
     <ClInclude Include="Data\AgentsAction.h" />
@@ -261,9 +272,16 @@
     <ClInclude Include="Data\Map.h" />
     <ClInclude Include="algorithm\Action_manager.h" />
     <ClInclude Include="algorithm\Field_test.h" />
-    <ClInclude Include="algorithm\Hyouka.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="general.h" />
+    <ClInclude Include="gui\ChangeAlgorithm.h" />
+    <ClInclude Include="gui\ChangeStatus.h" />
+    <ClInclude Include="gui\CreateMap.h" />
+    <ClInclude Include="gui\DrawData.h" />
+    <ClInclude Include="gui\InputOutputManager.h" />
+    <ClInclude Include="gui\OutputData.h" />
+    <ClInclude Include="gui\TurnManager.h" />
+    <ClInclude Include="SystemManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

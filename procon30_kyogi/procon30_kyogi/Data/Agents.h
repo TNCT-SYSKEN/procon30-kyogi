@@ -5,10 +5,18 @@ class Agents{
 public:
 	//{{agentID,x,y},{......}}
 	//自分チーム
-	vector<vector<int>> ourAgents;
-	//相手チーム
-	vector<vector<int>> otherAgents;
+	//Agents() : ourAgents() {};
+
 	
+	
+	vector<vector<int>> ourAgents{};
+	//ourAgents() {};
+
+	//error
+	//Agents() : otherAgents() {};
+	//相手チーム
+	vector<vector<int>> otherAgents{};
+	//otherAgents();
 	
 	static Agents* getAgents();
 

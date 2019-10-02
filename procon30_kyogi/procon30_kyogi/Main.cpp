@@ -1,14 +1,29 @@
 ﻿
 # include <Siv3D.hpp>
 
+#include"SystemManager.h"
+#include"gui/InputOutputManager.h"
+SystemManager sys;
+	
+	
 void Main()
 {
-	const Font font(30);
+	InputOutputManager iOManager;
+	
+	//jsonなかったら無限ループ
+	//iOManager.init();
+	Map *map;
+	map = map->getMap();
+	map->turnFlg = false;
+	map->isSearchAll = false;
 
-	while (System::Update())
-	{
-		font(L"ようこそ、Siv3D の世界へ！").draw();
+	iOManager.init();
+	DrawData drawData;
+	Profiler::EnableWarning(false);
 
-		Circle(Mouse::Pos(), 50).draw({ 255, 0, 0, 127 });
+	while (System::Update()) {
+		//drawManager
+		drawData.drawDataManager();
+		sys.systemManager();
 	}
 }

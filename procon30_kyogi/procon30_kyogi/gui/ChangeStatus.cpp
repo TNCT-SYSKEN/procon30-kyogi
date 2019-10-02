@@ -2,11 +2,7 @@
 
 
 
-ChangeStatus::ChangeStatus()
+void ChangeStatus::changeStatus()
 {
 }
 
-
-ChangeStatus::~ChangeStatus()
-{
-}
