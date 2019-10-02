@@ -8,4 +8,7 @@ class SystemManager {
 public:
 
 	void systemManager();
+
+private:
+	void calcAreaDebug();
 };

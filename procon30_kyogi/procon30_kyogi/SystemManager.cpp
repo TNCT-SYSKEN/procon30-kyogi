@@ -23,3 +23,9 @@ void SystemManager::systemManager() {
 
 	}
 }
+
+void calcAreaDubug() {
+
+	
+
+}

@@ -3,7 +3,7 @@
 class AgentsEvalution {
 public:
 	//Å‚•]‰¿“_ƒ‹[ƒg
-	vector<pair<int, int>> maxRoute;
+	vector<vector<pair<int,pair<int, int>>>>maxRoute;
 	float maxEvalutionPoint;
 
 	vector<int>ourMaxGetPoint;
