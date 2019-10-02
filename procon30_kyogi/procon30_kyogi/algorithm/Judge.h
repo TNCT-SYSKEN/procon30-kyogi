@@ -1,5 +1,6 @@
 #pragma once
 #include"Action_manager.h"
+#include"JudgeEvalution.h"
 
 class Judge {
 public:
@@ -14,8 +15,6 @@ public:
 
 private:
 	
-	void calculateEnemyEvalution(vector<pair<int, pair<int,int>>>,int);
-	void calculateAreaPoint(vector<pair<int, pair<int, int>>>, int,int);
-	void calculateTilePoint(vector<pair<int, pair<int, int>>>, int);
-	
+	void calculateEnemyRoute(vector<pair<int, pair<int,int>>>,pair<int,int>,vector<pair<int,pair<int,int>>>,int ,int, int);
+	void calculateOurRoute(vector<pair<int, pair<int, int>>>, pair<int, int>, vector < pair<int, pair<int, int>>>, int, int, int);
 };

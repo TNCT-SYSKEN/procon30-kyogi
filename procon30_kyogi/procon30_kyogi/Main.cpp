@@ -15,6 +15,7 @@ void Main()
 	Map *map;
 	map = map->getMap();
 	map->turnFlg = false;
+	map->isSearchAll = false;
 
 	iOManager.init();
 	DrawData drawData;

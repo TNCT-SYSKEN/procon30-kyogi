@@ -3,6 +3,7 @@
 #include"algorithm/Action_manager.h"
 #include"Data/Map.h"
 
+
 void SystemManager::systemManager() {
 
 	Action_manager acManager;
@@ -13,10 +14,18 @@ void SystemManager::systemManager() {
 	if (map->isGameStarted) {
 
 		if (map->turnFlg) {
+
 			acManager.Action();
+			
 				
 		}
 
 
 	}
+}
+
+void calcAreaDubug() {
+
+	
+
 }
