@@ -9,13 +9,13 @@ public:
 
 	
 	
-	vector<vector<int>> ourAgents{};
+	vector<vector<int>> ourAgents;
 	//ourAgents() {};
 
 	//error
 	//Agents() : otherAgents() {};
 	//‘Šèƒ`[ƒ€
-	vector<vector<int>> otherAgents{};
+	vector<vector<int>> otherAgents;
 	//otherAgents();
 	
 	static Agents* getAgents();
