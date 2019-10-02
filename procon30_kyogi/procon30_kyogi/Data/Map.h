@@ -37,6 +37,7 @@ public:
 	//ŒvŽZ‚µ‚½‚©‚Ç‚¤‚©
 	bool turnFlg;
 	bool isGameStarted;
+	bool isSearchAll;
 
 private:
 	static Map* stayMap;

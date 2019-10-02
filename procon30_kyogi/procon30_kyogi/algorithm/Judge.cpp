@@ -24,8 +24,7 @@ void Judge::fullSearch() {
 	agentsAction = agentsAction->getAgentsAction();
 	Field* field;
 	field = field->getField();
-	AgentsAction* agentsAction();
-	agentsAction = agentsAction->getAgentsAction();
+
 
 
 	//“Gƒ‹[ƒg

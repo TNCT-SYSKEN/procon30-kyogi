@@ -29,13 +29,16 @@ DrawData::DrawData()
 	//先読みターン数変更
 	gui.add(L"text0", GUIText::Create(L"先読みターン数"));
 	gui.add(L"ptnc", GUITextArea::Create(1,2));
-	gui.addln(L"bt3", GUIButton::Create(L"OK"));
+	gui.add(L"bt3", GUIButton::Create(L"OK"));
 
 	//最大ターン数
 	//全探索で使う
 	gui.add(L"textMT", GUIText::Create(L"最大ターン数"));
 	gui.add(L"readMT", GUITextArea::Create(1, 2));
-	gui.add(L"btnMT", GUIButton::Create(L"決定"));
+	gui.addln(L"btnMT", GUIButton::Create(L"決定"));
+
+	//全探索モード
+	gui.add(L"searchALL", GUIToggleSwitch::Create(L"評価関数モード", L"全探索モード",false));
 
 	//水平線
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
@@ -177,7 +180,6 @@ void DrawData::clickedButton() {
 	Map *map;
 	map = map->getMap();
 
-
 	const Size targetSize(1920, 1080);
 	//行動確定ボタン
 	if (gui.button(L"gameStart").pushed) {
@@ -216,6 +218,13 @@ void DrawData::clickedButton() {
 		map->finalTurn = Parse<int>(gui.textArea(L"readMT").text);
 
 	}
+	if (gui.toggleSwitch(L"searchAll").isRight) {
+		map->isSearchAll = true;
+	}
+	if (gui.toggleSwitch(L"searchAll").isLeft) {
+		map->isSearchAll = false;
+	}
+
 
 	if (Input::KeyW.clicked)
 	{
