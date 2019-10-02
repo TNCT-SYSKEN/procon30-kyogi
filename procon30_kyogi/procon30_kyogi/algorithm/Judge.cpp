@@ -22,6 +22,10 @@ void Judge::fullSearch() {
 	agentsEvalution = agentsEvalution->getAgentsEvalution();
 	AgentsAction* agentsAction;
 	agentsAction = agentsAction->getAgentsAction();
+	Field* field;
+	field = field->getField();
+	AgentsAction* agentsAction();
+	agentsAction = agentsAction->getAgentsAction();
 
 
 	//“Gƒ‹[ƒg
@@ -91,8 +95,15 @@ void Judge::fullSearch() {
 
 
 	//‚±‚±‚©‚ç‘ŠŽè‚Ì“_‚ðã‰ñ‚é‚æ‚¤Žç‚Á‚½‚èUŒ‚‚µ‚½‚è‚·‚é
-
-
+	//–³—‚ª‚ ‚é‚©‚à
+	/*
+	int fieldTiled[20][20];
+	rep(i, map->width) {
+		rep(j, map->vertical) {
+			fieldTiled[i][j] = field->tiled[i][j];
+		}
+	}
+	*/
 
 }
 
