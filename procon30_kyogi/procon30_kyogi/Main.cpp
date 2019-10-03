@@ -8,9 +8,6 @@ SystemManager sys;
 	
 void Main()
 {
-	InputOutputManager gui;
-	gui.inputoutputmanager();
-	
 	InputOutputManager iOManager;
 	
 	//jsonなかったら無限ループ

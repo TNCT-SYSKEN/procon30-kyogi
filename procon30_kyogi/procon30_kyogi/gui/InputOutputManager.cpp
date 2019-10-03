@@ -1,5 +1,4 @@
 #include "InputOutputManager.h"
-#include "Gui.h"
 using namespace std;
 
 
@@ -14,11 +13,4 @@ void InputOutputManager::init()
 		flg = createMap.createMapClass();
 	} while (!flg);
 
-}
-
-
-void InputOutputManager::inputOutputManager()
-{
-	Gui gui;
-	gui.gui();
 }
