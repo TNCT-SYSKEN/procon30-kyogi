@@ -84,6 +84,8 @@ void JudgeEvalution::calculateEnemyEvalution(vector<pair<int, pair<int,int>>>rou
 	//もし最高得点の取れるルートならば
 	if (getPoint > agentsEvalution->enemyMaxGetPoint[route[0].first - agents->otherAgents[0][0]]) {
 		
+
+		
 		agentsEvalution->enemyMaxGetPoint[route[0].first - agents->otherAgents[0][0]] = getPoint;
 		//enemy route更新
 		agentsEvalution->enemyMaxRoute[route[0].first - agents->otherAgents[0][0]] = route;

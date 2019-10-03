@@ -25,7 +25,7 @@ void SystemManager::systemManager() {
 }
 
 //デバッグ用の領域計算
-void calcAreaDubug(int teamID) {
+int  calcAreaDubug(int teamID) {
 
 	Map* map;
 	map = map->getMap();

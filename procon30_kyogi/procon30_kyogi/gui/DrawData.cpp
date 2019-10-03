@@ -7,11 +7,25 @@ DrawData::DrawData()
 	gui.setTitle(L"kyogi");
 	gui.setPos(0, 0);
 
+
+	//json読み込みのためのtokenなどの指定
+	gui.addln(L"json_option", GUIText::Create(L"json_option"));
+	gui.add(L"token_name", GUIText::Create(L"トークン"));
+	gui.addln(L"token", GUITextArea::Create(1, 10));
+	gui.add(L"port_name", GUIText::Create(L"Port"));
+	gui.addln(L"port", GUITextArea::Create(1, 4));
+	//JsonFile読み込み
+	gui.addln(L"bt5", GUIButton::Create(L"JsonFile読み込み"));
+
+	gui.add(L"hr", GUIHorizontalLine::Create(1));
+	gui.horizontalLine(L"hr").style.color = Color(127);
+
 	//Input
 	//水平線
 	gui.add(GUIText::Create(L"Input"));
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
 	gui.horizontalLine(L"hr").style.color = Color(127);
+
 
 	//ボタン
 	//ゲームスタート
@@ -21,10 +35,7 @@ DrawData::DrawData()
 	gui.add(L"bt1", GUIButton::Create(L"決定"));
 
 	//リセット
-	gui.add(L"bt2", GUIButton::Create(L"リセット"));
-
-	//JsonFile読み込み
-	gui.addln(L"bt5", GUIButton::Create(L"JsonFile読み込み"));
+	gui.addln(L"bt2", GUIButton::Create(L"リセット"));
 
 	//先読みターン数変更
 	gui.add(L"text0", GUIText::Create(L"先読みターン数"));
@@ -111,6 +122,9 @@ DrawData::DrawData()
 	//ID入力ボタン
 	gui.add(L"bt4", GUIButton::Create(L"ID入力"));
 	gui.style.showTitle = true;
+
+
+	
 
 
 	// Windowの設定
@@ -211,6 +225,9 @@ void DrawData::clickedButton() {
 	}
 	//JsonFileの読み込み
 	if (gui.button(L"bt5").pushed) {
+		//gui.textArea(L"port").setText(gui.textArea(L"token").text);
+
+
 
 	}
 	//MaxTurn入力ボタン

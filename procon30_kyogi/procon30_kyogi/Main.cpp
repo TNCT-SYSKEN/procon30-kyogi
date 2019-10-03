@@ -21,7 +21,12 @@ void Main()
 	DrawData drawData;
 	Profiler::EnableWarning(false);
 
+
 	while (System::Update()) {
+		if (!map->firstJson) {
+
+		}
+
 		//drawManager
 		drawData.drawDataManager();
 		sys.systemManager();

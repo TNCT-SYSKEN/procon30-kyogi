@@ -5,13 +5,11 @@ using namespace std;
 
 void InputOutputManager::init()
 {
+	//setup ’l‚Ì‰Šú‰»
+	
 	CreateMap createMap;
-	//json‚È‚©‚Á‚½‚ç–³ŒÀƒ‹[ƒv
-	bool flg=false;
-	do {
-
-		flg = createMap.createMapClass();
-	} while (!flg);
+	createMap.createMapClass();
+	
 
 }
 

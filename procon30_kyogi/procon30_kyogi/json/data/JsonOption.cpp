@@ -3,6 +3,7 @@ JsonOption* JsonOption::Option = nullptr;
 
 JsonOption* JsonOption::getJsonOption() {
 	if (Option == nullptr) {
-		Option == new JsonOption;
+		Option = new JsonOption;
 	}
+	return Option;
 }

@@ -141,8 +141,9 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route,vecto
 	//Route更新（評価最大）
 	if (agentsEvalution->maxEvalutionPoint < sumOfEvalution) {
 		
+		int R = route[0].first - agents->ourAgents[0][0];
 		rep(i, routeS) {
-			agentsEvalution->maxRoute[i] = route;
+			agentsEvalution->maxRoute[R][i] = route[R];
 		}
 		
 	}

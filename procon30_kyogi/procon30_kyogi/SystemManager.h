@@ -10,5 +10,5 @@ public:
 	void systemManager();
 
 private:
-	void calcAreaDebug(int);
+	int calcAreaDebug(int);
 };

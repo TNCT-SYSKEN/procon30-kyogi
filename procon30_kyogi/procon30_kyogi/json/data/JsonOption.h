@@ -4,8 +4,11 @@
 class JsonOption {
 public:
 
-	static JsonOption* getJsonOption();
+	string token;
+	string port;
+	string query;
 
+	static JsonOption* getJsonOption();
 private:
 
 	static JsonOption* Option;

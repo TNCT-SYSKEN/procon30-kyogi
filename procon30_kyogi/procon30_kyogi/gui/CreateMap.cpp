@@ -34,14 +34,15 @@ void CreateMap::createMapFrame(const int vertical,const int side) {
 	}
 }
 
-bool CreateMap::createMapClass() {
+void CreateMap::createMapClass() {
 
 	//if(json flg==false){	return false;}
-	//return false;
 
 	Map* map;
 	map = map->getMap();
 
+
+	//全てのデータファイルの初期化
 	map->turn = 0;
 	//先読みターン数の初期化
 	map->readTurn = 3;
@@ -57,5 +58,5 @@ bool CreateMap::createMapClass() {
 
 	agents->ourAgents.resize(3,vector<int>(2,0));
 	agents->ourAgents[0][0] = 1;
-	return true;
+
 }

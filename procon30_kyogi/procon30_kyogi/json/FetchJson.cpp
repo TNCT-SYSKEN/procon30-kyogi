@@ -1,11 +1,8 @@
-#include <fstream>
-#include <string>
-#include <stdlib.h>
-#include "picojson.h"
+#include"FetchJson.h"
 
-using namespace std;
 
-void fetchMatches(string token, string port, string query) {
+void FetchJson::fetchMatches(string token, string port, string query) {
+
 	string auth = "\"Authorization: " + token + "\" ";
 	string host = "http://127.0.0.1:" + port;
 	string path = "/matches/" + query;
@@ -13,7 +10,7 @@ void fetchMatches(string token, string port, string query) {
 	system(command.c_str());
 }
 
-picojson::value readJson(string path) {
+picojson::value FetchJson::readJson(string path) {
 	ifstream ifs;
 	ifs.open(path);
 	picojson::value json;
@@ -22,10 +19,10 @@ picojson::value readJson(string path) {
 	return json;
 }
 
-int main(void) {
-	fetchMatches("procon30_example_token", "55669", "");
+void FetchJson::fetch(void) {
 
+	fetchMatches("procon30_example_token", "55669", "");
 	cout << readJson("data.json") << endl;
 
-	return 0;
+
 }
