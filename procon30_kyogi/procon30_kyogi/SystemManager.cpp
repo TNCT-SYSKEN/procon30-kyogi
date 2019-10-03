@@ -8,7 +8,7 @@ void SystemManager::systemManager() {
 	Map* map;
 	map = map->getMap();
 
-
+	
 	if (map->isGameStarted) {
 
 		if (map->turnFlg) {

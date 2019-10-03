@@ -120,19 +120,74 @@ bool CreateMap::createMapClass() {
 
 	map->isGameStarted = false;
 
+
 	Agents* agents;
 	agents = agents->getAgents();
+	AgentsAction* agentsAcn;
+	agentsAcn = agentsAcn->getAgentsAction();
 
-	agents->ourAgents.resize(3, vector<int>(2, 0));
-	agents->ourAgents[0][0] = 1;
+	agentsAcn->actionDxDy.resize(8, vector<pair<int, pair<int,int>>>(map->readTurn+1));
 
+
+	//debug用
+	debugSetUp();
+	createTurnField();
 	return true;
 }
 
 
-	//デバッグ用関数
-	//debugSetUp();
+void CreateMap::createTurnField() {
 
+	Map* map;
+	map = map->getMap();
+	Field* field;
+	field = field->getField();
+	Agents* agents;
+	agents = agents->getAgents();
+	AgentsAction* agentsAcn;
+	agentsAcn = agentsAcn->getAgentsAction();
+
+	int agentS = agents->ourAgents.size();
+	field->turnAgent.resize(map->readTurn+1, vector<pair<int, int>>(agentS));
+	//agentsAcn->actionDxDy.resize(agentS, vector<pair<int, pair<int, int>>>(map->readTurn+1 , pair<int, pair<int, int>>(0, pair<int, int>(0, 0))));
+
+	int nowX[8];
+	int nowY[8];
+	
+	rep(i, agentS) {
+		nowX[i] = agents->ourAgents[i][1]-1;
+		nowY[i] = agents->ourAgents[i][2]-1;
+		field->turnAgent[0][i] = make_pair(nowX[i], nowY[i]);
+	}
+
+	field->turnTiled[0] = field->tiled;
+	
+
+	rep(turn, map->readTurn) {
+		rep(agentnum, agentS) {
+			nowX[agentnum] += agentsAcn->actionDxDy[agentnum][turn+1].second.first;
+			nowY[agentnum] += agentsAcn->actionDxDy[agentnum][turn+1].second.second;
+			
+			if (field->turnTiled[turn+1][nowX[agentnum]][nowY[agentnum]] == map->otherTeamID) {
+				field->turnTiled[turn][nowX[agentnum]][nowY[agentnum]] = 0;
+				nowX[agentnum] -= agentsAcn->actionDxDy[agentnum][turn + 1].second.first;
+				nowY[agentnum] -= agentsAcn->actionDxDy[agentnum][turn + 1].second.second;
+			}
+			else {
+				field->turnTiled[turn + 1][nowX[agentnum]][nowY[agentnum]] = map->ourTeamID;
+			}
+			
+			field->turnAgent[turn + 1][agentnum] = make_pair(nowX[agentnum], nowY[agentnum]);
+			
+		}
+	}
+	
+
+}
+
+
+
+//ここから下からデバッグ用関数たち
 void CreateMap::debugSetUp() {
 	
 	Map* map;
@@ -161,12 +216,65 @@ void CreateMap::debugSetUp() {
 		int i = agentnum - 10 + agents->ourAgents.size();
 		agents->otherAgents[i][0] = agentnum;
 	}
-
+	
 	//手動でagentの初期位置入力
 	agents->ourAgents[0][1] = 1;
+	agents->ourAgents[0][2] = 2;
+	agents->ourAgents[1][1] = 9;
+	agents->ourAgents[1][2] = 1;
+	agents->ourAgents[2][1] = 10;
+	agents->ourAgents[2][2] = 9;
+	agents->ourAgents[3][1] = 2;
+	agents->ourAgents[3][2] = 10;
+	
+	agents->otherAgents[0][1] = 2;
+	agents->otherAgents[0][2] = 1;
 
+	agents->otherAgents[1][1] = 10;
+	agents->otherAgents[1][2] = 2;
 
+	agents->otherAgents[2][1] = 9;
+	agents->otherAgents[2][2] = 10;
+	
+	agents->otherAgents[3][1] = 1;
+	agents->otherAgents[3][1] = 9;
+	
+	
+	//Field.h
+	field->points.resize(map->width, vector<int>(map->vertical, 0));
+	field->points = {
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0}
+	};
+	
+	field->tiled.resize(map->width, vector<int>(map->vertical, 0));
+	field->tiled = {
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0}
+	};
 
+	
+	field->turnTiled.resize(map->readTurn+1 ,vector<vector<int>>(map->width, vector<int>(map->vertical, 0)));
+	
+	rep(i, map->readTurn+1) {
+		field->turnTiled[i] = field->tiled;
+	}
 	//for()
 
 	

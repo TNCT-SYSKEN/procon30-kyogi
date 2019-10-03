@@ -1,6 +1,7 @@
+#pragma once
 #include"InputOutputManager.h"
 #include"../Data/Map.h"
-#pragma once
+
 
 class CreateMap {
 public :
@@ -14,6 +15,7 @@ public :
 	void createMapPoint2(const int point,const int x,const int y);
 	bool createMapClass();
 
+	void createTurnField();
 private:
 	void debugSetUp();
 

@@ -36,12 +36,10 @@ DrawData::DrawData()
 
 	//リセット
 	gui.addln(L"bt2", GUIButton::Create(L"リセット"));
-<<<<<<< HEAD
+
 
 	//JsonFile読み込み
 	gui.addln(L"bt5", GUIButton::Create(L"JsonFile読み込み"));
-=======
->>>>>>> gui+
 
 	//先読みターン数変更
 	gui.addln(L"text0", GUIText::Create(L"先読みターン数"));
@@ -202,6 +200,11 @@ void DrawData::drawSumScore() {
 void DrawData::clickedButton() {
 	Map *map;
 	map = map->getMap();
+	AgentsAction* agentsAction;
+	agentsAction = agentsAction->getAgentsAction();
+	Agents* agents;
+	agents = agents->getAgents();
+
 
 	const Size targetSize(1920, 1080);
 	//行動確定ボタン
@@ -225,8 +228,8 @@ void DrawData::clickedButton() {
 		//String->string->int
 		//先読みターン数更新
 		map->readTurn = Parse<int>(gui.textArea(L"ptnc").text);
-		
-		//gui.textArea(L"turn").setText(Widen(to_string(map->readTurn)));
+		//agentsAction dxdy の調整
+		agentsAction->actionDxDy.resize(agents->ourAgents.size(), vector<pair<int, pair<int, int>>>(map->readTurn));
 	}
 	//ID入力ボタン
 	if (gui.button(L"bt4").pushed) {
@@ -318,6 +321,8 @@ void DrawData::inputID() {
 			//ID更新
 			gui.textArea(L"blueID").setText(Widen(to_string(map->ourTeamID)));
 			gui.textArea(L"redID").setText(Widen(to_string(map->otherTeamID)));
+			
+			
 			break;
 		}
 		if (guiID.button(L"IDcancel").pushed) {
