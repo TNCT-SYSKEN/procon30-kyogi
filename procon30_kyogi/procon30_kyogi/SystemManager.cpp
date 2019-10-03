@@ -1,7 +1,5 @@
 #include"SystemManager.h"
-#include"gui/InputOutputManager.h"
-#include"algorithm/Action_manager.h"
-#include"Data/Map.h"
+
 
 
 void SystemManager::systemManager() {
@@ -16,16 +14,17 @@ void SystemManager::systemManager() {
 		if (map->turnFlg) {
 
 			acManager.Action();
-			
+				
 				
 		}
+		
 
 
 	}
 }
 
 //デバッグ用の領域計算
-int  calcAreaDubug(int teamID) {
+int  SystemManager::calcAreaDebug(int teamID) {
 
 	Map* map;
 	map = map->getMap();
