@@ -42,7 +42,6 @@ void Judge::fullSearch() {
 		//敵最適ルート初期化
 		//	ここで先読みターン数に応じたサイズを初期化する
 		agentsEvalution->enemyMaxRoute.resize(0);
-		agentsPosition=
 
 	}
 
@@ -61,14 +60,13 @@ void Judge::calculateTilePoint(vector<pair<int, pair<int, int>>>route,int teamID
 
 
 	//残りのターン数だけ計算
-	rep(counter,map->finalTurn - map->turn+1)
+	rep(counter,map->finalTurn - map->turn+1){
 		rep(i, map->width) {
 			rep(j, map->vertical) {
-				if()
 				
 			}
 		}
-
+	}
 }
 
 
