@@ -7,11 +7,25 @@ DrawData::DrawData()
 	gui.setTitle(L"kyogi");
 	gui.setPos(0, 0);
 
+
+	//json読み込みのためのtokenなどの指定
+	gui.addln(L"json_option", GUIText::Create(L"json_option"));
+	gui.add(L"token_name", GUIText::Create(L"トークン"));
+	gui.addln(L"token", GUITextArea::Create(1, 10));
+	gui.add(L"port_name", GUIText::Create(L"Port"));
+	gui.addln(L"port", GUITextArea::Create(1, 4));
+	//JsonFile読み込み
+	gui.addln(L"bt5", GUIButton::Create(L"JsonFile読み込み"));
+
+	gui.add(L"hr", GUIHorizontalLine::Create(1));
+	gui.horizontalLine(L"hr").style.color = Color(127);
+
 	//Input
 	//水平線
 	gui.add(GUIText::Create(L"Input"));
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
 	gui.horizontalLine(L"hr").style.color = Color(127);
+
 
 	//ボタン
 	//ゲームスタート
@@ -22,20 +36,26 @@ DrawData::DrawData()
 
 	//リセット
 	gui.addln(L"bt2", GUIButton::Create(L"リセット"));
+<<<<<<< HEAD
 
 	//JsonFile読み込み
 	gui.addln(L"bt5", GUIButton::Create(L"JsonFile読み込み"));
+=======
+>>>>>>> gui+
 
 	//先読みターン数変更
 	gui.addln(L"text0", GUIText::Create(L"先読みターン数"));
 	gui.add(L"ptnc", GUITextArea::Create(1,2));
-	gui.addln(L"bt3", GUIButton::Create(L"OK"));
+	gui.add(L"bt3", GUIButton::Create(L"OK"));
 
 	//最大ターン数
 	//全探索で使う
 	gui.add(L"textMT", GUIText::Create(L"最大ターン数"));
 	gui.add(L"readMT", GUITextArea::Create(1, 2));
-	gui.add(L"btnMT", GUIButton::Create(L"決定"));
+	gui.addln(L"btnMT", GUIButton::Create(L"決定"));
+
+	//全探索モード
+	gui.add(L"searchALL", GUIToggleSwitch::Create(L"評価関数モード", L"全探索モード",false));
 
 	//水平線
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
@@ -113,6 +133,9 @@ DrawData::DrawData()
 	gui.style.showTitle = true;
 
 
+	
+
+
 	// Windowの設定
 	Window::Resize(1920, 1080);
 	const Size targetSize(1920, 1080);
@@ -180,7 +203,6 @@ void DrawData::clickedButton() {
 	Map *map;
 	map = map->getMap();
 
-
 	const Size targetSize(1920, 1080);
 	//行動確定ボタン
 	if (gui.button(L"gameStart").pushed) {
@@ -212,6 +234,9 @@ void DrawData::clickedButton() {
 	}
 	//JsonFileの読み込み
 	if (gui.button(L"bt5").pushed) {
+		//gui.textArea(L"port").setText(gui.textArea(L"token").text);
+
+
 
 	}
 	//MaxTurn入力ボタン
@@ -219,6 +244,13 @@ void DrawData::clickedButton() {
 		map->finalTurn = Parse<int>(gui.textArea(L"readMT").text);
 
 	}
+	if (gui.toggleSwitch(L"searchAll").isRight) {
+		map->isSearchAll = true;
+	}
+	if (gui.toggleSwitch(L"searchAll").isLeft) {
+		map->isSearchAll = false;
+	}
+
 
 	if (Input::KeyW.clicked)
 	{

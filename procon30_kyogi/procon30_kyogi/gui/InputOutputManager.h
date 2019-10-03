@@ -1,6 +1,13 @@
+#pragma once
 #include "CreateMap.h"
 #include"../general.h"
-#pragma once
+#include"../json/FetchJson.h"
+#include"../Data/Agents.h"
+#include"../Data/AgentsAction.h"
+#include"../Data/Field.h"
+
+
+
 class InputOutputManager
 {
 public:

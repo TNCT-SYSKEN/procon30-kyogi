@@ -9,8 +9,12 @@ public:
 	//エージェント番号 < 0(turn1) , 1(turn2) , 1(turn3), >
 	//1ならmove 0ならstay
 	vector<vector<int>> actionType;
+
+
+	
 	//{{number,{{dx(turn1),dy(turn1)},{dx(turn2),dx(turn2)}...}},..}
-	vector<pair<int,vector<pair<int,int>>>> actionDxDy;
+	//エージェントの数(先読みターン（agentNuber(dx,dy)）)
+	vector<vector<pair<int,pair<int,int>>>>actionDxDy;
 	
 
 	static AgentsAction* getAgentsAction();

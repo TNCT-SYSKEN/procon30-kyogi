@@ -37,6 +37,10 @@ public:
 	//ŒvZ‚µ‚½‚©‚Ç‚¤‚©
 	bool turnFlg;
 	bool isGameStarted;
+	bool isSearchAll;
+	bool makeReadTurnMap;
+	//Å‰‚Ìjsonfile “Ç‚İæ‚è
+	bool firstJson=false;
 
 private:
 	static Map* stayMap;
