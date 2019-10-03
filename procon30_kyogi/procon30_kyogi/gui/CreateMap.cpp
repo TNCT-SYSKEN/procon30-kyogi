@@ -43,20 +43,61 @@ void CreateMap::createMapClass() {
 
 
 	//全てのデータファイルの初期化
+	map->score.resize(2, vector<int>(3, 0));
 	map->turn = 0;
 	//先読みターン数の初期化
 	map->readTurn = 3;
-	rep(i, 2) {
-		rep(j, 3) {
-			map->score[i][j] = 0;
-		}
-	}
+
 	map->isGameStarted = false;
 
 	Agents* agents;
 	agents = agents->getAgents();
 
-	agents->ourAgents.resize(3,vector<int>(2,0));
+	agents->ourAgents.resize(3, vector<int>(2, 0));
 	agents->ourAgents[0][0] = 1;
+
+	//デバッグ用関数
+	//debugSetUp();
+
+}
+
+void CreateMap::debugSetUp() {
+	
+	Map* map;
+	map = map->getMap();
+	Agents* agents;
+	agents = agents->getAgents();
+	AgentsAction* agentsAcn;
+	agentsAcn = agentsAcn->getAgentsAction();
+	Field* field;
+	field = field->getField();
+	//Map.h
+	map->vertical = 10;
+	map->width = 10;
+	map->makeReadTurnMap = false;
+	//Agents.h
+	agents->ourAgents.resize(4, vector<int>(3));
+	agents->otherAgents.resize(4, vector<int>(3));
+	
+
+
+	for (int agentnum = 10; agentnum < 10 + agents->ourAgents.size(); agentnum++) {
+		int i = agentnum - 10;
+		agents->ourAgents[i][0] = agentnum;
+	}
+	for (int agentnum = 10 + agents->ourAgents.size(); agentnum < agents->ourAgents.size() * 2; agentnum++) {
+		int i = agentnum - 10 + agents->ourAgents.size();
+		agents->otherAgents[i][0] = agentnum;
+	}
+
+	//手動でagentの初期位置入力
+	agents->ourAgents[0][1] = 1;
+
+
+
+	//for()
+
+	
+	
 
 }
