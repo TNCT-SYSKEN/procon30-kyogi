@@ -2,6 +2,7 @@
 
 #include"../Data/Agents.h"
 
+//MapFrame
 void CreateMap::createMapFrame(const int vertical,const int side) {
 	int k,c;
 	for (int i = 0; i < side + 1; i++) {
@@ -35,6 +36,7 @@ void CreateMap::createMapFrame(const int vertical,const int side) {
 	}
 }
 
+//ColorMap1
 void CreateMap::createMapState1(const int state,const int x,const int y){
 	Rect rect(300+40*(x-1),30+40*(y-1),40,40);
 	switch (state) {
@@ -50,6 +52,7 @@ void CreateMap::createMapState1(const int state,const int x,const int y){
 	}
 }
 
+//ColorMap1
 void CreateMap::createMapState2(const int state, const int x, const int y) {
 	Rect rect(1100 + 40 * (x - 1), 30 + 40 * (y - 1), 40, 40);
 	switch (state) {
@@ -65,6 +68,7 @@ void CreateMap::createMapState2(const int state, const int x, const int y) {
 	}
 }
 
+//AgentsMap1
 void CreateMap::createMapAgent1(const int who, const int x, const int y) {
 	Circle circle(300 + 40 * (x - 1) + 20, 30 + 40 * (y - 1) + 20,15);
 	switch (who) {
@@ -77,6 +81,7 @@ void CreateMap::createMapAgent1(const int who, const int x, const int y) {
 	}
 }
 
+//AgentsMap2
 void CreateMap::createMapAgent2(const int who, const int x, const int y) {
 	Circle circle(1100 + 40 * (x - 1) + 20, 30 + 40 * (y - 1) + 20, 15);
 	switch (who) {
@@ -89,13 +94,16 @@ void CreateMap::createMapAgent2(const int who, const int x, const int y) {
 	}
 }
 
+//PointMap1
 void CreateMap::createMapPoint1(const int point, const int x, const int y) {
-
+	
 }
 
+//PointMap2
 void CreateMap::createMapPoint2(const int point, const int x, const int y) {
 
 }
+
 bool CreateMap::createMapClass() {
 
 	//if(json flg==false){	return false;}
