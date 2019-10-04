@@ -3,6 +3,7 @@
 
 #include"SystemManager.h"
 #include"gui/InputOutputManager.h"
+#include"..//procon30_kyogi/gui/DrawMap.h"
 SystemManager sys;
 	
 	
@@ -21,6 +22,8 @@ void Main()
 	DrawData drawData;
 	Profiler::EnableWarning(false);
 
+	DrawMap drawMap;
+
 
 	while (System::Update()) {
 		if (!map->firstJson) {
@@ -30,5 +33,8 @@ void Main()
 		//drawManager
 		drawData.drawDataManager();
 		sys.systemManager();
+
+		//drawMap
+		drawMap.drawMapManager(0);
 	}
 }

@@ -11,7 +11,7 @@ DrawData::DrawData()
 	//json読み込みのためのtokenなどの指定
 	gui.addln(L"json_option", GUIText::Create(L"json_option"));
 	gui.add(L"token_name", GUIText::Create(L"トークン"));
-	gui.addln(L"token", GUITextArea::Create(1, 10));
+	gui.addln(L"token", GUITextArea::Create(1, 8));
 	gui.add(L"port_name", GUIText::Create(L"Port"));
 	gui.addln(L"port", GUITextArea::Create(1, 4));
 	//JsonFile読み込み
@@ -44,7 +44,7 @@ DrawData::DrawData()
 	//先読みターン数変更
 	gui.addln(L"text0", GUIText::Create(L"先読みターン数"));
 	gui.add(L"ptnc", GUITextArea::Create(1,2));
-	gui.add(L"bt3", GUIButton::Create(L"OK"));
+	gui.addln(L"bt3", GUIButton::Create(L"OK"));
 
 	//最大ターン数
 	//全探索で使う
@@ -290,8 +290,7 @@ void DrawData::drawData()
 
 	map.createMapFrame(map1->vertical,map1->width);
 
-
-	Circle(Mouse::Pos(), 100).draw();
+	Circle(Mouse::Pos(), 20).draw();
 
 	font(Mouse::Pos()).draw();
 	

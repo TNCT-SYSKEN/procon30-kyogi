@@ -6,13 +6,15 @@
 class DrawMap{
 public:
 	void drawMapFrame();
-	void drawMapState1();
-	void drawMapState2();
-	void drawMapAgentsTurn1();
-	void drawMapAgentsTurn2();
-	void drawMapAgentsTurn3();
-	void drawMapAgentsTurn4();
+	void drawMapState1(const int turn);
+	void drawMapState2(const int turn);
+	void drawMap1AgentsTurn(const int turn);
+	void drawMap2AgentsTurn(const int turn);
 	void drawMapPoint1();
 	void drawMapPoint2();
+	void drawMapLine1(const int turn);
+	void drawMapLine2(const int turn);
+	void drawMapManager(const int turn);
+	int turn;
 };
 
