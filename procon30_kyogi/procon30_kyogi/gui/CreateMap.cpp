@@ -26,7 +26,7 @@ void CreateMap::createMapFrame(const int vertical,const int side) {
 
 //ColorMap1
 void CreateMap::createMapState1(const int state,const int x,const int y){
-	Rect rect(300+40*(x-1),30+40*(y-1),40,40);
+	Rect rect(300+40*(y-1),30+40*(x-1),40,40);
 	Map* map;
 	map = map->getMap();
 	if (state == map->ourTeamID) {
@@ -42,7 +42,7 @@ void CreateMap::createMapState1(const int state,const int x,const int y){
 
 //ColorMap1
 void CreateMap::createMapState2(const int state, const int x, const int y) {
-	Rect rect(1100 + 40 * (x - 1), 30 + 40 * (y - 1), 40, 40);
+	Rect rect(1100 + 40 * (y - 1), 30 + 40 * (x - 1), 40, 40);
 	Map* map;
 	map = map->getMap();
 	if (state == map->ourTeamID) {
@@ -56,7 +56,7 @@ void CreateMap::createMapState2(const int state, const int x, const int y) {
 
 //AgentsMap1
 void CreateMap::createMapAgent1(const int who, const int x, const int y) {
-	Circle circle(300 + 40 * (x - 1) + 20, 30 + 40 * (y - 1) + 20,15);
+	Circle circle(300 + 40 * (y - 1) + 20, 30 + 40 * (x - 1) + 20,15);
 	switch (who) {
 	case 1:
 		circle.draw(Palette::Lightskyblue);
@@ -69,7 +69,7 @@ void CreateMap::createMapAgent1(const int who, const int x, const int y) {
 
 //AgentsMap2
 void CreateMap::createMapAgent2(const int who, const int x, const int y) {
-	Circle circle(1100 + 40 * (x - 1) + 20, 30 + 40 * (y - 1) + 20, 15);
+	Circle circle(1100 + 40 * (y - 1) + 20, 30 + 40 * (x - 1) + 20, 15);
 	switch (who) {
 	case 1:
 		circle.draw(Palette::Lightskyblue);
@@ -83,18 +83,18 @@ void CreateMap::createMapAgent2(const int who, const int x, const int y) {
 //PointMap1
 void CreateMap::createMapPoint1(const int point, const int x, const int y) {
 	if (point >= 0) {
-		font(point).draw(300 + 40 * (x - 1) + 12, 30 + 40 * (y - 1) - 2, Palette::Black);
+		font(point).draw(300 + 40 * (y - 1) + 12, 30 + 40 * (x - 1) - 2, Palette::White);
 	}else{
-		font(point).draw(300 + 40 * (x - 1) + 4, 30 + 40 * (y - 1) - 2, Palette::Black);
+		font(point).draw(300 + 40 * (y - 1) + 4, 30 + 40 * (x - 1) - 2, Palette::White);
 	}
 }
 
 //PointMap2
 void CreateMap::createMapPoint2(const int point, const int x, const int y) {
 	if (point >= 0) {
-		font(point).draw(1100 + 40 * (x - 1) + 12, 30 + 40 * (y - 1) - 2, Palette::Black);
+		font(point).draw(1100 + 40 * (y - 1) + 12, 30 + 40 * (x - 1) - 2, Palette::White);
 	}else{
-		font(point).draw(1100 + 40 * (x - 1) + 4, 30 + 40 * (y - 1) - 2, Palette::Black);
+		font(point).draw(1100 + 40 * (y - 1) + 4, 30 + 40 * (x - 1) - 2, Palette::White);
 	}
 }
 
@@ -207,6 +207,8 @@ void CreateMap::debugSetUp() {
 	map->vertical = 10;
 	map->width = 10;
 	map->makeReadTurnMap = false;
+	map->ourTeamID = 1;
+	map->otherTeamID = 2;
 	//Agents.h
 	agents->ourAgents.resize(4, vector<int>(3));
 	agents->otherAgents.resize(4, vector<int>(3));
@@ -242,7 +244,7 @@ void CreateMap::debugSetUp() {
 	agents->otherAgents[2][2] = 10;
 	
 	agents->otherAgents[3][1] = 1;
-	agents->otherAgents[3][1] = 9;
+	agents->otherAgents[3][2] = 9;
 	
 	
 	//Field.h
@@ -262,16 +264,16 @@ void CreateMap::debugSetUp() {
 	
 	field->tiled.resize(map->width, vector<int>(map->vertical, 0));
 	field->tiled = {
+		{0,0,0,2,0,0,0,0,0,2},
+		{2,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,1,0,0,0},
+		{0,0,0,2,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0}
+		{0,1,0,0,0,0,0,2,0,0},
+		{0,0,0,1,0,0,0,0,0,1}
 	};
 
 	

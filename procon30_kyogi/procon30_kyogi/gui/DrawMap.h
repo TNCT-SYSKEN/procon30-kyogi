@@ -15,6 +15,5 @@ public:
 	void drawMapLine1(const int turn);
 	void drawMapLine2(const int turn);
 	void drawMapManager(const int turn);
-	int turn;
 };
 
