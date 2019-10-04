@@ -1,23 +1,28 @@
-#include <iostream>
-#include <time.h>
-#include "picojson.h"
+#include"CreateJson.h"
+using namespace std;
 
-int main()
+string escapeStr(string str) {
+	return "\"" + str + "\"";
+}
+
+string CreateJson::createJson()
 {
 	using v = picojson::value;
 	using o = picojson::object;
 	using a = picojson::array;
 
+
+
 	o l{ {
-		" actions", v(a{
+		"actions", v(a{
 			v(o{
-				{ "agentID", v(9.0) },
+				{ "agentID", v(2.0) },
 				{ "type", v("move") },
 				{ "dx", v(1.0) },
 				{ "dy", v(1.0) },
 			}),
 			v(o{
-				{ "agentID", v(10.0) },
+				{ "agentID", v(3.0) },
 				{ "type", v("move") },
 				{ "dx", v(-1.0) },
 				{ "dy", v(-1.0) },
@@ -25,53 +30,34 @@ int main()
 		})
 	} };
 
-	std::cout << v(l) << std::endl;
+	// std::cout << v(l) << std::endl;
+
+	// ファイルにJSONファイル書き込み
+	string filename = "WriteJson.txt";
+	ofstream ofs(filename);
+	ofs << v(l)<< endl;
+	// JSON読み取り
+	ifstream ifs;
+	ifs.open(filename);
+	string json;
+	ifs >> json;
+	ifs.close();
+
+	/*string token = "procon30_example_token";
+	string auth = escapeStr("Authorization: " + token) + " ";
+	string content_type = escapeStr("Content-Type: application/json") + " ";
+	string port = "55021";
+	string matchID = "1";
+	string host = "http://localhost:" + port + "/matches/" + matchID + "/action ";
+
+*/
+
+	// あとで直す
+	/*string command = "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + json;
+	cout<<command;
+	system(command.c_str());
+*/
+
+	return json;
+	
 }
-
-
-
-
-
-
-
-/*#include <iostream>
-#include <time.h>
-#include "picojson.h"
-
-int main()
-{
-	picojson::object actions; 
-	picojson::array datalist;
-	using v = picojson::value;
-	{
-		actions.insert({ "agentID", v("9") });
-		actions.insert({ "type", v("move") });
-		actions.insert({ "dx", v("1") });
-		actions.insert({ "dy", v("1") });
-
-		//datalist.push_back(picojson::value(dy));
-	}
-
-	/*{
-
-		picojson::object agentID;
-		agentID.insert({ "agentID", v("10") });
-
-		picojson::object type;
-		type.insert({ "type", v("move") });
-
-		picojson::object dx;
-		dx.insert({ "dx", v("-1") });
-
-		picojson::object dy;
-		dy.insert({ "dy", v("-1") });
-
-		dy.insert({ "agentID", v(agentID) });
-
-		//datalist.push_back(picojson::value(dy));
-	}
-
-	actions.insert({ "actions", v(datalist) });
-
-	std::cout << v(actions) << std::endl;
-}*/

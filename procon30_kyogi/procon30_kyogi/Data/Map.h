@@ -10,6 +10,8 @@ public:
 	//縦
 	int vertical;
 
+	float startedAtUnixTime = 0;
+
 	
 	//自分のチームのスコア{総合点,タイル,領域},
 	//相手				  {総合点,タイル,領域}

@@ -182,6 +182,7 @@
     <ClCompile Include="gui\TurnManager.cpp" />
     <ClCompile Include="json\data\JsonOption.cpp" />
     <ClCompile Include="json\FetchJson.cpp" />
+    <ClCompile Include="json\ParseJson.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="gui\ManualInput.cpp" />
     <ClCompile Include="SystemManager.cpp" />
@@ -290,6 +291,7 @@
     <ClInclude Include="gui\ManualInput.h" />
     <ClInclude Include="json\data\JsonOption.h" />
     <ClInclude Include="json\FetchJson.h" />
+    <ClInclude Include="json\ParseJson.h" />
     <ClInclude Include="json\picojson.h" />
     <ClInclude Include="SystemManager.h" />
   </ItemGroup>

@@ -17,7 +17,7 @@ string ParseJson::getStrPropValue(picojson::value obj, string propName) {
 
 // int 型でプロパティの値を取得
 int ParseJson::getIntPropValue(picojson::value obj, string propName) {
-	return stoi(getStrPropValue(obj, propName))
+	return stoi(getStrPropValue(obj, propName));
 }
 
 // JSON を解析
@@ -25,12 +25,16 @@ void ParseJson::parse(string path) {
 	picojson::value json = readJson(path);
 	Map *map;
 	map = map->getMap();
-
+	
+	//map
 	map->width = getIntPropValue(json, "width");
-	map->height = getIntPropValue(json, "height");
-	// points
+	map->vertical = getIntPropValue(json, "height");
+	
 	map->startedAtUnixTime = getIntPropValue(json, "startedAtUnixTime");
 	map->turn = getIntPropValue(json, "turn");
+	
+	// points
+	
 	// tiled
 	// teams
 	// actions
