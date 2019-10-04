@@ -12,12 +12,6 @@ void CreateMap::createMapFrame(const int vertical,const int side) {
 		Line(k, 30, k, c + 30).draw(5);
 		//2
 		Line(k + 800, 30, k + 800, c + 30).draw(5);
-		//3
-		//Line(k - 550, 560, k - 550, c + 560).draw(5);
-		//4
-		//Line(k, 560, k, c + 560).draw(5);
-		//5
-		//Line(k + 550, 560, k + 550, c + 560).draw(5);
 	}
 
 	for (int i = 0; i < vertical + 1; i++) {
@@ -27,44 +21,36 @@ void CreateMap::createMapFrame(const int vertical,const int side) {
 		Line(300, k-10, c + 300, k-10).draw(5);
 		//2
 		Line(1100, k-10, c + 1100, k-10).draw(5);
-		//3
-		//Line(50, k + 530, c + 50, k + 530).draw(5);
-		//4
-		//Line(600, k + 530, c + 600, k + 530).draw(5);
-		//5
-		//Line(1150, k + 530, c + 1150, k + 530).draw(5);
 	}
 }
 
 //ColorMap1
 void CreateMap::createMapState1(const int state,const int x,const int y){
 	Rect rect(300+40*(x-1),30+40*(y-1),40,40);
-	switch (state) {
-	case 1:
+	Map* map;
+	map = map->getMap();
+	if (state == map->ourTeamID) {
 		rect.draw(Palette::Blue);
-		break;
-	case 2:
+	}
+	else if (state == map->otherTeamID) {
 		rect.draw(Palette::Red);
-		break;
-	case 3:
+	}
+	else {
 		rect.draw(Palette::Black);
-		break;
 	}
 }
 
 //ColorMap1
 void CreateMap::createMapState2(const int state, const int x, const int y) {
 	Rect rect(1100 + 40 * (x - 1), 30 + 40 * (y - 1), 40, 40);
-	switch (state) {
-	case 1:
+	Map* map;
+	map = map->getMap();
+	if (state == map->ourTeamID) {
 		rect.draw(Palette::Blue);
-		break;
-	case 2:
+	}else if(state==map->otherTeamID){
 		rect.draw(Palette::Red);
-		break;
-	case 3:
+	}else{
 		rect.draw(Palette::Black);
-		break;
 	}
 }
 
@@ -96,13 +82,32 @@ void CreateMap::createMapAgent2(const int who, const int x, const int y) {
 
 //PointMap1
 void CreateMap::createMapPoint1(const int point, const int x, const int y) {
-	
+	if (point >= 0) {
+		font(point).draw(300 + 40 * (x - 1) + 12, 30 + 40 * (y - 1) - 2, Palette::Black);
+	}else{
+		font(point).draw(300 + 40 * (x - 1) + 4, 30 + 40 * (y - 1) - 2, Palette::Black);
+	}
 }
 
 //PointMap2
 void CreateMap::createMapPoint2(const int point, const int x, const int y) {
-
+	if (point >= 0) {
+		font(point).draw(1100 + 40 * (x - 1) + 12, 30 + 40 * (y - 1) - 2, Palette::Black);
+	}else{
+		font(point).draw(1100 + 40 * (x - 1) + 4, 30 + 40 * (y - 1) - 2, Palette::Black);
+	}
 }
+
+//LineMap1
+void CreateMap::createMapLine1(const int x1, const int y1, const int x2, const int y2) {
+	Line(300 + 40 * (x1 - 1) + 20, 30 + 40 * (y1 - 1) + 20, 300 + 40 * (x2 - 1) + 20, 30 + 40 * (y2 - 1) + 20).draw(5,Palette::Black);
+}
+
+//LineMap2
+void CreateMap::createMapLine2(const int x1, const int y1, const int x2, const int y2) {
+	Line(1100 + 40 * (x1 - 1) + 20, 30 + 40 * (y1 - 1) + 20, 1100 + 40 * (x2 - 1) + 20, 30 + 40 * (y2 - 1) + 20).draw(5, Palette::Black);
+}
+
 
 bool CreateMap::createMapClass() {
 
@@ -243,16 +248,16 @@ void CreateMap::debugSetUp() {
 	//Field.h
 	field->points.resize(map->width, vector<int>(map->vertical, 0));
 	field->points = {
-		{0,1,2,3,4,4,3,2,1,0},
-		{0,1,2,3,4,4,3,2,1,0},
-		{0,1,2,3,4,4,3,2,1,0},
-		{0,1,2,3,4,4,3,2,1,0},
-		{0,1,2,3,4,4,3,2,1,0},
-		{0,1,2,3,4,4,3,2,1,0},
-		{0,1,2,3,4,4,3,2,1,0},
-		{0,1,2,3,4,4,3,2,1,0},
-		{0,1,2,3,4,4,3,2,1,0},
-		{0,1,2,3,4,4,3,2,1,0}
+		{0,1,2,3,4,-4,-3,-2,-1,0},
+		{0,1,2,3,4,-4,-3,-2,-1,0},
+		{0,1,2,3,4,-4,-3,-2,-1,0},
+		{0,1,2,3,4,-4,-3,-2,-1,0},
+		{0,1,2,3,4,-4,-3,-2,-1,0},
+		{0,1,2,3,4,-4,-3,-2,-1,0},
+		{0,1,2,3,4,-4,-3,-2,-1,0},
+		{0,1,2,3,4,-4,-3,-2,-1,0},
+		{0,1,2,3,4,-4,-3,-2,-1,0},
+		{0,1,2,3,4,-4,-3,-2,-1,0}
 	};
 	
 	field->tiled.resize(map->width, vector<int>(map->vertical, 0));
