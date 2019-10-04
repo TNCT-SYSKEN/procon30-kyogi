@@ -1,5 +1,5 @@
-﻿
-# include <Siv3D.hpp>
+﻿# include <Siv3D.hpp>
+# include"../procon30_kyogi/gui/InputOutputManager.h"
 
 #include"SystemManager.h"
 #include"gui/InputOutputManager.h"

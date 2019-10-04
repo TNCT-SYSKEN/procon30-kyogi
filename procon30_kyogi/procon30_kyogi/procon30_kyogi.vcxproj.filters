@@ -132,6 +132,12 @@
     <ClCompile Include="algorithm\Judge.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="gui\ManualInput.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="gui\DrawMap.cpp">
+    <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="algorithm\JudgeEvalution.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -340,6 +346,7 @@
       <Filter>リソース ファイル\Engine</Filter>
     </None>
     <None Include="cpp.hint" />
+    <None Include="procon30_kyogi_log.html" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Engine\dll(x64)\libmpg123\COPYING.txt">
@@ -417,6 +424,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="algorithm\Judge.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\ManualInput.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\DrawMap.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="algorithm\JudgeEvalution.h">

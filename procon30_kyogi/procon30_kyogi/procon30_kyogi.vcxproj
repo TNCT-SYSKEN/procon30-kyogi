@@ -22,7 +22,7 @@
     <ProjectGuid>{9F5A5474-73E0-4FF4-B48D-EB59009B9D4A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>procon30_kyogi</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -172,6 +172,7 @@
     <ClCompile Include="Data\Field.cpp" />
     <ClCompile Include="Data\Map.cpp" />
     <ClCompile Include="algorithm\Action_manager.cpp" />
+    <ClCompile Include="gui\DrawMap.cpp" />
     <ClCompile Include="gui\ChangeAlgorithm.cpp" />
     <ClCompile Include="gui\ChangeStatus.cpp" />
     <ClCompile Include="gui\CreateMap.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="json\data\JsonOption.cpp" />
     <ClCompile Include="json\FetchJson.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="gui\ManualInput.cpp" />
     <ClCompile Include="SystemManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +256,7 @@
     <None Include="Engine\Shaders\D3D11\Sprite.vs" />
     <None Include="Engine\Shaders\D3D11\Sprite_Font.ps" />
     <None Include="Engine\Shaders\D3D11\Sprite_Stencil.ps" />
+    <None Include="procon30_kyogi_log.html" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Engine\dll(x64)\libmpg123\COPYING.txt" />
@@ -274,6 +277,7 @@
     <ClInclude Include="Data\Map.h" />
     <ClInclude Include="algorithm\Action_manager.h" />
     <ClInclude Include="algorithm\Field_test.h" />
+    <ClInclude Include="gui\DrawMap.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="general.h" />
     <ClInclude Include="gui\ChangeAlgorithm.h" />
@@ -283,6 +287,7 @@
     <ClInclude Include="gui\InputOutputManager.h" />
     <ClInclude Include="gui\OutputData.h" />
     <ClInclude Include="gui\TurnManager.h" />
+    <ClInclude Include="gui\ManualInput.h" />
     <ClInclude Include="json\data\JsonOption.h" />
     <ClInclude Include="json\FetchJson.h" />
     <ClInclude Include="json\picojson.h" />

@@ -49,6 +49,9 @@ void Judge::fullSearch() {
 
 		enemyRoute.push_back(make_pair(agentsnum, agentsPosition));
 		//敵最適ルート初期化
+
+		//	ここで先読みターン数に応じたサイズを初期化する
+		agentsEvalution->enemyMaxRoute.resize(0);
 	
 		
 		//行動予測
@@ -150,6 +153,7 @@ void Judge::calculateEnemyRoute(vector<pair<int, pair<int, int>>>route, pair<int
 		}
 
 		if (turn == 4) {
+
 
 		}
 		else {

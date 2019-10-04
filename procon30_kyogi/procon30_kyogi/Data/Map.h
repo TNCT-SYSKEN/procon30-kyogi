@@ -4,14 +4,11 @@
 class Map {
 public:
 	static Map* getMap();
-	//縦
-	int vertical;
 	//横
 	int width;
 
-
-
-	Map(): score(2,vector<int>(3,0)){};
+	//縦
+	int vertical;
 
 	
 	//自分のチームのスコア{総合点,タイル,領域},

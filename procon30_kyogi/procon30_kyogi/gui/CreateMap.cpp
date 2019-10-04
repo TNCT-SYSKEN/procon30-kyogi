@@ -2,39 +2,109 @@
 
 #include"../Data/Agents.h"
 
+//MapFrame
 void CreateMap::createMapFrame(const int vertical,const int side) {
-	int k, c;
+	int k,c;
 	for (int i = 0; i < side + 1; i++) {
-		k = 600 + 50 * i;
-		c = 50 * vertical;
+		k = 300 + 40 * i;
+		c = 40 * vertical;
 		//1
 		Line(k, 30, k, c + 30).draw(5);
 		//2
-		Line(k + 550, 30, k + 550, c + 30).draw(5);
+		Line(k + 800, 30, k + 800, c + 30).draw(5);
 		//3
-		Line(k - 550, 560, k - 550, c + 560).draw(5);
+		//Line(k - 550, 560, k - 550, c + 560).draw(5);
 		//4
-		Line(k, 560, k, c + 560).draw(5);
+		//Line(k, 560, k, c + 560).draw(5);
 		//5
-		Line(k + 550, 560, k + 550, c + 560).draw(5);
+		//Line(k + 550, 560, k + 550, c + 560).draw(5);
 	}
+
 	for (int i = 0; i < vertical + 1; i++) {
-		k = 50 * (i + 1) - 20;
-		c = 50 * side;
+		k = 40 * (i + 1);
+		c = 40 * side;
 		//1
-		Line(600, k, c + 600, k).draw(5);
+		Line(300, k-10, c + 300, k-10).draw(5);
 		//2
-		Line(1150, k, c + 1150, k).draw(5);
+		Line(1100, k-10, c + 1100, k-10).draw(5);
 		//3
-		Line(50, k + 530, c + 50, k + 530).draw(5);
+		//Line(50, k + 530, c + 50, k + 530).draw(5);
 		//4
-		Line(600, k + 530, c + 600, k + 530).draw(5);
+		//Line(600, k + 530, c + 600, k + 530).draw(5);
 		//5
-		Line(1150, k + 530, c + 1150, k + 530).draw(5);
+		//Line(1150, k + 530, c + 1150, k + 530).draw(5);
 	}
 }
 
-void CreateMap::createMapClass() {
+//ColorMap1
+void CreateMap::createMapState1(const int state,const int x,const int y){
+	Rect rect(300+40*(x-1),30+40*(y-1),40,40);
+	switch (state) {
+	case 1:
+		rect.draw(Palette::Blue);
+		break;
+	case 2:
+		rect.draw(Palette::Red);
+		break;
+	case 3:
+		rect.draw(Palette::Black);
+		break;
+	}
+}
+
+//ColorMap1
+void CreateMap::createMapState2(const int state, const int x, const int y) {
+	Rect rect(1100 + 40 * (x - 1), 30 + 40 * (y - 1), 40, 40);
+	switch (state) {
+	case 1:
+		rect.draw(Palette::Blue);
+		break;
+	case 2:
+		rect.draw(Palette::Red);
+		break;
+	case 3:
+		rect.draw(Palette::Black);
+		break;
+	}
+}
+
+//AgentsMap1
+void CreateMap::createMapAgent1(const int who, const int x, const int y) {
+	Circle circle(300 + 40 * (x - 1) + 20, 30 + 40 * (y - 1) + 20,15);
+	switch (who) {
+	case 1:
+		circle.draw(Palette::Lightskyblue);
+		break;
+	case 2:
+		circle.draw(Palette::Pink);
+		break;
+	}
+}
+
+//AgentsMap2
+void CreateMap::createMapAgent2(const int who, const int x, const int y) {
+	Circle circle(1100 + 40 * (x - 1) + 20, 30 + 40 * (y - 1) + 20, 15);
+	switch (who) {
+	case 1:
+		circle.draw(Palette::Lightskyblue);
+		break;
+	case 2:
+		circle.draw(Palette::Pink);
+		break;
+	}
+}
+
+//PointMap1
+void CreateMap::createMapPoint1(const int point, const int x, const int y) {
+	
+}
+
+//PointMap2
+void CreateMap::createMapPoint2(const int point, const int x, const int y) {
+
+}
+
+bool CreateMap::createMapClass() {
 
 	//if(json flg==false){	return false;}
 
@@ -50,17 +120,74 @@ void CreateMap::createMapClass() {
 
 	map->isGameStarted = false;
 
+
 	Agents* agents;
 	agents = agents->getAgents();
+	AgentsAction* agentsAcn;
+	agentsAcn = agentsAcn->getAgentsAction();
 
-	agents->ourAgents.resize(3, vector<int>(2, 0));
-	agents->ourAgents[0][0] = 1;
+	agentsAcn->actionDxDy.resize(8, vector<pair<int, pair<int,int>>>(map->readTurn+1));
 
-	//デバッグ用関数
-	//debugSetUp();
+
+	//debug用
+	debugSetUp();
+	createTurnField();
+	return true;
+}
+
+
+void CreateMap::createTurnField() {
+
+	Map* map;
+	map = map->getMap();
+	Field* field;
+	field = field->getField();
+	Agents* agents;
+	agents = agents->getAgents();
+	AgentsAction* agentsAcn;
+	agentsAcn = agentsAcn->getAgentsAction();
+
+	int agentS = agents->ourAgents.size();
+	field->turnAgent.resize(map->readTurn+1, vector<pair<int, int>>(agentS));
+	//agentsAcn->actionDxDy.resize(agentS, vector<pair<int, pair<int, int>>>(map->readTurn+1 , pair<int, pair<int, int>>(0, pair<int, int>(0, 0))));
+
+	int nowX[8];
+	int nowY[8];
+	
+	rep(i, agentS) {
+		nowX[i] = agents->ourAgents[i][1]-1;
+		nowY[i] = agents->ourAgents[i][2]-1;
+		field->turnAgent[0][i] = make_pair(nowX[i], nowY[i]);
+	}
+
+	field->turnTiled[0] = field->tiled;
+	
+
+	rep(turn, map->readTurn) {
+		rep(agentnum, agentS) {
+			nowX[agentnum] += agentsAcn->actionDxDy[agentnum][turn+1].second.first;
+			nowY[agentnum] += agentsAcn->actionDxDy[agentnum][turn+1].second.second;
+			
+			if (field->turnTiled[turn+1][nowX[agentnum]][nowY[agentnum]] == map->otherTeamID) {
+				field->turnTiled[turn][nowX[agentnum]][nowY[agentnum]] = 0;
+				nowX[agentnum] -= agentsAcn->actionDxDy[agentnum][turn + 1].second.first;
+				nowY[agentnum] -= agentsAcn->actionDxDy[agentnum][turn + 1].second.second;
+			}
+			else {
+				field->turnTiled[turn + 1][nowX[agentnum]][nowY[agentnum]] = map->ourTeamID;
+			}
+			
+			field->turnAgent[turn + 1][agentnum] = make_pair(nowX[agentnum], nowY[agentnum]);
+			
+		}
+	}
+	
 
 }
 
+
+
+//ここから下からデバッグ用関数たち
 void CreateMap::debugSetUp() {
 	
 	Map* map;
@@ -89,12 +216,65 @@ void CreateMap::debugSetUp() {
 		int i = agentnum - 10 + agents->ourAgents.size();
 		agents->otherAgents[i][0] = agentnum;
 	}
-
+	
 	//手動でagentの初期位置入力
 	agents->ourAgents[0][1] = 1;
+	agents->ourAgents[0][2] = 2;
+	agents->ourAgents[1][1] = 9;
+	agents->ourAgents[1][2] = 1;
+	agents->ourAgents[2][1] = 10;
+	agents->ourAgents[2][2] = 9;
+	agents->ourAgents[3][1] = 2;
+	agents->ourAgents[3][2] = 10;
+	
+	agents->otherAgents[0][1] = 2;
+	agents->otherAgents[0][2] = 1;
 
+	agents->otherAgents[1][1] = 10;
+	agents->otherAgents[1][2] = 2;
 
+	agents->otherAgents[2][1] = 9;
+	agents->otherAgents[2][2] = 10;
+	
+	agents->otherAgents[3][1] = 1;
+	agents->otherAgents[3][1] = 9;
+	
+	
+	//Field.h
+	field->points.resize(map->width, vector<int>(map->vertical, 0));
+	field->points = {
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0},
+		{0,1,2,3,4,4,3,2,1,0}
+	};
+	
+	field->tiled.resize(map->width, vector<int>(map->vertical, 0));
+	field->tiled = {
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0}
+	};
 
+	
+	field->turnTiled.resize(map->readTurn+1 ,vector<vector<int>>(map->width, vector<int>(map->vertical, 0)));
+	
+	rep(i, map->readTurn+1) {
+		field->turnTiled[i] = field->tiled;
+	}
 	//for()
 
 	

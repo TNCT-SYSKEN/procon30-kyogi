@@ -12,9 +12,3 @@ void InputOutputManager::init()
 	
 
 }
-
-
-void InputOutputManager::inputOutputManager()
-{
-
-}

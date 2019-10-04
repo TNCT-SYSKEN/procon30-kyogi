@@ -32,13 +32,17 @@ DrawData::DrawData()
 	gui.add(L"gameStart", GUIButton::Create(L"gameStart"));
 
 	//行動確定
-	gui.add(L"bt1", GUIButton::Create(L"決定"));
+	gui.addln(L"bt1", GUIButton::Create(L"決定"));
 
 	//リセット
 	gui.addln(L"bt2", GUIButton::Create(L"リセット"));
 
+
+	//JsonFile読み込み
+	gui.addln(L"bt5", GUIButton::Create(L"JsonFile読み込み"));
+
 	//先読みターン数変更
-	gui.add(L"text0", GUIText::Create(L"先読みターン数"));
+	gui.addln(L"text0", GUIText::Create(L"先読みターン数"));
 	gui.add(L"ptnc", GUITextArea::Create(1,2));
 	gui.add(L"bt3", GUIButton::Create(L"OK"));
 
@@ -64,28 +68,28 @@ DrawData::DrawData()
 	//青Ourタイルポイント
 	gui.add(L"text1", GUIText::Create(L"自タイル　:"));
 	gui.text(L"text1").style.color = Palette::Blue;
-	gui.add(L"OurTileScore", GUITextArea::Create(1, 5));
+	gui.addln(L"OurTileScore", GUITextArea::Create(1, 5));
+
+	//青our領域ポイント
+	gui.add(L"text3", GUIText::Create(L"自領域　　:"));
+	gui.text(L"text3").style.color = Palette::Blue;
+	gui.addln(L"OurAreaScore", GUITextArea::Create(1, 5));
+
+	//青Our合計ポイント
+	gui.add(L"text5", GUIText::Create(L"自合計　　:"));
+	gui.text(L"text5").style.color = Palette::Blue;
+	gui.addln(L"OurSumScore", GUITextArea::Create(1, 5));
 
 	//赤otherタイルポイント
 	gui.add(L"text2", GUIText::Create(L"敵タイル　:"));
 	gui.text(L"text2").style.color = Palette::Red;
 	gui.addln(L"OtherTileScore", GUITextArea::Create(1, 5));
 
-	//青our領域ポイント
-	gui.add(L"text3", GUIText::Create(L"自領域　　:"));
-	gui.text(L"text3").style.color = Palette::Blue;
-	gui.add(L"OurAreaScore", GUITextArea::Create(1, 5));
-
 	//赤other領域ポイント
 	gui.add(L"text4", GUIText::Create(L"敵領域　　:"));
 	gui.text(L"text4").style.color = Palette::Red;
 	gui.addln(L"OtherAreaScore", GUITextArea::Create(1, 5));
-
-	//青Our合計ポイント
-	gui.add(L"text5", GUIText::Create(L"自合計　　:"));
-	gui.text(L"text5").style.color = Palette::Blue;
-	gui.add(L"OurSumScore", GUITextArea::Create(1, 5));
-
+	
 	//赤other合計ポイント
 	gui.add(L"text6", GUIText::Create(L"敵合計　　:"));
 	gui.text(L"text6").style.color = Palette::Red;
@@ -103,7 +107,7 @@ DrawData::DrawData()
 
 	//ターン数
 	gui.add(L"text7", GUIText::Create(L"ターン数 ："));
-	gui.add(L"turn", GUITextArea::Create(1, 5));
+	gui.addln(L"turn", GUITextArea::Create(1, 5));
 
 	//タイマー
 	gui.add(L"text8", GUIText::Create(L"タイマー　:"));
@@ -113,14 +117,17 @@ DrawData::DrawData()
 	//青
 	gui.add(L"text9", GUIText::Create(L"自チームID        :"));
 	gui.text(L"text9").style.color = Palette::Blue;
-	gui.add(L"blueID", GUITextArea::Create(1,3,none,false));
+	gui.addln(L"blueID", GUITextArea::Create(1,3,none,false));
 
 	//赤
 	gui.add(L"text10", GUIText::Create(L"敵チームID          :"));
 	gui.text(L"text10").style.color = Palette::Red;
 	gui.addln(L"redID", GUITextArea::Create(1,3,none,false));
 	//ID入力ボタン
-	gui.add(L"bt4", GUIButton::Create(L"ID入力"));
+	gui.addln(L"bt4", GUIButton::Create(L"ID入力"));
+	//ターン切り替え
+	gui.add(L"bt6", GUIButton::Create(L"前ターン"));
+	gui.addln(L"bt7", GUIButton::Create(L"次ターン"));
 	gui.style.showTitle = true;
 
 
@@ -193,6 +200,11 @@ void DrawData::drawSumScore() {
 void DrawData::clickedButton() {
 	Map *map;
 	map = map->getMap();
+	AgentsAction* agentsAction;
+	agentsAction = agentsAction->getAgentsAction();
+	Agents* agents;
+	agents = agents->getAgents();
+
 
 	const Size targetSize(1920, 1080);
 	//行動確定ボタン
@@ -216,8 +228,8 @@ void DrawData::clickedButton() {
 		//String->string->int
 		//先読みターン数更新
 		map->readTurn = Parse<int>(gui.textArea(L"ptnc").text);
-		
-		//gui.textArea(L"turn").setText(Widen(to_string(map->readTurn)));
+		//agentsAction dxdy の調整
+		agentsAction->actionDxDy.resize(agents->ourAgents.size(), vector<pair<int, pair<int, int>>>(map->readTurn));
 	}
 	//ID入力ボタン
 	if (gui.button(L"bt4").pushed) {
@@ -273,10 +285,10 @@ void DrawData::drawData()
 	
 	const Font font(30);
 	
-	//mapマスの数_JsonFileから取得
-	int vertical = 10, side = 10;
+	Map* map1;
+	map1 = map1->getMap();
 
-	map.createMapFrame(vertical, side);
+	map.createMapFrame(map1->vertical,map1->width);
 
 
 	Circle(Mouse::Pos(), 100).draw();
@@ -309,6 +321,8 @@ void DrawData::inputID() {
 			//ID更新
 			gui.textArea(L"blueID").setText(Widen(to_string(map->ourTeamID)));
 			gui.textArea(L"redID").setText(Widen(to_string(map->otherTeamID)));
+			
+			
 			break;
 		}
 		if (guiID.button(L"IDcancel").pushed) {
