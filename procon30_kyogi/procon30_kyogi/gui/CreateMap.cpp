@@ -26,7 +26,7 @@ void CreateMap::createMapFrame(const int vertical,const int side) {
 
 //ColorMap1
 void CreateMap::createMapState1(const int state,const int x,const int y){
-	Rect rect(300+40*(y-1),30+40*(x-1),40,40);
+	Rect rect(300+40*(x-1),30+40*(y-1),40,40);
 	Map* map;
 	map = map->getMap();
 	if (state == map->ourTeamID) {
@@ -40,9 +40,9 @@ void CreateMap::createMapState1(const int state,const int x,const int y){
 	}
 }
 
-//ColorMap1
+//ColorMap2
 void CreateMap::createMapState2(const int state, const int x, const int y) {
-	Rect rect(1100 + 40 * (y - 1), 30 + 40 * (x - 1), 40, 40);
+	Rect rect(1100 + 40 * (x - 1), 30 + 40 * (y - 1), 40, 40);
 	Map* map;
 	map = map->getMap();
 	if (state == map->ourTeamID) {
@@ -83,18 +83,18 @@ void CreateMap::createMapAgent2(const int who, const int x, const int y) {
 //PointMap1
 void CreateMap::createMapPoint1(const int point, const int x, const int y) {
 	if (point >= 0) {
-		font(point).draw(300 + 40 * (y - 1) + 12, 30 + 40 * (x - 1) - 2, Palette::White);
+		font(point).draw(300 + 40 * (x - 1) + 12, 30 + 40 * (y - 1) - 2, Palette::White);
 	}else{
-		font(point).draw(300 + 40 * (y - 1) + 4, 30 + 40 * (x - 1) - 2, Palette::White);
+		font(point).draw(300 + 40 * (x - 1) + 4, 30 + 40 * (y - 1) - 2, Palette::White);
 	}
 }
 
 //PointMap2
 void CreateMap::createMapPoint2(const int point, const int x, const int y) {
 	if (point >= 0) {
-		font(point).draw(1100 + 40 * (y - 1) + 12, 30 + 40 * (x - 1) - 2, Palette::White);
+		font(point).draw(1100 + 40 * (x - 1) + 12, 30 + 40 * (y - 1) - 2, Palette::White);
 	}else{
-		font(point).draw(1100 + 40 * (y - 1) + 4, 30 + 40 * (x - 1) - 2, Palette::White);
+		font(point).draw(1100 + 40 * (x - 1) + 4, 30 + 40 * (y - 1) - 2, Palette::White);
 	}
 }
 
@@ -264,16 +264,16 @@ void CreateMap::debugSetUp() {
 	
 	field->tiled.resize(map->width, vector<int>(map->vertical, 0));
 	field->tiled = {
-		{0,0,0,2,0,0,0,0,0,2},
-		{2,0,0,0,0,0,0,0,0,0},
+		{0,2,0,0,0,0,0,0,1,0},
+		{1,0,0,0,0,0,0,0,0,2},
 		{0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,1,0,0,0},
-		{0,0,0,2,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0},
-		{0,1,0,0,0,0,0,2,0,0},
-		{0,0,0,1,0,0,0,0,0,1}
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{2,0,0,0,0,0,0,0,0,1},
+		{0,1,0,0,0,0,0,0,2,0}
 	};
 
 	
