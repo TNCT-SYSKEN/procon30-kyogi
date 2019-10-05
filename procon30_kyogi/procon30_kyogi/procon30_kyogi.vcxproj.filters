@@ -150,6 +150,12 @@
     <ClCompile Include="json\ParseJson.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="json\Source.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="json\CreateJson.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
@@ -367,6 +373,7 @@
     <Text Include="Engine\LogMessages.txt">
       <Filter>リソース ファイル\Engine</Filter>
     </Text>
+    <Text Include="json\WriteJson.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data\Agents.h">
@@ -448,6 +455,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="json\ParseJson.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="json\CreateJson.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="json\resource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

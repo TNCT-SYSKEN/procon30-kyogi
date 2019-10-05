@@ -12,8 +12,6 @@ public:
 	vector<vector<int>> ourAgents;
 	//ourAgents() {};
 
-	//error
-	//Agents() : otherAgents() {};
 	//‘Šèƒ`[ƒ€
 	vector<vector<int>> otherAgents;
 	//otherAgents();

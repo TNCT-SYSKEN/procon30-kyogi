@@ -1,6 +1,5 @@
 #pragma once
 #include <fstream>
-#include <string>
 #include "../SystemManager.h"
 #include "../Data/Map.h"
 #include "picojson.h"
@@ -12,4 +11,5 @@ public:
 	picojson::value readJson(string);
 	string getStrPropValue(picojson::value, string);
 	int getIntPropValue(picojson::value, string);
+	float getFloatPropValue(picojson::value, string);
 };

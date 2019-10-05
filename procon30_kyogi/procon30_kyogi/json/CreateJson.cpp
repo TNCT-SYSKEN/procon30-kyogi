@@ -1,9 +1,10 @@
 #include"CreateJson.h"
 using namespace std;
-
+/*
 string escapeStr(string str) {
-	return "\"" + str + "\"";
+	return + str + ";"
 }
+*/
 
 string CreateJson::createJson()
 {
@@ -48,15 +49,14 @@ string CreateJson::createJson()
 	string content_type = escapeStr("Content-Type: application/json") + " ";
 	string port = "55021";
 	string matchID = "1";
-	string host = "http://localhost:" + port + "/matches/" + matchID + "/action ";
+	string host = "htp://localhost:" + port + "/matches/" + matchID + "/action ";
 
 */
 
 	// あとで直す
-	/*string command = "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + json;
-	cout<<command;
-	system(command.c_str());
-*/
+   //string command = "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + json;
+	//cout<<command;
+	//system(command.c_str());
 
 	return json;
 	
