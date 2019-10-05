@@ -9,11 +9,19 @@ DrawData::DrawData()
 
 
 	//json読み込みのためのtokenなどの指定
-	gui.addln(L"json_option", GUIText::Create(L"json_option"));
+	gui.addln(L"json_option", GUIText::Create(L"JSON_option"));
 	gui.add(L"token_name", GUIText::Create(L"トークン"));
-	gui.addln(L"token", GUITextArea::Create(1, 10));
+	gui.add(L"token", GUITextArea::Create(1, 10));
 	gui.add(L"port_name", GUIText::Create(L"Port"));
 	gui.addln(L"port", GUITextArea::Create(1, 4));
+	
+	//トグルスイッチ　デバッグ用
+	gui.addln(L"jsonMode", GUIToggleSwitch::Create(L"フィールド情報取得Mode", L"相手の行動jsonMode",false));
+	//json 入力
+	gui.addln(L"jsonTextArea", GUITextArea::Create(3, 10));
+	//json生成(action)
+	gui.add(L"JsonAction", GUIButton::Create(L"行動情報出力"));
+
 	//JsonFile読み込み
 	gui.addln(L"bt5", GUIButton::Create(L"JsonFile読み込み"));
 
@@ -38,17 +46,14 @@ DrawData::DrawData()
 	gui.addln(L"bt2", GUIButton::Create(L"リセット"));
 
 
-	//JsonFile読み込み
-	gui.addln(L"bt5", GUIButton::Create(L"JsonFile読み込み"));
-
 	//先読みターン数変更
 	gui.addln(L"text0", GUIText::Create(L"先読みターン数"));
 	gui.add(L"ptnc", GUITextArea::Create(1,2));
-	gui.add(L"bt3", GUIButton::Create(L"OK"));
+	gui.add(L"bt3", GUIButton::Create(L"決定"));
 
 	//最大ターン数
 	//全探索で使う
-	gui.add(L"textMT", GUIText::Create(L"最大ターン数"));
+	gui.add(L"textMT", GUIText::Create(L"終了ターン数"));
 	gui.add(L"readMT", GUITextArea::Create(1, 2));
 	gui.addln(L"btnMT", GUIButton::Create(L"決定"));
 
@@ -68,28 +73,28 @@ DrawData::DrawData()
 	//青Ourタイルポイント
 	gui.add(L"text1", GUIText::Create(L"自タイル　:"));
 	gui.text(L"text1").style.color = Palette::Blue;
-	gui.addln(L"OurTileScore", GUITextArea::Create(1, 5));
-
-	//青our領域ポイント
-	gui.add(L"text3", GUIText::Create(L"自領域　　:"));
-	gui.text(L"text3").style.color = Palette::Blue;
-	gui.addln(L"OurAreaScore", GUITextArea::Create(1, 5));
-
-	//青Our合計ポイント
-	gui.add(L"text5", GUIText::Create(L"自合計　　:"));
-	gui.text(L"text5").style.color = Palette::Blue;
-	gui.addln(L"OurSumScore", GUITextArea::Create(1, 5));
+	gui.add(L"OurTileScore", GUITextArea::Create(1, 5));
 
 	//赤otherタイルポイント
 	gui.add(L"text2", GUIText::Create(L"敵タイル　:"));
 	gui.text(L"text2").style.color = Palette::Red;
 	gui.addln(L"OtherTileScore", GUITextArea::Create(1, 5));
 
+	//青our領域ポイント
+	gui.add(L"text3", GUIText::Create(L"自領域　　:"));
+	gui.text(L"text3").style.color = Palette::Blue;
+	gui.add(L"OurAreaScore", GUITextArea::Create(1, 5));
+
 	//赤other領域ポイント
 	gui.add(L"text4", GUIText::Create(L"敵領域　　:"));
 	gui.text(L"text4").style.color = Palette::Red;
 	gui.addln(L"OtherAreaScore", GUITextArea::Create(1, 5));
-	
+
+	//青Our合計ポイント
+	gui.add(L"text5", GUIText::Create(L"自合計　　:"));
+	gui.text(L"text5").style.color = Palette::Blue;
+	gui.add(L"OurSumScore", GUITextArea::Create(1, 5));
+
 	//赤other合計ポイント
 	gui.add(L"text6", GUIText::Create(L"敵合計　　:"));
 	gui.text(L"text6").style.color = Palette::Red;
@@ -235,12 +240,19 @@ void DrawData::clickedButton() {
 	if (gui.button(L"bt4").pushed) {
 		inputID();
 	}
+	if (gui.button(L"JsonAction").pushed) {
+		CreateJson cre;
+		cre.createJson();
+	}
 	//JsonFileの読み込み
 	if (gui.button(L"bt5").pushed) {
-		//gui.textArea(L"port").setText(gui.textArea(L"token").text);
+		//gui.textArea(L"port").setText(gui.textArea(L"token").text)
+		if (gui.toggleSwitch(L"jsonMode").isRight) {
 
+		}
+		if (gui.toggleSwitch(L"jsonMode").isLeft) {
 
-
+		}
 	}
 	//MaxTurn入力ボタン
 	if (gui.button(L"btMT").pushed) {

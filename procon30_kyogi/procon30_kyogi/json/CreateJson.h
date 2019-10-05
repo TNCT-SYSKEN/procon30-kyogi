@@ -6,5 +6,5 @@
 
 class CreateJson {
 public:
-	string createJson();
+	void createJson();
 };

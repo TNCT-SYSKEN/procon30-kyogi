@@ -6,18 +6,16 @@ string escapeStr(string str) {
 }
 */
 
-string CreateJson::createJson()
+void CreateJson::createJson()
 {
-	using v = picojson::value;
+	/*using v = picojson::value;
 	using o = picojson::object;
 	using a = picojson::array;
-
-
-
+	
 	o l{ {
 		"actions", v(a{
 			v(o{
-				{ "agentID", v(2.0) },
+				{ "agentID", v(1.0) },
 				{ "type", v("move") },
 				{ "dx", v(1.0) },
 				{ "dy", v(1.0) },
@@ -29,21 +27,44 @@ string CreateJson::createJson()
 				{ "dy", v(-1.0) },
 			})
 		})
-	} };
+	} };*/
+	Agents* agents;
+	agents = agents->getAgents();
+	///////////////////
 
-	// std::cout << v(l) << std::endl;
+
+	picojson::object lisence;
+	picojson::array datalist;
+
+	{
+		picojson::object Action;
+		Action.insert(make_pair(("dy"), picojson::value(static_cast<double>(agents->ourAgents[0][2]))));
+		Action.insert(make_pair(("dx"), picojson::value(static_cast<double>(agents->ourAgents[0][1]))));
+		Action.insert(make_pair(("type"), picojson::value("move")));
+		Action.insert(make_pair(("agentID"), picojson::value(static_cast<double>(agents->ourAgents[0][0]))));
+		
+		datalist.push_back(picojson::value(Action));
+	}
+	lisence.insert(make_pair("actions", picojson::value(datalist)));
+
+
+
 
 	// ファイルにJSONファイル書き込み
-	string filename = "WriteJson.txt";
+
+	string filename = "json/WriteJson.txt";
 	ofstream ofs(filename);
-	ofs << v(l)<< endl;
+	ofs << picojson::value(lisence) << endl;
+	//ofs << v(l)<< map->readTurn<< endl;	
+	ofs.close();
 	// JSON読み取り
 	ifstream ifs;
 	ifs.open(filename);
 	string json;
 	ifs >> json;
 	ifs.close();
-
+	
+	
 	/*string token = "procon30_example_token";
 	string auth = escapeStr("Authorization: " + token) + " ";
 	string content_type = escapeStr("Content-Type: application/json") + " ";
@@ -57,7 +78,7 @@ string CreateJson::createJson()
    //string command = "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + json;
 	//cout<<command;
 	//system(command.c_str());
-
-	return json;
+	//string json = "1";
+	
 	
 }
