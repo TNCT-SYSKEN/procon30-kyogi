@@ -29,6 +29,9 @@ public:
 	//‘Šèƒ`[ƒ€ID
 	int otherTeamID;
 
+	//MapChange
+	int mapChange=0;
+
 
 
 	//ŒvZ‚µ‚½‚©‚Ç‚¤‚©

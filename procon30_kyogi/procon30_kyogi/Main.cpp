@@ -35,6 +35,6 @@ void Main()
 		sys.systemManager();
 
 		//drawMap
-		drawMap.drawMapManager(0);
+		drawMap.drawMapManager(map->mapChange);
 	}
 }

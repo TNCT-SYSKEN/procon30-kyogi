@@ -76,8 +76,7 @@ void DrawMap::drawMapLine2(const int turn) {
 		//for (int i = 0; i < agents->ourAgents.size(); i++) {
 			//create.createMapLine1(field->turnAgent[turn][i].first, field->turnAgent[turn][i].second, field->turnAgent[turn + 1][i].first, field->turnAgent[turn + 1][i].second);
 		//}
-	}
-	else {
+	}else{
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
 			create.createMapLine1(field->turnAgent[turn][i].first+1, field->turnAgent[turn][i].second+1, field->turnAgent[turn + 1][i].first+1, field->turnAgent[turn + 1][i].second+1);
 		}

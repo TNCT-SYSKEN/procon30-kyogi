@@ -254,6 +254,18 @@ void DrawData::clickedButton() {
 		map->isSearchAll = false;
 	}
 
+	//MapØ‚è‘Ö‚¦
+	if (gui.button(L"bt6").pushed) {
+		if (map->mapChange != 0) {
+			map->mapChange--;
+		}
+	}
+	if (gui.button(L"bt7").pushed) {
+		if (map->mapChange != map->readTurn) {
+			map->mapChange++;
+		}
+	}
+
 
 	if (Input::KeyW.clicked)
 	{
