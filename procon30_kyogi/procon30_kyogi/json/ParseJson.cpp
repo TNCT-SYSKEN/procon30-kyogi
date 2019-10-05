@@ -1,5 +1,14 @@
 #include "ParseJson.h"
 
+//debug mode
+void ParseJson::writeJsonToText(string JSON) {
+	// ファイルにJSONファイル書き込み
+	string filename = "data.txt";
+	ofstream ofs(filename);
+	ofs << JSON << endl;
+}
+
+
 // ローカルにある JSON ファイルの読み込み
 picojson::value ParseJson::readJson(string path) {
 	ifstream ifs;
@@ -28,8 +37,7 @@ float ParseJson::getFloatPropValue(picojson::value obj, string propName) {
 // JSON を解析
 void ParseJson::parse(string path) {
 	picojson::value json = readJson(path);
-	picojson::object& obj = json.get<picojson::object()>;
-	picojson::value& arr = obj["tiled"].get < picojson::array>.at(0).get<picojson::array>.at(0);
+	picojson::object& obj = json.get<picojson::object>();
 
 	Map *map;
 	map = map->getMap();
@@ -40,6 +48,8 @@ void ParseJson::parse(string path) {
 	
 
 
+	//map初期化
+	map->score.resize(2, vector<int>(3));
 	//map
 	map->width = getIntPropValue(json, "width");
 	map->vertical = getIntPropValue(json, "height");
@@ -47,28 +57,45 @@ void ParseJson::parse(string path) {
 	map->startedAtUnixTime = getFloatPropValue(json, "startedAtUnixTime");
 	map->turn = getIntPropValue(json, "turn");
 	
-	// points
-	rep(i, map->width) {
-		rep(j, map->vertical) {
-			arr = obj["tiled"].get <picojson::array>.at(j).get<picojson::array>.at(i);
-			field->tiled[i][j] = stoi(arr.to_str());
-		}
-	}
+	//field 初期化
+	field->points.resize(map->width, vector<int>(map->vertical));
+	field->tiled.resize(map->width, vector<int>(map->vertical));
 	// tiled
-	rep(i, map->width) {
-		rep(j, map->vertical) {
-			arr = obj["points"].get <picojson::array>.at(j).get<picojson::array>.at(i);
-			field->points[i][j] = stoi(arr.to_str());
+	picojson::array Tiled = obj["tiled"].get <picojson::array>();
+	int X = 0, Y = 0;
+	for(const auto& tiledY :Tiled) {
+		X = 0;
+		picojson::array gyou = tiledY.get<picojson::array>();
+		for(const auto& tiledX :gyou){
+			field->tiled[X][Y] = stoi(tiledX.to_str());
+			X++;
 		}
+		Y++;
 	}
 
+	// tiled
+	picojson::array Points = obj["points"].get<picojson::array>();
+	X = 0, Y = 0;
+	for (const auto& PointsY : Points) {
+		X = 0;
+		picojson::array gyou = PointsY.get<picojson::array>();
+		for (const auto& PointsX : gyou) {
+			field->points[X][Y] = stoi(PointsX.to_str());
+			X++;
+		}
+		Y++;
+	}
+
+	//agents初期化
+	agents->ourAgents.resize(8, vector<int>(3));
+	agents->otherAgents.resize(8, vector<int>(3));
 
 	// teams
 	//i=0がourTeam
 	int i = 0;
 	int agentSize = 0;
 
-	picojson::array teams = obj["teams"].get<picojson::array>();
+	picojson::array& teams = obj["teams"].get<picojson::array>();
 	for (const auto& li : teams) {
 
 		//agents
@@ -110,6 +137,8 @@ void ParseJson::parse(string path) {
 		}
 
 	}
+	agents->ourAgents.resize(agentSize, vector<int>(3));
+	agents->otherAgents.resize(agentSize, vector<int>(3));
 
 
 	// actions
