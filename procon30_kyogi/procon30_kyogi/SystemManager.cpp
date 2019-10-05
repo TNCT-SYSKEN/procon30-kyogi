@@ -15,7 +15,9 @@ void SystemManager::systemManager() {
 
 			acManager.Action();
 				
-				
+
+			//•]‰¿‚µ‚½‚Ì‚É‚à‚¤ˆê“x•]‰¿‚µ‚È‚¢‚æ‚¤‚É‚·‚é
+			map->turnFlg = false;
 		}
 		
 

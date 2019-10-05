@@ -313,6 +313,8 @@ void DrawData::inputID() {
 	GUI guiID(GUIStyle::Default);
 	Map* map;
 	map = map->getMap();
+	Agents* agents;
+	agents = agents->getAgents();
 
 	const Font font(30);
 	guiID.add(L"blue", GUIText::Create(L"自チームID"));
@@ -325,15 +327,52 @@ void DrawData::inputID() {
 	guiID.add(L"IDcancel", GUIButton::Create(L"キャンセル"));
 	guiID.setCenter(Window::Center());
 	while (System::Update()) {
+		//自分、相手ID定義
 		if (guiID.button(L"IDbutton").pushed) {
-			//入力読み取り＋クラスに書き込み
-			map->ourTeamID = Parse<int>(guiID.textArea(L"blueID").text);
-			map->otherTeamID = Parse<int>(guiID.textArea(L"redID").text);
+			//最初のフィールドマップが来てから実行しないと危険
 
-			//ID更新
+			//if ourTeamID != blueID || otherTeamID != redID
+			if (map->ourTeamID != Parse<int>(guiID.textArea(L"blueID").text)
+				|| map->otherTeamID != Parse<int>(guiID.textArea(L"redID").text)) {
+
+				//if blueID == otherTeamID && redID == ourTeamID
+				if (map->ourTeamID == Parse<int>(guiID.textArea(L"redID").text)
+					&& map->otherTeamID == Parse<int>(guiID.textArea(L"blueID").text)) {
+					
+					//teamID　変更（敵味方変更など）
+					map->ourTeamID = Parse<int>(guiID.textArea(L"redID").text);
+					map->otherTeamID = Parse<int>(guiID.textArea(L"blueID").text);
+
+					//swap ourAgents and otherAgents (in agents.h)
+					vector<vector<int>>ourAgentsStack = agents->ourAgents;
+					agents->ourAgents = agents->otherAgents;
+					agents->otherAgents = ourAgentsStack;
+
+				}
+				//if ourTeamID==redID || otherTeamID==blueID
+				else if(map->ourTeamID == Parse<int>(guiID.textArea(L"redID").text)
+					|| map->otherTeamID == Parse<int>(guiID.textArea(L"blueID").text)){
+					
+					//teamID　変更（敵味方変更など）
+					map->ourTeamID = Parse<int>(guiID.textArea(L"redID").text);
+					map->otherTeamID = Parse<int>(guiID.textArea(L"blueID").text);
+					
+					//swap ourAgents and otherAgents (in agents.h)
+					vector<vector<int>>ourAgentsStack = agents->ourAgents;
+					agents->ourAgents = agents->otherAgents;
+					agents->otherAgents = ourAgentsStack;
+				}
+				// if no match
+				else {
+					//teamID　変更（敵味方変更など）
+					map->ourTeamID = Parse<int>(guiID.textArea(L"blueID").text);
+					map->otherTeamID = Parse<int>(guiID.textArea(L"redID").text);
+				}
+
+			}
+			//表示ID更新
 			gui.textArea(L"blueID").setText(Widen(to_string(map->ourTeamID)));
 			gui.textArea(L"redID").setText(Widen(to_string(map->otherTeamID)));
-			
 			
 			break;
 		}

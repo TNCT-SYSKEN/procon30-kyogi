@@ -34,12 +34,15 @@ public:
 
 
 	//ŒvZ‚µ‚½‚©‚Ç‚¤‚©
-	bool turnFlg;
-	bool isGameStarted;
-	bool isSearchAll;
-	bool makeReadTurnMap;
+	bool turnFlg=false;
+	bool isGameStarted=false;
+	bool isSearchAll=false;
+	bool makeReadTurnMap=false;
 	//Å‰‚Ìjsonfile “Ç‚İæ‚è
 	bool firstJson=false;
+
+	//debug ‘Šè‚Ìjson‚ª—ˆ‚½‚©‚Ç‚¤‚©”»’è
+	bool enemyJson = false;
 
 private:
 	static Map* stayMap;

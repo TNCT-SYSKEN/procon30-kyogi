@@ -130,8 +130,8 @@ bool CreateMap::createMapClass() {
 
 
 	//debug—p
-	debugSetUp();
-	createTurnField();
+	//debugSetUp();
+	//createTurnField();
 	return true;
 }
 
