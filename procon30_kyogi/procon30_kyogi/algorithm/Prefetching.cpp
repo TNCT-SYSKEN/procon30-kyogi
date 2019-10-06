@@ -37,7 +37,7 @@ void Prefetching::hyoukaKeisan()
 	int Agent0 = agents->ourAgents[0][0];
 
 	 //エージェントの数だけループ
-	for (int agentsnum = Agent0; agentsnum < (Agent0 + 1/*ourAgentsS*/); agentsnum++) {
+	for (int agentsnum = Agent0; agentsnum < (Agent0 + ourAgentsS-1); agentsnum++) {
 		//positionに-1	
 		//そうしないとjsonとのhogehogeがやり取りしづらい
 		agentPosition =make_pair((agents->ourAgents[agentsnum - Agent0][1]-1), (agents->ourAgents[agentsnum - Agent0][2]-1));//

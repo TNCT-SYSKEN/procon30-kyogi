@@ -10,6 +10,8 @@ class SystemManager {
 public:
 
 	void systemManager();
+	int calculateAreaPoint(int);
+
 	void DebugSystem();
-	int calcAreaDebug(int);
+
 };
