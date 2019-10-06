@@ -367,6 +367,8 @@ void DrawData::manualDirection(const int number) {
 	agentsAction = agentsAction->getAgentsAction();
 	while (System::Update()) {
 		drawMap.drawMapManager(0);
+
+		//上段
 		if (guiManual.button(L"btm1").pushed) {
 			agentsAction->actionDxDy[number][0].second.first=-1;
 			agentsAction->actionDxDy[number][0].second.second=-1;
@@ -385,6 +387,7 @@ void DrawData::manualDirection(const int number) {
 			map->click = false;
 			break;
 		}
+		//中段
 		if (guiManual.button(L"btm4").pushed) {
 			agentsAction->actionDxDy[number][0].second.first=-1;
 			agentsAction->actionDxDy[number][0].second.second=0;
@@ -403,6 +406,7 @@ void DrawData::manualDirection(const int number) {
 			map->click = false;
 			break;
 		}
+		//下段
 		if (guiManual.button(L"btm7").pushed) {
 			agentsAction->actionDxDy[number][0].second.first=-1;
 			agentsAction->actionDxDy[number][0].second.second=1;
@@ -421,7 +425,9 @@ void DrawData::manualDirection(const int number) {
 			map->click = false;
 			break;
 		}
+		//キャンセル
 		if(guiManual.button(L"btm10").pushed) {
+			map->click = false;
 			break;
 		}
 	}

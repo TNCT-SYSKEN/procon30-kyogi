@@ -19,13 +19,16 @@ void DrawMap::drawMapState2(const int turn) {
 	if (turn == 0) {
 		for (int i = 0; i < map->vertical; i++) {
 			for (int j = 0; j < map->width; j++) {
-				create.createMapState2(field->tiled[j][i], j + 1, i + 1);
+				create.createMapState2(field->tiled[i][j], i + 1, j + 1);
 			}
 		}
 	}else{
 		for (int i = 0; i < map->vertical; i++) {
 			for (int j = 0; j < map->width; j++) {
-				create.createMapState2(field->turnTiled[turn][j][i], j + 1, i + 1);
+				create.createMapState2(field->tiled[i][j], i + 1, j + 1);
+				if (field->turnTiled[turn][j][i]==map->ourTeamID) {
+					create.createMapState2(field->turnTiled[turn][i][j], i + 1, j + 1);
+				}
 			}
 		}
 	}
@@ -45,6 +48,7 @@ void DrawMap::drawMap2AgentsTurn(const int turn) {
 		}
 	}else{
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
+			create.createMapAgent2(2, agents->otherAgents[i][1], agents->otherAgents[i][2]);
 			create.createMapAgent2(1, field->turnAgent[turn][i].first+1, field->turnAgent[turn][i].second+1);
 		}
 	}
@@ -59,7 +63,7 @@ void DrawMap::drawMapPoint2() {
 	CreateMap create;
 	for (int i = 0; i < map->vertical; i++) {
 		for (int j = 0; j < map->width; j++) {
-			create.createMapPoint2(field->points[j][i], j + 1, i + 1);
+			create.createMapPoint2(field->points[i][j], i + 1, j + 1);
 		}
 	}
 }

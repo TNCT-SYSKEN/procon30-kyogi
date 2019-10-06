@@ -58,7 +58,7 @@ void CreateMap::createMapState2(const int state, const int x, const int y) {
 
 //AgentsMap1
 void CreateMap::createMapAgent1(const int who, const int x, const int y) {
-	Circle circle(300 + 40 * (y - 1) + 20, 30 + 40 * (x - 1) + 20,15);
+	Circle circle(300 + 40 * (x - 1) + 20, 30 + 40 * (y - 1) + 20,15);
 	switch (who) {
 	case 1:
 		circle.draw(Palette::Lightskyblue);
@@ -71,7 +71,7 @@ void CreateMap::createMapAgent1(const int who, const int x, const int y) {
 
 //AgentsMap2
 void CreateMap::createMapAgent2(const int who, const int x, const int y) {
-	Circle circle(1100 + 40 * (y - 1) + 20, 30 + 40 * (x - 1) + 20, 15);
+	Circle circle(1100 + 40 * (x - 1) + 20, 30 + 40 * (y - 1) + 20, 15);
 	switch (who) {
 	case 1:
 		circle.draw(Palette::Lightskyblue);
@@ -266,16 +266,16 @@ void CreateMap::debugSetUp() {
 	
 	field->tiled.resize(map->width, vector<int>(map->vertical, 0));
 	field->tiled = {
-		{0,2,0,0,0,0,0,0,1,0},
-		{1,0,0,0,0,0,0,0,0,2},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
+		{0,1,0,0,0,0,0,0,2,0},
 		{2,0,0,0,0,0,0,0,0,1},
-		{0,1,0,0,0,0,0,0,2,0}
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0},
+		{1,0,0,0,0,0,0,0,0,2},
+		{0,2,0,0,0,0,0,0,1,0}
 	};
 
 	

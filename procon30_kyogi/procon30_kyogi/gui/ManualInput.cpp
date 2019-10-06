@@ -37,7 +37,7 @@ void ManualInput::onMapAgents(const int posx, const int posy) {
 	x = (posx - 1100)/40+1;
 	y = (posy - 30) / 40+1;
 	for (int i = 0; i < agents->ourAgents.size(); i++) {
-		if (y == agents->ourAgents[i][1] && x == agents->ourAgents[i][2]) {
+		if (x == agents->ourAgents[i][1] && y == agents->ourAgents[i][2]) {
 			if (Input::MouseL.clicked) {
 				map->x = x;
 				map->y = y;
