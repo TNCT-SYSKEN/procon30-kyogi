@@ -1,5 +1,6 @@
 #include "DrawData.h"
 #include "DrawMap.h"
+#include "../Data/AgentsAction.h"
 
 DrawData::DrawData() 
 	: gui(GUIStyle::Default) {
@@ -352,51 +353,75 @@ void DrawData::manualDirection(const int number) {
 	map = map->getMap();
 	guiManual.add(L"btm1", GUIButton::Create(L"左上"));
 	guiManual.add(L"btm2", GUIButton::Create(L"↑"));
-	guiManual.addln(L"btm3", GUIButton::Create(L"右上"));
+	guiManual.addln(L"btm3",GUIButton::Create(L"右上"));
 	guiManual.add(L"btm4", GUIButton::Create(L"←"));
 	guiManual.add(L"btm5", GUIButton::Create(L" 待機  "));
-	guiManual.addln(L"btm6", GUIButton::Create(L"→"));
+	guiManual.addln(L"btm6",GUIButton::Create(L"→"));
 	guiManual.add(L"btm7", GUIButton::Create(L"左下"));
 	guiManual.add(L"btm8", GUIButton::Create(L"↓"));
-	guiManual.add(L"btm9", GUIButton::Create(L"右下"));
+	guiManual.addln(L"btm9", GUIButton::Create(L"右下"));
+	guiManual.add(L"btm10",GUIButton::Create(L"キャンセル"));
 	guiManual.setPos(1500,800);
 	DrawMap drawMap;
+	AgentsAction* agentsAction;
+	agentsAction = agentsAction->getAgentsAction();
 	while (System::Update()) {
 		drawMap.drawMapManager(0);
 		if (guiManual.button(L"btm1").pushed) {
+			agentsAction->actionDxDy[number][0].second.first=-1;
+			agentsAction->actionDxDy[number][0].second.second=-1;
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm2").pushed) {
+			agentsAction->actionDxDy[number][0].second.first=0;
+			agentsAction->actionDxDy[number][0].second.second=-1;
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm3").pushed) {
+			agentsAction->actionDxDy[number][0].second.first=1;
+			agentsAction->actionDxDy[number][0].second.second=-1;
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm4").pushed) {
+			agentsAction->actionDxDy[number][0].second.first=-1;
+			agentsAction->actionDxDy[number][0].second.second=0;
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm5").pushed) {
+			agentsAction->actionDxDy[number][0].second.first=0;
+			agentsAction->actionDxDy[number][0].second.second=0;
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm6").pushed) {
+			agentsAction->actionDxDy[number][0].second.first=1;
+			agentsAction->actionDxDy[number][0].second.second=0;
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm7").pushed) {
+			agentsAction->actionDxDy[number][0].second.first=-1;
+			agentsAction->actionDxDy[number][0].second.second=1;
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm8").pushed) {
+			agentsAction->actionDxDy[number][0].second.first=0;
+			agentsAction->actionDxDy[number][0].second.second=1;
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm9").pushed) {
+			agentsAction->actionDxDy[number][0].second.first=1;
+			agentsAction->actionDxDy[number][0].second.second=1;
 			map->click = false;
+			break;
+		}
+		if(guiManual.button(L"btm10").pushed) {
 			break;
 		}
 	}

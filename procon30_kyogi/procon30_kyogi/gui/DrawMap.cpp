@@ -45,7 +45,7 @@ void DrawMap::drawMap2AgentsTurn(const int turn) {
 		}
 	}else{
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
-			create.createMapAgent2(1, field->turnAgent[turn][i].second+1, field->turnAgent[turn][i].first+1);
+			create.createMapAgent2(1, field->turnAgent[turn][i].first+1, field->turnAgent[turn][i].second+1);
 		}
 	}
 }
