@@ -31,6 +31,8 @@ public:
 
 	//MapChange
 	int mapChange=0;
+	bool click;
+	int x, y;
 
 
 

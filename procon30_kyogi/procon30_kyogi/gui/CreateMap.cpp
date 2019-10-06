@@ -49,6 +49,8 @@ void CreateMap::createMapState2(const int state, const int x, const int y) {
 		rect.draw(Palette::Blue);
 	}else if(state==map->otherTeamID){
 		rect.draw(Palette::Red);
+	}else if (state==9999) {
+		rect.draw(Palette::Yellow);
 	}else{
 		rect.draw(Palette::Black);
 	}

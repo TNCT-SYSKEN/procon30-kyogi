@@ -1,4 +1,5 @@
 #include "DrawData.h"
+#include "DrawMap.h"
 
 DrawData::DrawData() 
 	: gui(GUIStyle::Default) {
@@ -149,12 +150,15 @@ DrawData::DrawData()
 
 //一括実行
 void DrawData::drawDataManager() {
-
+	Map* map;
+	map = map->getMap();
+	DrawMap drawMap;
 	drawTiledScore();
 	drawAreaScore();
 	drawSumScore();
 	clickedButton();
 	drawData();
+	drawMap.drawMapManager(map->mapChange);
 
 }
 
@@ -337,6 +341,62 @@ void DrawData::inputID() {
 			break;
 		}
 		if (guiID.button(L"IDcancel").pushed) {
+			break;
+		}
+	}
+}
+
+void DrawData::manualDirection(const int number) {
+	GUI guiManual(GUIStyle::Default);
+	Map* map;
+	map = map->getMap();
+	guiManual.add(L"btm1", GUIButton::Create(L"左上"));
+	guiManual.add(L"btm2", GUIButton::Create(L"↑"));
+	guiManual.addln(L"btm3", GUIButton::Create(L"右上"));
+	guiManual.add(L"btm4", GUIButton::Create(L"←"));
+	guiManual.add(L"btm5", GUIButton::Create(L" 待機  "));
+	guiManual.addln(L"btm6", GUIButton::Create(L"→"));
+	guiManual.add(L"btm7", GUIButton::Create(L"左下"));
+	guiManual.add(L"btm8", GUIButton::Create(L"↓"));
+	guiManual.add(L"btm9", GUIButton::Create(L"右下"));
+	guiManual.setPos(1500,800);
+	DrawMap drawMap;
+	while (System::Update()) {
+		drawMap.drawMapManager(0);
+		if (guiManual.button(L"btm1").pushed) {
+			map->click = false;
+			break;
+		}
+		if (guiManual.button(L"btm2").pushed) {
+			map->click = false;
+			break;
+		}
+		if (guiManual.button(L"btm3").pushed) {
+			map->click = false;
+			break;
+		}
+		if (guiManual.button(L"btm4").pushed) {
+			map->click = false;
+			break;
+		}
+		if (guiManual.button(L"btm5").pushed) {
+			map->click = false;
+			break;
+		}
+		if (guiManual.button(L"btm6").pushed) {
+			map->click = false;
+			break;
+		}
+		if (guiManual.button(L"btm7").pushed) {
+			map->click = false;
+			break;
+		}
+		if (guiManual.button(L"btm8").pushed) {
+			map->click = false;
+			break;
+		}
+		if (guiManual.button(L"btm9").pushed) {
+			map->click = false;
 			break;
 		}
 	}
