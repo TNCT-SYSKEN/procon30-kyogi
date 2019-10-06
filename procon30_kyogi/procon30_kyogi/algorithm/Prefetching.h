@@ -1,6 +1,6 @@
 #pragma once
 #include"Action_manager.h"
-
+#include"../gui/DrawData.h"
 class Prefetching {
 public:
 

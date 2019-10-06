@@ -40,9 +40,13 @@ public:
 	bool makeReadTurnMap=false;
 	//最初のjsonfile 読み取り
 	bool firstJson=false;
-
 	//debug 相手のjsonが来たかどうか判定
 	bool enemyJson = false;
+	
+	//debugMode
+	bool isDebug = true;
+	//debug そのターンにエージェントの評価計算したかどうか
+	bool isCalcOurAction = false;
 
 private:
 	static Map* stayMap;

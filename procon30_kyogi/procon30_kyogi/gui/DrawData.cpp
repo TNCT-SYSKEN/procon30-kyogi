@@ -9,6 +9,8 @@ DrawData::DrawData()
 
 
 	//json読み込みのためのtokenなどの指定
+	gui.addln(L"IsDebugMode", GUIToggleSwitch::Create(L"大会モード", L"DebugMode",true));
+
 	gui.addln(L"json_option", GUIText::Create(L"JSON_option"));
 	gui.add(L"token_name", GUIText::Create(L"トークン"));
 	gui.add(L"token", GUITextArea::Create(1, 10));
@@ -16,11 +18,11 @@ DrawData::DrawData()
 	gui.addln(L"port", GUITextArea::Create(1, 4));
 	
 	//トグルスイッチ　デバッグ用
-	gui.addln(L"jsonMode", GUIToggleSwitch::Create(L"フィールド情報取得Mode", L"相手の行動jsonMode",false));
+	gui.addln(L"jsonMode", GUIToggleSwitch::Create(L"相手の行動jsonMode",L"フィールド情報取得Mode",true));
 	//json 入力
 	gui.addln(L"jsonTextArea", GUITextArea::Create(3, 10));
 	//json生成(action)
-	gui.add(L"JsonAction", GUIButton::Create(L"行動情報出力"));
+	gui.add(L"JsonAction", GUIButton::Create(L"行動情報出力(行動決定)"));
 
 	//JsonFile読み込み
 	gui.addln(L"bt5", GUIButton::Create(L"JsonFile読み込み"));
@@ -39,27 +41,19 @@ DrawData::DrawData()
 	//ゲームスタート
 	gui.add(L"gameStart", GUIButton::Create(L"gameStart"));
 
-	//行動確定
-	gui.addln(L"bt1", GUIButton::Create(L"決定"));
-
-	//リセット
-	gui.addln(L"bt2", GUIButton::Create(L"リセット"));
-
+	//全探索モード
+	gui.addln(L"searchALL", GUIToggleSwitch::Create( L"全探索モード",L"評価関数モード",true));
 
 	//先読みターン数変更
-	gui.addln(L"text0", GUIText::Create(L"先読みターン数"));
-	gui.add(L"ptnc", GUITextArea::Create(1,2));
-	gui.add(L"bt3", GUIButton::Create(L"決定"));
+	gui.add(L"text0", GUIText::Create(L"先読みターン数"));
+	gui.add(L"ptnc", GUITextArea::Create(1, 2));
+	gui.addln(L"bt3", GUIButton::Create(L"決定"));
 
 	//最大ターン数
 	//全探索で使う
 	gui.add(L"textMT", GUIText::Create(L"終了ターン数"));
 	gui.add(L"readMT", GUITextArea::Create(1, 2));
 	gui.addln(L"btnMT", GUIButton::Create(L"決定"));
-
-	//全探索モード
-	gui.add(L"searchALL", GUIToggleSwitch::Create(L"評価関数モード", L"全探索モード",false));
-
 	//水平線
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
 	gui.horizontalLine(L"hr").style.color = Color(127);
@@ -112,10 +106,10 @@ DrawData::DrawData()
 
 	//ターン数
 	gui.add(L"text7", GUIText::Create(L"ターン数 ："));
-	gui.addln(L"turn", GUITextArea::Create(1, 5));
+	gui.add(L"turn", GUITextArea::Create(1, 5));
 
 	//タイマー
-	gui.add(L"text8", GUIText::Create(L"タイマー　:"));
+	gui.add(L"text8", GUIText::Create(L" タイマー:"));
 	gui.addln(L"timer", GUITextArea::Create(1, 5));
 
 	//チームID
@@ -220,12 +214,6 @@ void DrawData::clickedButton() {
 		map->isGameStarted = true;
 		gui.button(L"gameStart").enabled = false;
 	}
-	if (gui.button(L"bt1").pushed) {
-		gui.add(L"bt4", GUIButton::Create(L"OK"));
-	}
-	//リセットボタン
-	if (gui.button(L"bt2").pushed) {
-	}
 	//先読みターン数決定ボタン
 	if (gui.button(L"bt3").pushed) {
 
@@ -248,10 +236,20 @@ void DrawData::clickedButton() {
 	if (gui.button(L"bt5").pushed) {
 		//gui.textArea(L"port").setText(gui.textArea(L"token").text)
 		if (gui.toggleSwitch(L"jsonMode").isRight) {
-
+			//debug
+			//textAreaからturn0 をとり、turn1からは取得しない
+			if (!map->firstJson) {
+				ParseJson par;
+				par.writeJsonToText((gui.textArea(L"jsonTextArea").text).narrow());
+				par.parse("data.json");
+			}
 		}
 		if (gui.toggleSwitch(L"jsonMode").isLeft) {
-
+			//debug
+			ParseJson parJ;
+			parJ.writeJsonToText((gui.textArea(L"jsonTextArea").text).narrow());
+			parJ.parseAction("data.json");
+			map->enemyJson = true;
 		}
 	}
 	//MaxTurn入力ボタン
@@ -260,10 +258,10 @@ void DrawData::clickedButton() {
 
 	}
 	if (gui.toggleSwitch(L"searchAll").isRight) {
-		map->isSearchAll = true;
+		map->isSearchAll = false;
 	}
 	if (gui.toggleSwitch(L"searchAll").isLeft) {
-		map->isSearchAll = false;
+		map->isSearchAll = true;
 	}
 
 
@@ -383,3 +381,6 @@ void DrawData::inputID() {
 }
 
 
+void DrawData::check() {
+	gui.textArea(L"token").setText(L"null");
+}

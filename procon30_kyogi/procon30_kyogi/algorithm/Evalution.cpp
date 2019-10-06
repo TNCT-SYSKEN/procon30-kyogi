@@ -1,7 +1,6 @@
 #include"Evalution.h"
 
 
-
 float evalution[4] = { 6,5,4,3, };
 // 領域, 相手の点が高いか, 移動可能マス,　移動先の点数の高さ
 
@@ -31,8 +30,8 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route,vecto
 	Agents* agents;
 	agents = agents->getAgents();
 
-
-
+	//map->score[0][0]++;
+	//map->score[0][2] += route.size();
 	//エージェントがそのマスの付近にいたら評価を下げる（戦局次第では上げる）
 	//相手がタイルポイント以上の点を取ったら領域を取ったものとみなし、
 	//ポイントが大きければ大きいほど評価点の上がり調子も大きくする
@@ -41,112 +40,112 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route,vecto
 	//もしくは評価しない
 
 	//評価点合計
-	float sumOfEvalution = 0;
+	float sumofevalution = 0;
 
 
 	//計算途中でのエージェントの動いた後のposition
-	int nowX = route[0].second.first;
-	int nowY = route[0].second.second;
+	int nowx = route[0].second.first;
+	int nowy = route[0].second.second;
 
 	
 
 	//敵タイル除去を行うかどうか
-	rep(i, map->readTurn) {
+	//rep(i, map->readTurn) {
 
-		if (field->tiled[nowX + route[i + 1].second.first][nowY+ route[i + 1].second.second] == map->otherTeamID) {
+	//	if (field->tiled[nowx + route[i + 1].second.first][nowy+ route[i + 1].second.second] == map->otherTeamID) {
 
-			int areaEnemyPoint = calculateEnemyAreaPoint(route);
-			/////////////////////////////////////////////////////
-			if (areaEnemyPoint != 0) {
+	//		int areaenemypoint = 4;//calculateEnemyAreaPoint(route);
+	//		/////////////////////////////////////////////////////
+	//		if (areaenemypoint != 0) {
 
-				sumOfEvalution += (float)(areaEnemyPoint*evalution[0]);
-			}
-			
-			
-			goto KUSA;
-		}
-		nowX+=route[i+1].second.first;
-		nowY += route[i+1].second.second;
-	}
-	KUSA:;
+	//			sumofevalution += (float)(areaenemypoint*evalution[0]);
+	//		}
+	//		
+	//		
+	//		goto kusa;
+	//	}
+	//	nowx+=route[i+1].second.first;
+	//	nowy += route[i+1].second.second;
+	//}
+	//kusa:;
 
 	//移動可能マス計算
-	vector<vector<int>>tiledArea;
-	tiledArea.resize(map->width, vector<int>(map->vertical));
+	//vector<vector<int>>tiledarea;
+	//tiledarea.resize(map->width, vector<int>(map->vertical));
 
-	rep(i, map->width) {
-		rep(j, map->width) {
-			if (tiledArea[i][j] == map->ourTeamID) {
-				//味方タイル １
-				tiledArea[i][j] = 1;
-			}
-			else if (tiledArea[i][j] == map->otherTeamID) {
-				//相手タイル 2
-				tiledArea[i][j] = 2;
-			}
+	//rep(i, map->width) {
+	//	rep(j, map->width) {
+	//		if (tiledArea[i][j] == map->ourTeamID) {
+	//			//味方タイル １
+	//			tiledArea[i][j] = 1;
+	//		}
+	//		else if (tiledArea[i][j] == map->otherTeamID) {
+	//			//相手タイル 2
+	//			tiledArea[i][j] = 2;
+	//		}
 
-			tiledArea[i][j] = field->tiled[i][j];
-		}
-	}
+	//		tiledArea[i][j] = field->tiled[i][j];
+	//	}
+	//}
 
-	//エージェント回数ループ
+	////エージェント回数ループ
 
-	int agentsSize = agents->ourAgents.size();
-	rep(i, agentsSize) {
-		if (route[0].first != agents->ourAgents[i][0]) {
-			//味方　３
-			tiledArea[agents->ourAgents[i][1]][agents->ourAgents[i][2]] = 3;
-		}
-		//敵　５
-		tiledArea[agents->otherAgents[i][1]][agents->otherAgents[i][2]] = 5;
-		
-	}
+	//int agentsSize = agents->ourAgents.size();
+	//rep(i, agentsSize) {
+	//	if (route[0].first != agents->ourAgents[i][0]) {
+	//		//味方　３
+	//		tiledArea[agents->ourAgents[i][1]][agents->ourAgents[i][2]] = 3;
+	//	}
+	//	//敵　５
+	//	tiledArea[agents->otherAgents[i][1]][agents->otherAgents[i][2]] = 5;
+	//	
+	//}
 
-	nowX = route[0].second.first;
-	nowY = route[0].second.second;
-	//移動可能マス
-	int canMove = 0;
-	rep(i, map->readTurn) {
+	//nowX = route[0].second.first;
+	//nowY = route[0].second.second;
+	////移動可能マス
+	//int canMove = 0;
+	//rep(i, map->readTurn) {
 
-		//９方向
-		rep(j, 9) {
-			//マスがそとでないならば
-			if (!(nowX + dx[j] < 0 && nowX + dx[j] < map->width
-				&& nowY + dy[j] < 0 && nowY + dy[j] >map->vertical)) {
-				if (tiledArea[nowX + dx[j]][nowY + dy[j]] == 1) {
-				}
-				else if(tiledArea[nowX+dx[j]][nowY+dy[j]]==3){
-					canMove -= 2;
-				}
-				canMove++;
-			}
-		}
+	//	//９方向
+	//	rep(j, 9) {
+	//		//マスがそとでないならば
+	//		if (!(nowX + dx[j] < 0 && nowX + dx[j] < map->width
+	//			&& nowY + dy[j] < 0 && nowY + dy[j] >map->vertical)) {
+	//			if (tiledArea[nowX + dx[j]][nowY + dy[j]] == 1) {
+	//			}
+	//			else if(tiledArea[nowX+dx[j]][nowY+dy[j]]==3){
+	//				canMove -= 2;
+	//			}
+	//			canMove++;
+	//		}
+	//	}
 
-	}
-	//移動可能マス評価加算
-	sumOfEvalution += canMove * evalution[2];
-	
+	//}
+	////移動可能マス評価加算
+	//sumOfEvalution += canMove * evalution[2];
+	//
 
-	if (map->score[0][0] > map->score[1][0]) {
-		sumOfEvalution += sum * evalution[3] * magnificat[2];
-	}
-	else {
-		sumOfEvalution += sum * evalution[3];
-	}
-	
+	//if (map->score[0][0] > map->score[1][0]) {
+	//	sumOfEvalution += sum * evalution[3] * magnificat[2];
+	//}
+	//else {
+	//	sumOfEvalution += sum * evalution[3];
+	//}
+	//
 
 
 
-	int routeS = map->readTurn;
-	//Route更新（評価最大）
-	if (agentsEvalution->maxEvalutionPoint < sumOfEvalution) {
-		
-		int R = route[0].first - agents->ourAgents[0][0];
-		rep(i, routeS) {
-			agentsEvalution->maxRoute[R][i] = route[R];
-		}
-		
-	}
+	//int routeS = map->readTurn;
+	////Route更新（評価最大）
+	//if (agentsEvalution->maxEvalutionPoint < sumOfEvalution) {
+	//	
+	//	int R = route[0].first - agents->ourAgents[0][0];
+	//	rep(i, routeS) {
+	//		agentsEvalution->maxRoute[R][i] = route[R];
+	//	}
+	//	
+	//}
 	
 
 }
@@ -230,7 +229,6 @@ int Evalution::calculateAreaPoint(vector<pair<int,pair<int,int>>>route,int teamI
 			}
 		}
 	}
-
 	return sum;
 }
 

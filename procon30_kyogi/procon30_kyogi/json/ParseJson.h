@@ -13,4 +13,5 @@ public:
 	string getStrPropValue(picojson::value, string);
 	int getIntPropValue(picojson::value, string);
 	float getFloatPropValue(picojson::value, string);
+	void parseAction(string);
 };

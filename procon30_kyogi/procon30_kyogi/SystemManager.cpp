@@ -1,7 +1,5 @@
 #include"SystemManager.h"
 
-
-
 void SystemManager::systemManager() {
 
 	Action_manager acManager;
@@ -12,21 +10,30 @@ void SystemManager::systemManager() {
 	if (map->isGameStarted) {
 
 		if (map->turnFlg) {
-
+			
 			acManager.Action();
 				
-
 			//評価したのにもう一度評価しないようにする
 			map->turnFlg = false;
+			map->isCalcOurAction = true;
+
+		}
+		if (map->enemyJson && map->isCalcOurAction) {
+			DebugSystem();
 		}
 		
-
-
 	}
+
 }
 
+//debug試合進行
+void SystemManager::DebugSystem() {
+
+}
+
+
 //デバッグ用の領域計算
-int  SystemManager::calcAreaDebug(int teamID) {
+int SystemManager::calcAreaDebug(int teamID) {
 
 	Map* map;
 	map = map->getMap();

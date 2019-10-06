@@ -1,6 +1,7 @@
 #pragma once
 #include "InputOutputManager.h"
 #include"../Data/Map.h"
+#include"../json/ParseJson.h"
 class DrawData
 {
 public:
@@ -9,6 +10,8 @@ public:
 	void drawData();
 	GUI gui;
 
+	//debug
+	void check();
 public:
 	void clickedButton();
 	void drawTiledScore();

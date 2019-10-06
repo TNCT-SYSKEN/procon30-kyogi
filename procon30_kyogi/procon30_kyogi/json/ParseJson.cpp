@@ -1,12 +1,13 @@
 #include "ParseJson.h"
-
+#include"../gui/DrawData.h"
 //debug mode
 void ParseJson::writeJsonToText(string JSON) {
 	// ファイルにJSONファイル書き込み
-	string filename = "data.txt";
+	string filename = "data.json";
 	ofstream ofs(filename);
 	ofs << JSON << endl;
 }
+
 
 
 // ローカルにある JSON ファイルの読み込み
@@ -36,6 +37,8 @@ float ParseJson::getFloatPropValue(picojson::value obj, string propName) {
 
 // JSON を解析
 void ParseJson::parse(string path) {
+	DrawData d;
+	d.check();
 	picojson::value json = readJson(path);
 	picojson::object& obj = json.get<picojson::object>();
 
@@ -73,6 +76,8 @@ void ParseJson::parse(string path) {
 		Y++;
 	}
 
+
+
 	// tiled
 	picojson::array Points = obj["points"].get<picojson::array>();
 	X = 0, Y = 0;
@@ -97,21 +102,21 @@ void ParseJson::parse(string path) {
 
 	picojson::array& teams = obj["teams"].get<picojson::array>();
 	for (const auto& li : teams) {
-
 		//agents
 		picojson::array agentArray = li.get("agents").get<picojson::array>();
+		agentSize = 0;
 		for (const auto& aLi : agentArray) {
-			agentSize = 0;
+			
 			if (i == 0) {
 				//agentID
-				agents->ourAgents[agentSize][0] = stoi(li.get("agentID").to_str());
-				agents->ourAgents[agentSize][1] = stoi(li.get("x").to_str());
-				agents->ourAgents[agentSize][2] = stoi(li.get("y").to_str());
+				agents->ourAgents[agentSize][0] = stoi(aLi.get("agentID").to_str());
+				agents->ourAgents[agentSize][1] = stoi(aLi.get("x").to_str());
+				agents->ourAgents[agentSize][2] = stoi(aLi.get("y").to_str());
 			}
 			else {
-				agents->otherAgents[agentSize][0] = stoi(li.get("agentID").to_str());
-				agents->otherAgents[agentSize][1] = stoi(li.get("x").to_str());
-				agents->otherAgents[agentSize][2] = stoi(li.get("y").to_str());
+				agents->otherAgents[agentSize][0] = stoi(aLi.get("agentID").to_str());
+				agents->otherAgents[agentSize][1] = stoi(aLi.get("x").to_str());
+				agents->otherAgents[agentSize][2] = stoi(aLi.get("y").to_str());
 			}
 			agentSize++;
 		}
@@ -122,7 +127,7 @@ void ParseJson::parse(string path) {
 			map->ourTeamID = stoi(li.get("teamID").to_str());
 			//teamPoint
 			map->score[0][1] = stoi(li.get("tilePoint").to_str());
-			map->score[0][2] = stoi(li.get("arePoint").to_str());
+			map->score[0][2] = stoi(li.get("areaPoint").to_str());
 			map->score[0][0] = map->score[0][1] + map->score[0][2];
 
 			i = 1;
@@ -132,14 +137,52 @@ void ParseJson::parse(string path) {
 			map->otherTeamID = stoi(li.get("teamID").to_str());
 			//teamPoint
 			map->score[1][1] = stoi(li.get("tilePoint").to_str());
-			map->score[1][2] = stoi(li.get("arePoint").to_str());
+			map->score[1][2] = stoi(li.get("areaPoint").to_str());
 			map->score[1][0] = map->score[1][1] + map->score[1][2];
 		}
-
 	}
 	agents->ourAgents.resize(agentSize, vector<int>(3));
 	agents->otherAgents.resize(agentSize, vector<int>(3));
 
+	/*vector<vector<int>>stack(agentSize,vector<int>(3));
+	stack = agents->ourAgents;
+	rep(i, agentSize) {
+		agents->ourAgents[i] = stack[agentSize-1 - i];
+	}
+	stack = agents->otherAgents;
+	rep(i, agentSize) {
+		agents->otherAgents[i] = stack[agentSize - 1 - i];
+	}*/
 
+	
+	map->firstJson = true;
+	map->turnFlg = true;
 	// actions
+}
+
+//debug 
+void ParseJson::parseAction(string path) {
+	AgentsAction* agentsAcn;
+	agentsAcn = agentsAcn->getAgentsAction();
+	Agents* agents;
+	agents = agents->getAgents();
+
+	picojson::value json = readJson(path);
+	picojson::object& obj = json.get<picojson::object>();
+
+
+	int agentSize = agents->otherAgents.size();
+	agentsAcn->actionEnemyDxDy.resize(agentSize);
+
+	picojson::array& arr = obj["actions"].get<picojson::array>();
+	int i = 0;
+	for (const auto& actions :arr) {
+		agentsAcn->actionEnemyDxDy[i] = make_pair(
+			stoi(actions.get("agentsID").to_str()), make_pair(
+				stoi(actions.get("dx").to_str()),
+				stoi(actions.get("dy").to_str())
+			));
+		i++;
+	}
+	
 }

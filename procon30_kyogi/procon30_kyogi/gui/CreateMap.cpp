@@ -117,7 +117,6 @@ bool CreateMap::createMapClass() {
 	map->turn = 0;
 	//æ“Ç‚Ýƒ^[ƒ“”‚Ì‰Šú‰»
 	map->readTurn = 3;
-
 	map->isGameStarted = false;
 
 
@@ -126,7 +125,7 @@ bool CreateMap::createMapClass() {
 	AgentsAction* agentsAcn;
 	agentsAcn = agentsAcn->getAgentsAction();
 
-	agentsAcn->actionDxDy.resize(8, vector<pair<int, pair<int,int>>>(map->readTurn+1));
+	agentsAcn->actionDxDy.resize(8, vector<pair<int, pair<int,int>>>(map->readTurn));
 
 
 	//debug—p

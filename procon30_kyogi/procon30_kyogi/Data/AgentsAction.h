@@ -16,6 +16,7 @@ public:
 	//エージェントの数(先読みターン（agentNuber(dx,dy)）)
 	vector<vector<pair<int,pair<int,int>>>>actionDxDy;
 	
+	vector<pair<int, pair<int, int>>>actionEnemyDxDy;
 
 	static AgentsAction* getAgentsAction();
 
