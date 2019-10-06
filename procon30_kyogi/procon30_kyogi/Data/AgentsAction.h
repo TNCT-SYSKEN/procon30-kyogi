@@ -7,7 +7,7 @@ public:
 	int turn;
 
 	//エージェント番号 < 0(turn1) , 1(turn2) , 1(turn3), >
-	//1ならmove 0ならstay
+	//1ならmove 0ならstay -1ならremove
 	vector<vector<int>> actionType;
 
 

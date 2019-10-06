@@ -41,30 +41,39 @@ void Prefetching::hyoukaKeisan()
 		//position‚É-1	
 		//‚»‚¤‚µ‚È‚¢‚Æjson‚Æ‚Ìhogehoge‚ª‚â‚èŽæ‚è‚µ‚Ã‚ç‚¢
 		agentPosition =make_pair((agents->ourAgents[agentsnum - Agent0][1]-1), (agents->ourAgents[agentsnum - Agent0][2]-1));//
-		map->score[1][0] = agentPosition.first;
-		map->score[1][1] = agentPosition.second;
+
 			//agent‚Ì‰ŠúˆÊ’u
 		route.push_back(make_pair(agentsnum, agentPosition));
 
 		//agentsEvalution‚Ìmax•]‰¿’l‚ð‰Šú‰»
 		agentsEvalution->maxEvalutionPoint = 0;
-		calculateEvalution(route, agentPosition, moveUpTile, 0, 1, 0);
+		calculateEvalution(route, agentPosition, moveUpTile, 0, map->readTurn, 0);
 		//
 	
 
-
+		agentsAction->actionType.resize(ourAgentsS);
 			//AgentsAction.h‚É‘‚«ž‚Ý
-		/*agentsAction->actionDxDy[agentsnum - agents->ourAgents[0][0]].push_back(
-			agentsEvalution->maxRoute[agentsnum-agents->ourAgents[0][0]][0]);
+		rep(i,map->readTurn) {
 
-		
-		if (agentsEvalution->maxRoute[agentsnum-agents->ourAgents[0][0]][0].second.first == 0 && 
-			agentsEvalution->maxRoute[agentsnum-agents->ourAgents[0][0]][0].second.second == 0) {
-			agentsAction->actionType[agentsnum - agents->ourAgents[0][0]].push_back(0);
+			agentsAction->actionDxDy[agentsnum - Agent0].push_back(
+				agentsEvalution->maxRoute[agentsnum - Agent0][i]);
+
+
+			if (agentsEvalution->maxRoute[agentsnum - Agent0][i].second.first == 0 &&
+				agentsEvalution->maxRoute[agentsnum - Agent0][i].second.second == 0) {
+				//stay
+				agentsAction->actionType[agentsnum - Agent0].push_back(0);
+			}
+			else if (field->tiled[(agents->ourAgents[agentsnum-Agent0][1])+(agentsEvalution->maxRoute[agentsnum-Agent0][i].second.first)]
+			[(agents->ourAgents[agentsnum - Agent0][2]) + (agentsEvalution->maxRoute[agentsnum - Agent0][i].second.second)] == map->otherTeamID){
+				//remove
+				agentsAction->actionType[agentsnum - Agent0].push_back(-1);
+			}
+			else {
+				//move
+				agentsAction->actionType[agentsnum - Agent0].push_back(1);
+			}
 		}
-		else {
-			agentsAction->actionType[agentsnum - agents->ourAgents[0][0]].push_back(1);
-		}*/
 
 	}
 
@@ -121,7 +130,7 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 		
 		if (nowAgentPosition.first + dx[turn] < 0 || nowAgentPosition.first + dx[turn] >= map->width
 			|| nowAgentPosition.second + dy[turn] < 0 || nowAgentPosition.second + dy[turn] >= map->vertical) {
-			map->score[0][1]++;
+			
 			goto CantGoThere;
 
 		}
@@ -170,7 +179,7 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 			readTurn--;
 		
 				calculateEvalution(route, make_pair(Dx,Dy), moveUpTile, moveup, readTurn, sum);
-				route.resize(route.size() - 1);
+				//route.resize(route.size() - 1);
 		
 		}else if (readTurn==1){
 			route.push_back(make_pair(route[0].first, make_pair(dx[turn], dy[turn])));
