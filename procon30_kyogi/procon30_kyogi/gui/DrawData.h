@@ -20,5 +20,6 @@ public:
 	void outputTurn();
 
 	void inputID();
+	void manualDirection(const int number);
 };
 

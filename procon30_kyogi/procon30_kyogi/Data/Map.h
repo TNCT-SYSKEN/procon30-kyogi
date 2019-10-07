@@ -31,6 +31,11 @@ public:
 	//‘Šèƒ`[ƒ€ID
 	int otherTeamID;
 
+	//MapChange
+	int mapChange=0;
+	bool click;
+	int x, y;
+
 
 
 	//ŒvZ‚µ‚½‚©‚Ç‚¤‚©

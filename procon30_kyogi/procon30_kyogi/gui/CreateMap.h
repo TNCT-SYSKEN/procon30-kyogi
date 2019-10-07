@@ -13,6 +13,9 @@ public :
 	void createMapAgent2(const int who,const int x,const int y);
 	void createMapPoint1(const int point,const int x,const int y);
 	void createMapPoint2(const int point,const int x,const int y);
+	void createMapLine1(const int x1,const int y1,const int x2,const int y2);
+	void createMapLine2(const int x1,const int y1,const int x2,const int y2);
+	const Font font;
 	bool createMapClass();
 
 	void createTurnField();
