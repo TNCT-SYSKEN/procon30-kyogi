@@ -18,13 +18,14 @@ void SystemManager::systemManager() {
 			map->isCalcOurAction = true;
 
 		}
-		if (map->enemyJson && map->isCalcOurAction) {
-			/*DebugSystem();
+		/*if (map->enemyJson && map->isCalcOurAction) {
+			
+			DebugSystem();
 		
 			map->isCalcOurAction = false;
-			map->turnFlg = true;*/
+			map->turnFlg = true;
 		}
-		
+		*/
 	}
 
 }
@@ -40,88 +41,122 @@ void SystemManager::DebugSystem() {
 	AgentsAction* agentsAction;
 	agentsAction = agentsAction->getAgentsAction();
 
+	int ourNowX;
+	int ourNowY;
+
+	int otherNowX;
+	int otherNowY;
 
 	int AgentS = agents->ourAgents.size();
-	rep(i, AgentS) {
-		bool our = false;
-		bool other = true;
+	
+	bool OurAgentsCheck[8];
+	bool OtherAgentsCheck[8];
+
+
+	
+	for (int i = 0; i < AgentS; i++) {
 		//	ˆÚ“®æd•¡”»’è
+		for (int j = 0; j < AgentS;j++) {
+			ourNowX = agents->ourAgents[i][1] - 1 + agentsAction->actionDxDy[i][0].second.first;
+			ourNowY = agents->ourAgents[i][1] - 1 + agentsAction->actionDxDy[i][0].second.second;
+			
+			if (ourNowX == agents->ourAgents[j][i] - 1 + agentsAction->actionDxDy[i][0].second.first &&
+				ourNowY == agents->ourAgents[j][i] - 1 + agentsAction->actionDxDy[i][0].second.second) {
+				OurAgentsCheck[i] = false;
+			}
+			if(ourNowX < 0 || ourNowX >= map->width || ourNowY < 0  || ourNowY >= map->vertical) {
+				OurAgentsCheck[i] = false;
+			}
+			else {
+				OurAgentsCheck[i] = true;
+			}
+			
+		}
+	}
+	//“G
+	for (int i = 0; i < AgentS; i++) {
+		otherNowX = agents->otherAgents[i][1] - 1 + agentsAction->actionEnemyDxDy[i].second.first;
+		otherNowY = agents->otherAgents[i][1] - 1 + agentsAction->actionEnemyDxDy[i].second.second;
+
 		rep(j, AgentS) {
-			if (i != j) {
-				//ourAgent‚Æ”í‚ç‚È‚¢
-				if (agents->ourAgents[i][1] + agentsAction->actionDxDy[i][0].second.first != agents->ourAgents[j][1] + agentsAction->actionDxDy[j][0].second.first
-					|| agents->ourAgents[i][2] + agentsAction->actionDxDy[i][0].second.second != agents->ourAgents[j][2] + agentsAction->actionDxDy[j][0].second.second) {
-					our = true;
-				}//otherAgent‚Æ”í‚ç‚È‚¢
-				if (agents->otherAgents[i][1] + agentsAction->actionEnemyDxDy[i].second.first != agents->otherAgents[j][1] + agentsAction->actionEnemyDxDy[j].second.first
-					|| agents->otherAgents[i][2] + agentsAction->actionEnemyDxDy[i].second.second != agents->otherAgents[j][2] + agentsAction->actionEnemyDxDy[j].second.second) {
-					other = true;
-				}
+
+			if (otherNowX == agents->otherAgents[j][i] - 1 + agentsAction->actionEnemyDxDy[i].second.first &&
+				otherNowY == agents->otherAgents[j][i] - 1 + agentsAction->actionEnemyDxDy[i].second.second) {
+				OtherAgentsCheck[i] = false;
+			}
+			if (otherNowX < 0 || otherNowX >= map->width || otherNowY < 0 || otherNowY >= map->vertical) {
+				OtherAgentsCheck[i] = false;
+			}
+			else {
+				OtherAgentsCheck[i] = true;
 			}
 
-			if (our && (agents->ourAgents[i][1] + agentsAction->actionDxDy[i][0].second.first != agents->otherAgents[j][1] + agentsAction->actionEnemyDxDy[i].second.first
-				|| agents->ourAgents[i][2] + agentsAction->actionDxDy[i][0].second.second != agents->otherAgents[j][2] + agentsAction->actionEnemyDxDy[i].second.first)) {
-				//ourAgents[i]‚Í‹£‡‚È‚µ
-				agents->ourAgents[i][1] += agentsAction->actionDxDy[i][0].second.first;
-				agents->ourAgents[i][2] += agentsAction->actionDxDy[i][0].second.second;
-
-				//ourAgents remove otherTiled
-				if (field->tiled[agents->ourAgents[i][1] - 1][agents->ourAgents[i][2] - 1] == map->otherTeamID) {
-					field->tiled[agents->ourAgents[i][1] - 1][agents->ourAgents[i][2] - 1] = 0;
-
-					agents->otherAgents[i][1] -= agentsAction->actionDxDy[i][0].second.first;
-					agents->otherAgents[i][2] -= agentsAction->actionDxDy[i][0].second.second;
-
-				}
-				else if (field->tiled[agents->ourAgents[i][1] - 1][agents->ourAgents[i][2] - 1] == map->ourTeamID) {
-					agents->ourAgents[i][1] -= agentsAction->actionDxDy[i][0].second.first;
-					agents->ourAgents[i][2] -= agentsAction->actionDxDy[i][0].second.second;
-				}
-				else {
-					field->tiled[agents->ourAgents[i][1] - 1][agents->ourAgents[i][2] - 1] = map->ourTeamID;
-				}
-			}
-			else if (other && (agents->otherAgents[i][1] + agentsAction->actionEnemyDxDy[i].second.first != agents->ourAgents[j][1] + agentsAction->actionDxDy[i][0].second.first
-				|| agents->otherAgents[i][2] + agentsAction->actionEnemyDxDy[i].second.second != agents->ourAgents[j][2] + agentsAction->actionDxDy[i][0].second.first)) {
-
-				//otherAgents[i]‚Í‹£‡‚È‚µ
-				agents->otherAgents[i][1] += agentsAction->actionEnemyDxDy[i].second.first;
-				agents->otherAgents[i][2] += agentsAction->actionEnemyDxDy[i].second.second;
-
-				//otherAgents remove otherTiled
-				if (field->tiled[agents->otherAgents[i][1] - 1][agents->otherAgents[i][2] - 1] == map->ourTeamID) {
-					field->tiled[agents->otherAgents[i][1] - 1][agents->otherAgents[i][2] - 1] = 0;
-
-					agents->otherAgents[i][1] -= agentsAction->actionEnemyDxDy[i].second.first;
-					agents->otherAgents[i][2] -= agentsAction->actionEnemyDxDy[i].second.second;
-
-				}
-				else if (field->tiled[agents->otherAgents[i][1] - 1][agents->otherAgents[i][2] - 1] == map->otherTeamID) {
-					agents->otherAgents[i][1] -= agentsAction->actionEnemyDxDy[i].second.first;
-					agents->otherAgents[i][2] -= agentsAction->actionEnemyDxDy[i].second.second;
-				}
-				else {
-					field->tiled[agents->otherAgents[i][1] - 1][agents->otherAgents[i][2] - 1] = map->otherTeamID;
-				}
-
-			}
 		}
 	}
 
-	map->score.resize(2, vector<int>(3, 0));
-	rep(swi, 2) {
-		rep(i, map->width) {
-			rep(j, map->vertical) {
-				map->score[swi][1] += field->points[i][j];
+	rep(i, AgentS) {
+		rep(j, AgentS) {
+			ourNowX = agents->ourAgents[i][1] - 1 + agentsAction->actionDxDy[i][0].second.first;
+			ourNowY = agents->ourAgents[i][1] - 1 + agentsAction->actionDxDy[i][0].second.second;
+
+			otherNowX = agents->otherAgents[j][1] - 1 + agentsAction->actionEnemyDxDy[j].second.first;
+			otherNowY = agents->otherAgents[j][1] - 1 + agentsAction->actionEnemyDxDy[j].second.second;
+
+			if (ourNowX == otherNowX && ourNowY == otherNowY) {
+				OurAgentsCheck[i] = false;
+				OtherAgentsCheck[j] = false;
 			}
+
 		}
 	}
+
+	rep(i, AgentS) {
+		ourNowX = agents->ourAgents[i][1] - 1 + agentsAction->actionDxDy[i][0].second.first;
+		ourNowY = agents->ourAgents[i][1] - 1 + agentsAction->actionDxDy[i][0].second.second;
+		
+		if (OurAgentsCheck[i]) {
+			field->tiled[ourNowX][ourNowY] = map->ourTeamID;
+		}
+	}
+	rep(i, AgentS) {
+		otherNowX = agents->otherAgents[i][1] - 1 + agentsAction->actionEnemyDxDy[i].second.first;
+		otherNowY = agents->otherAgents[i][1] - 1 + agentsAction->actionEnemyDxDy[i].second.second;
+
+		if (OtherAgentsCheck[i]) {
+			field->tiled[otherNowX][otherNowY] = map->otherTeamID;
+		}
+	}
+
+
+	//map->score.resize(2, vector<int>(3, 0));
+	map->score[0][0] = 0;
+	map->score[0][1] = 0;
+	map->score[0][2] = 0;
+
+	map->score[1][0] = 0;
+	map->score[1][1] = 0;
+	map->score[1][2] = 0;
+
+
+	rep(i, map->width) {
+		rep(j, map->vertical) {
+			if (field->tiled[i][j] == map->ourTeamID) {
+				map->score[0][1] += field->points[i][j];
+			}
+			else if (field->tiled[i][j] == map->otherTeamID) {
+				map->score[1][1] += field->points[i][j];
+			}
+				
+		}
+	}
+	
 	map->score[0][2] = calculateAreaPoint(map->ourTeamID);
 	map->score[1][2] = calculateAreaPoint(map->otherTeamID);
 
 	map->score[0][0] += map->score[0][1] + map->score[0][2];
 	map->score[1][0] += map->score[1][1] + map->score[1][2];
 
+	map->turnFlg = true;
 	map->turn++;
 }
 

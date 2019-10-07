@@ -30,29 +30,46 @@ void CreateJson::createJson()
 	} };*/
 	Agents* agents;
 	agents = agents->getAgents();
+	AgentsAction* agentsAcn;
+	agentsAcn = agentsAcn->getAgentsAction();
 	///////////////////
 
 
 	picojson::object lisence;
 	picojson::array datalist;
 
-	{
-		picojson::object Action;
-		Action.insert(make_pair(("dy"), picojson::value(static_cast<double>(agents->ourAgents[0][2]))));
-		Action.insert(make_pair(("dx"), picojson::value(static_cast<double>(agents->ourAgents[0][1]))));
-		Action.insert(make_pair(("type"), picojson::value("move")));
-		Action.insert(make_pair(("agentID"), picojson::value(static_cast<double>(agents->ourAgents[0][0]))));
+	int ourAgentS = agents->ourAgents.size();
+	string ActionMove;
+
+
+	for (int i = 0; i < ourAgentS; i++) {
+		{
 		
-		datalist.push_back(picojson::value(Action));
+			picojson::object Action;
+			Action.insert(make_pair(("dy"), picojson::value(static_cast<double>(agentsAcn->actionDxDy[i][0].second.second))));
+			Action.insert(make_pair(("dx"), picojson::value(static_cast<double>(agentsAcn->actionDxDy[i][0].second.first))));
+			if (agentsAcn->actionType[i][0] == 0) {
+				ActionMove = "stay";
+			}
+			else if (agentsAcn->actionType[i][0] == 1) {
+				ActionMove = "move";
+			}
+			else if (agentsAcn->actionType[i][0] == -1) {
+				ActionMove = "remove";
+			}
+
+			Action.insert(make_pair(("type"), picojson::value(ActionMove)));// ActionMove)));
+			Action.insert(make_pair(("agentID"), picojson::value(static_cast<double>(agents->ourAgents[i][0]))));
+
+			datalist.push_back(picojson::value(Action));
+		}
+		
 	}
 	lisence.insert(make_pair("actions", picojson::value(datalist)));
 
-
-
-
 	// ファイルにJSONファイル書き込み
 
-	string filename = "json/WriteJson.txt";
+	string filename = "json/WriteJson.json";
 	ofstream ofs(filename);
 	ofs << picojson::value(lisence) << endl;
 	//ofs << v(l)<< map->readTurn<< endl;	

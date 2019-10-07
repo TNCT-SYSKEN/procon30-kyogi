@@ -24,7 +24,7 @@ public:
 	int readTurn;
 
 	//最終ターン数
-	int finalTurn;
+	int finalTurn=20;
 
 	//自分チームID
 	int ourTeamID;

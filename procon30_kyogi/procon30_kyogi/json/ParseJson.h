@@ -7,7 +7,7 @@
 
 class ParseJson {
 public:
-	void writeJsonToText(string);
+	void writeJsonToText(string,string);
 	void parse(string);
 	picojson::value readJson(string);
 	string getStrPropValue(picojson::value, string);

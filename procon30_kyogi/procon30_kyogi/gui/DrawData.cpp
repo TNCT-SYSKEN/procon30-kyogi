@@ -17,10 +17,15 @@ DrawData::DrawData()
 	gui.add(L"port_name", GUIText::Create(L"Port"));
 	gui.addln(L"port", GUITextArea::Create(1, 4));
 	
+	gui.add(L"bt1", GUIButton::Create(L"ターン終了"));
+
 	//トグルスイッチ　デバッグ用
 	gui.addln(L"jsonMode", GUIToggleSwitch::Create(L"相手の行動jsonMode",L"フィールド情報取得Mode",true));
 	//json 入力
-	gui.addln(L"jsonTextArea", GUITextArea::Create(3, 10));
+	gui.add(L"jsonTextArea", GUITextArea::Create(3, 10));
+	//reset
+	gui.addln(L"reset", GUIButton::Create(L"リセット"));
+
 	//json生成(action)
 	gui.add(L"JsonAction", GUIButton::Create(L"行動情報出力(行動決定)"));
 
@@ -207,6 +212,11 @@ void DrawData::clickedButton() {
 
 	const Size targetSize(1920, 1080);
 	//行動確定ボタン
+	if (gui.button(L"bt1").pushed) {
+		SystemManager SysM;
+		SysM.DebugSystem();
+	}
+
 	if (gui.button(L"gameStart").pushed) {
 		
 
@@ -214,6 +224,10 @@ void DrawData::clickedButton() {
 		map->isGameStarted = true;
 		gui.button(L"gameStart").enabled = false;
 	}
+	if (gui.button(L"reset").pushed) {
+		gui.textArea(L"jsonTextArea").setText(L"");
+	}
+
 	//先読みターン数決定ボタン
 	if (gui.button(L"bt3").pushed) {
 
@@ -240,15 +254,15 @@ void DrawData::clickedButton() {
 			//textAreaからturn0 をとり、turn1からは取得しない
 			if (!map->firstJson) {
 				ParseJson par;
-				par.writeJsonToText((gui.textArea(L"jsonTextArea").text).narrow());
+				par.writeJsonToText((gui.textArea(L"jsonTextArea").text).narrow(),"data.json");
 				par.parse("data.json");
 			}
 		}
 		if (gui.toggleSwitch(L"jsonMode").isLeft) {
 			//debug
 			ParseJson parJ;
-			parJ.writeJsonToText((gui.textArea(L"jsonTextArea").text).narrow());
-			parJ.parseAction("data.json");
+			parJ.writeJsonToText((gui.textArea(L"jsonTextArea").text).narrow(),"json/writeJson.json");
+			parJ.parseAction("json/writeJson.json");
 			map->enemyJson = true;
 		}
 	}

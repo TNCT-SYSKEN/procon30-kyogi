@@ -46,14 +46,17 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route,vecto
 	int nowX = route[0].second.first;
 	int nowY = route[0].second.second;
 
-	
+
 	//map->score[1][2] = calculateEnemyAreaPoint(route);
 	
 	int lastGetEnemyAreaPointR = map->score[1][2];
 	//敵タイル除去を行うかどうか
 	rep(i, map->readTurn) {
+		int x = field->tiled[nowX+route[i+1].second.second][0];
+		nowX += route[i + 1].second.first;
+		nowY += route[i + 1].second.second;
 
-		if (field->tiled[nowX + route[i + 1].second.first][nowY+ route[i + 1].second.second] == map->otherTeamID) {
+		if (field->tiled[nowX][nowY] == map->otherTeamID) {
 
 			int areaenemypoint = map->score[0][2] - calculateEnemyAreaPoint(route);
 			
@@ -64,8 +67,7 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route,vecto
 			}
 			
 		}
-		nowX+=route[i+1].second.first;
-		nowY += route[i+1].second.second;
+		
 	}
 
 
@@ -110,8 +112,8 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route,vecto
 		//９方向
 		rep(j, 9) {
 			//マスがそとでないならば
-			if (nowX + dx[j] > 0 && nowX + dx[j] <= map->width
-				&& nowY + dy[j] > 0 && nowY + dy[j] <= map->vertical) {
+			if (nowX + dx[j] >=0 && nowX + dx[j] < map->width
+				&& nowY + dy[j] >= 0 && nowY + dy[j] < map->vertical) {
 				if (tiledArea[nowX + dx[j]][nowY + dy[j]] == map->ourTeamID) {
 				}
 				else if(tiledArea[nowX+dx[j]][nowY+dy[j]]==map->otherTeamID){
@@ -127,8 +129,8 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route,vecto
 	sumOfEvalution += canMove * evalution[2];
 	
 
-	if (map->score[0][0] > map->score[1][0]) {
-		sumOfEvalution += sum * evalution[3] * magnificat[2];
+	if (map->score[0][0] < map->score[1][0]) {
+		sumOfEvalution += sum * evalution[3] * magnificat[1];
 	}
 	else {
 		sumOfEvalution += sum * evalution[3];
@@ -140,7 +142,7 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route,vecto
 	int routeS = map->readTurn;
 	//Route更新（評価最大）
 	if (agentsEvalution->maxEvalutionPoint < sumOfEvalution) {
-		
+
 		int R = route[0].first - agents->ourAgents[0][0];
 		rep(i, routeS) {
 			agentsEvalution->maxRoute[R][i] = route[i+1];

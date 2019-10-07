@@ -1,9 +1,9 @@
 #include "ParseJson.h"
 #include"../gui/DrawData.h"
 //debug mode
-void ParseJson::writeJsonToText(string JSON) {
+void ParseJson::writeJsonToText(string JSON,string path) {
 	// ファイルにJSONファイル書き込み
-	string filename = "data.json";
+	string filename = path;
 	ofstream ofs(filename);
 	ofs << JSON << endl;
 }
@@ -162,23 +162,26 @@ void ParseJson::parse(string path) {
 
 //debug 
 void ParseJson::parseAction(string path) {
-	AgentsAction* agentsAcn;
-	agentsAcn = agentsAcn->getAgentsAction();
+	AgentsAction* agentsAction;
+	agentsAction = agentsAction->getAgentsAction();
 	Agents* agents;
 	agents = agents->getAgents();
 
 	picojson::value json = readJson(path);
 	picojson::object& obj = json.get<picojson::object>();
 
+	Map* map;
+	map = map->getMap();
 
 	int agentSize = agents->otherAgents.size();
-	agentsAcn->actionEnemyDxDy.resize(agentSize);
+	agentsAction->actionEnemyDxDy.resize(agentSize);
 
 	picojson::array& arr = obj["actions"].get<picojson::array>();
 	int i = 0;
-	for (const auto& actions :arr) {
-		agentsAcn->actionEnemyDxDy[i] = make_pair(
-			stoi(actions.get("agentsID").to_str()), make_pair(
+	for (const auto& actions : arr) {
+		//
+		agentsAction->actionEnemyDxDy[i] = make_pair(
+			stoi(actions.get("agentID").to_str()), make_pair(
 				stoi(actions.get("dx").to_str()),
 				stoi(actions.get("dy").to_str())
 			));

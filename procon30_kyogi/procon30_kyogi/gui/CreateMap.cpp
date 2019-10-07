@@ -125,7 +125,7 @@ bool CreateMap::createMapClass() {
 	AgentsAction* agentsAcn;
 	agentsAcn = agentsAcn->getAgentsAction();
 
-	agentsAcn->actionDxDy.resize(8, vector<pair<int, pair<int,int>>>(map->readTurn));
+	//agentsAcn->actionDxDy.resize(8, vector<pair<int, pair<int,int>>>(map->readTurn));
 
 
 	//debug—p

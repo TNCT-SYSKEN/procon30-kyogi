@@ -37,35 +37,38 @@ void Prefetching::hyoukaKeisan()
 	int Agent0 = agents->ourAgents[0][0];
 
 	 //エージェントの数だけループ
-	for (int agentsnum = Agent0; agentsnum < (Agent0 + ourAgentsS-1); agentsnum++) {
+	for (int agentsnum = Agent0; agentsnum < (Agent0 + ourAgentsS); agentsnum++) {
 		//positionに-1	
 		//そうしないとjsonとのhogehogeがやり取りしづらい
 		agentPosition =make_pair((agents->ourAgents[agentsnum - Agent0][1]-1), (agents->ourAgents[agentsnum - Agent0][2]-1));//
 
+		
 			//agentの初期位置
 		route.push_back(make_pair(agentsnum, agentPosition));
 
 		//agentsEvalutionのmax評価値を初期化
 		agentsEvalution->maxEvalutionPoint = 0;
 		calculateEvalution(route, agentPosition, moveUpTile, 0, map->readTurn, 0);
-		//
-	
+		
+		route.resize(route.size() - 1);
 
 		agentsAction->actionType.resize(ourAgentsS);
 			//AgentsAction.hに書き込み
+		agentsAction->actionDxDy.resize(ourAgentsS);
+		
+		agentsEvalution->maxEvalutionPoint=0;
 		rep(i,map->readTurn) {
 
 			agentsAction->actionDxDy[agentsnum - Agent0].push_back(
 				agentsEvalution->maxRoute[agentsnum - Agent0][i]);
-
 
 			if (agentsEvalution->maxRoute[agentsnum - Agent0][i].second.first == 0 &&
 				agentsEvalution->maxRoute[agentsnum - Agent0][i].second.second == 0) {
 				//stay
 				agentsAction->actionType[agentsnum - Agent0].push_back(0);
 			}
-			else if (field->tiled[(agents->ourAgents[agentsnum-Agent0][1])+(agentsEvalution->maxRoute[agentsnum-Agent0][i].second.first)]
-			[(agents->ourAgents[agentsnum - Agent0][2]) + (agentsEvalution->maxRoute[agentsnum - Agent0][i].second.second)] == map->otherTeamID){
+			else if (field->tiled[(agents->ourAgents[agentsnum-Agent0][1]-1)+(agentsEvalution->maxRoute[agentsnum-Agent0][i].second.first)]
+			[(agents->ourAgents[agentsnum - Agent0][2]-1) + (agentsEvalution->maxRoute[agentsnum - Agent0][i].second.second)] == map->otherTeamID){
 				//remove
 				agentsAction->actionType[agentsnum - Agent0].push_back(-1);
 			}
@@ -81,7 +84,7 @@ void Prefetching::hyoukaKeisan()
 
 
 //point計算
-int Prefetching::calculateScore(pair<int,int>agentPosition)
+int Prefetching::calculateScore(pair<int,int>agentPosition,int turn)
 {
 	Map *map;
 	map = map->getMap();
@@ -89,8 +92,10 @@ int Prefetching::calculateScore(pair<int,int>agentPosition)
 	field = field->getField();
 
 	int sum = 0;
-
-	if (agentPosition.first < 0 || agentPosition.first >= map->width || agentPosition.second < 0 || agentPosition.second >= map->vertical) {
+	if (turn == 4) {
+		return 0;
+	}
+	else if (agentPosition.first < 0 || agentPosition.first >= map->width || agentPosition.second < 0 || agentPosition.second >= map->vertical) {
 		return -1;
 	}
 	else {
@@ -152,23 +157,24 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 				//moveupのresize
 
 				if (readTurn > 0) {
-					moveUpTile.resize(moveup + 1);
+					//moveUpTile.resize(moveup + 1);
 
-					//1,2,3,4,5
-					moveUpTile[moveup] = make_pair(map->finalTurn - map->turn + 1 - readTurn,
-						make_pair(nowAgentPosition.first + dx[turn], nowAgentPosition.second + dy[turn]));
-					moveup++;
-					moveCheck = true;
-					movedTiled[nowAgentPosition.first + dx[turn]][nowAgentPosition.second + dy[turn]];
-					sum += calculateScore(make_pair(nowAgentPosition.first + dx[turn], nowAgentPosition.second + dy[turn]));
+					////1,2,3,4,5
+					//moveUpTile[moveup] = make_pair(map->finalTurn - map->turn + 1 - readTurn,
+					//	make_pair(nowAgentPosition.first + dx[turn], nowAgentPosition.second + dy[turn]));
+					//moveup++;
+					//moveCheck = true;
+					//movedTiled[nowAgentPosition.first + dx[turn]][nowAgentPosition.second + dy[turn]];
+					sum += calculateScore(make_pair(nowAgentPosition.first + dx[turn], nowAgentPosition.second + dy[turn]),turn);
 				}
 
 			}
 			else {
 				//////error
-				Dx+=nowAgentPosition.first + dx[turn];
-				Dy+=nowAgentPosition.second + dy[turn];
+				Dx+= dx[turn];
+				Dy+= + dy[turn];
 			}
+			sum += calculateScore(make_pair(nowAgentPosition.first + dx[turn], nowAgentPosition.second + dy[turn]), turn);
 		}
 		//routeサイズ調整
 
