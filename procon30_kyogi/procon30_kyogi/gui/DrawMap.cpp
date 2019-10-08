@@ -103,7 +103,7 @@ void DrawMap::drawMapManager(const int turn) {
 
 	drawMap2AgentsTurn(turn);
 	drawMapPoint2();
-	drawMapLine2(turn);
+	//drawMapLine2(turn);
 	drawMapFrame();
 }
 

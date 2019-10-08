@@ -136,7 +136,7 @@ bool CreateMap::createMapClass() {
 
 
 	//debug—p
-	//debugSetUp();
+	debugSetUp();
 	//createTurnField();
 	return true;
 }

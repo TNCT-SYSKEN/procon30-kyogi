@@ -29,7 +29,10 @@ void Prefetching::hyoukaKeisan()
 	int ourAgentsS = agents->ourAgents.size();
 	
 
+	//maxRoute,actionDXDYの初期化
+	agentsEvalution->maxRoute.resize(0);
 	agentsEvalution->maxRoute.resize(agents->ourAgents.size(),vector<pair<int,pair<int,int>>>(map->readTurn));
+	agentsAction->actionDxDy.resize(0);
 	agentsAction->actionDxDy.resize(ourAgentsS);
 
 	vector<pair<int, pair<int, int>>>moveUpTile;
@@ -47,16 +50,16 @@ void Prefetching::hyoukaKeisan()
 		route.push_back(make_pair(agentsnum, agentPosition));
 
 		//agentsEvalutionのmax評価値を初期化
-		agentsEvalution->maxEvalutionPoint = 0;
+		agentsEvalution->maxEvalutionPoint = -100;
 		calculateEvalution(route, agentPosition, moveUpTile, 0, map->readTurn, 0);
 		
-		route.resize(route.size() - 1);
+		route.resize(0);
 
 		agentsAction->actionType.resize(ourAgentsS);
 			//AgentsAction.hに書き込み
-		agentsAction->actionDxDy.resize(ourAgentsS);
+		agentsAction->actionDxDy[agentsnum-Agent0].resize(0);
 		
-		agentsEvalution->maxEvalutionPoint=0;
+		agentsEvalution->maxEvalutionPoint=-100;
 		rep(i,map->readTurn) {
 
 			agentsAction->actionDxDy[agentsnum - Agent0].push_back(
@@ -95,8 +98,8 @@ int Prefetching::calculateScore(pair<int,int>agentPosition,int turn)
 	if (turn == 4) {
 		return 0;
 	}
-	else if (agentPosition.first < 0 || agentPosition.first >= map->width || agentPosition.second < 0 || agentPosition.second >= map->vertical) {
-		return -1;
+	else if (field->tiled[agentPosition.first][agentPosition.second]==map->ourTeamID) {
+		return -10;
 	}
 	else {
 		sum = field->points[agentPosition.first][agentPosition.second];
@@ -117,9 +120,10 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 	
 	Field* field;
 	field = field->getField();
-
+	Evalution evalution;
 	int Dx=nowAgentPosition.first, Dy=nowAgentPosition.second;
-	
+	int giveReadTurn;
+
 	bool moveCheck = false;
 
 	int movedTiled[20][20];
@@ -129,76 +133,51 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 		}
 	}
 
+	int nowX,nowY;
+
+
 	rep(turn, 9) {
 		Dx = nowAgentPosition.first;
 		Dy = nowAgentPosition.second;
 		
-		if (nowAgentPosition.first + dx[turn] < 0 || nowAgentPosition.first + dx[turn] >= map->width
-			|| nowAgentPosition.second + dy[turn] < 0 || nowAgentPosition.second + dy[turn] >= map->vertical) {
-			
-			goto CantGoThere;
-
-		}
-		//踏んだのが自分チームのタイルだったらアクセスしない
-		if (movedTiled[nowAgentPosition.first + dx[turn]][nowAgentPosition.second + dy[turn]] == map->ourTeamID) {
-			if (turn != 4) {
-				
-				goto CantGoThere;
-			}
-		}
-
-		if (turn == 4) {
-
-		}
-		else {
-
-
-			if (movedTiled[nowAgentPosition.first + dx[turn]][nowAgentPosition.second + dy[turn]] == map->otherTeamID) {
-				//moveupのresize
-
-				if (readTurn > 0) {
-					//moveUpTile.resize(moveup + 1);
-
-					////1,2,3,4,5
-					//moveUpTile[moveup] = make_pair(map->finalTurn - map->turn + 1 - readTurn,
-					//	make_pair(nowAgentPosition.first + dx[turn], nowAgentPosition.second + dy[turn]));
-					//moveup++;
-					//moveCheck = true;
-					//movedTiled[nowAgentPosition.first + dx[turn]][nowAgentPosition.second + dy[turn]];
-					sum += calculateScore(make_pair(nowAgentPosition.first + dx[turn], nowAgentPosition.second + dy[turn]),turn);
-				}
-
-			}
-			else {
-				//////error
-				Dx+= dx[turn];
-				Dy+= + dy[turn];
-			}
-			sum += calculateScore(make_pair(nowAgentPosition.first + dx[turn], nowAgentPosition.second + dy[turn]), turn);
-		}
-		//routeサイズ調整
 
 
 		if (readTurn > 1) {
 			
 			route.push_back(make_pair(route[0].first, make_pair(dx[turn], dy[turn])));
-			readTurn--;
+			giveReadTurn = readTurn-1;
 		
-				calculateEvalution(route, make_pair(Dx,Dy), moveUpTile, moveup, readTurn, sum);
-				//route.resize(route.size() - 1);
+				calculateEvalution(route, make_pair(Dx,Dy), moveUpTile, moveup, giveReadTurn, sum);
+				route.resize(route.size() - 1);
 		
 		}else if (readTurn==1){
 			route.push_back(make_pair(route[0].first, make_pair(dx[turn], dy[turn])));
-			Evalution evalution;
+			nowX = route[0].second.first;
+			nowY = route[0].second.second;
+			rep(Checkturn, map->readTurn) {
+				nowX += route[Checkturn + 1].second.first;
+				nowY += route[Checkturn + 1].second.second;
+
+				if (nowX < 0 || nowX >= map->width || nowY < 0 || nowY >= map->vertical) {
+					route.resize(route.size() - 1);
+					goto fini;
+				}
+			}
+			
+			
 			evalution.calculateEvalution(route, moveUpTile, moveup, sum);
 			route.resize(route.size() - 1);
 		}
 		
 	
+		//route.resize(route.size() - 1);
+		//routeSizeのためにエージェントの位置が範囲外でもpushしてからでないとnull参照を起こすから、
+		//push_backすべき
+
 
 		//ひとつ前を消す
 		
-	CantGoThere:;
+		fini:;
 	}
 
 }

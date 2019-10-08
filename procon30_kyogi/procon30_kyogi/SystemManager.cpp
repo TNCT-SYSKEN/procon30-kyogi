@@ -53,54 +53,57 @@ void SystemManager::DebugSystem() {
 	bool OtherAgentsCheck[8];
 
 
+	rep(i, 8) {
+		OurAgentsCheck[i] = true;
+		OtherAgentsCheck[i] = true;
+
+	}
+
 	
 	for (int i = 0; i < AgentS; i++) {
 		//	ˆÚ“®æd•¡”»’è
 		for (int j = 0; j < AgentS;j++) {
 			ourNowX = agents->ourAgents[i][1] - 1 + agentsAction->actionDxDy[i][0].second.first;
-			ourNowY = agents->ourAgents[i][1] - 1 + agentsAction->actionDxDy[i][0].second.second;
+			ourNowY = agents->ourAgents[i][2] - 1 + agentsAction->actionDxDy[i][0].second.second;
+			if (i != j) {
+				if (ourNowX == agents->ourAgents[j][1] - 1 + agentsAction->actionDxDy[j][0].second.first &&
+					ourNowY == agents->ourAgents[j][2] - 1 + agentsAction->actionDxDy[j][0].second.second) {
+					OurAgentsCheck[i] = false;
+				}
+				if (ourNowX < 0 || ourNowX >= map->width || ourNowY < 0 || ourNowY >= map->vertical) {
+					OurAgentsCheck[i] = false;
+				}
+			}
 			
-			if (ourNowX == agents->ourAgents[j][i] - 1 + agentsAction->actionDxDy[i][0].second.first &&
-				ourNowY == agents->ourAgents[j][i] - 1 + agentsAction->actionDxDy[i][0].second.second) {
-				OurAgentsCheck[i] = false;
-			}
-			if(ourNowX < 0 || ourNowX >= map->width || ourNowY < 0  || ourNowY >= map->vertical) {
-				OurAgentsCheck[i] = false;
-			}
-			else {
-				OurAgentsCheck[i] = true;
-			}
 			
 		}
 	}
 	//“G
 	for (int i = 0; i < AgentS; i++) {
 		otherNowX = agents->otherAgents[i][1] - 1 + agentsAction->actionEnemyDxDy[i].second.first;
-		otherNowY = agents->otherAgents[i][1] - 1 + agentsAction->actionEnemyDxDy[i].second.second;
+		otherNowY = agents->otherAgents[i][2] - 1 + agentsAction->actionEnemyDxDy[i].second.second;
 
 		rep(j, AgentS) {
-
-			if (otherNowX == agents->otherAgents[j][i] - 1 + agentsAction->actionEnemyDxDy[i].second.first &&
-				otherNowY == agents->otherAgents[j][i] - 1 + agentsAction->actionEnemyDxDy[i].second.second) {
-				OtherAgentsCheck[i] = false;
+			if (i != j) {
+				if (otherNowX == agents->otherAgents[j][1] - 1 + agentsAction->actionEnemyDxDy[j].second.first &&
+					otherNowY == agents->otherAgents[j][2] - 1 + agentsAction->actionEnemyDxDy[j].second.second) {
+					OtherAgentsCheck[i] = false;
+				}
+				if (otherNowX < 0 || otherNowX >= map->width || otherNowY < 0 || otherNowY >= map->vertical) {
+					OtherAgentsCheck[i] = false;
+				}
+				
 			}
-			if (otherNowX < 0 || otherNowX >= map->width || otherNowY < 0 || otherNowY >= map->vertical) {
-				OtherAgentsCheck[i] = false;
-			}
-			else {
-				OtherAgentsCheck[i] = true;
-			}
-
 		}
 	}
 
 	rep(i, AgentS) {
 		rep(j, AgentS) {
 			ourNowX = agents->ourAgents[i][1] - 1 + agentsAction->actionDxDy[i][0].second.first;
-			ourNowY = agents->ourAgents[i][1] - 1 + agentsAction->actionDxDy[i][0].second.second;
+			ourNowY = agents->ourAgents[i][2] - 1 + agentsAction->actionDxDy[i][0].second.second;
 
 			otherNowX = agents->otherAgents[j][1] - 1 + agentsAction->actionEnemyDxDy[j].second.first;
-			otherNowY = agents->otherAgents[j][1] - 1 + agentsAction->actionEnemyDxDy[j].second.second;
+			otherNowY = agents->otherAgents[j][2] - 1 + agentsAction->actionEnemyDxDy[j].second.second;
 
 			if (ourNowX == otherNowX && ourNowY == otherNowY) {
 				OurAgentsCheck[i] = false;
@@ -112,49 +115,73 @@ void SystemManager::DebugSystem() {
 
 	rep(i, AgentS) {
 		ourNowX = agents->ourAgents[i][1] - 1 + agentsAction->actionDxDy[i][0].second.first;
-		ourNowY = agents->ourAgents[i][1] - 1 + agentsAction->actionDxDy[i][0].second.second;
+		ourNowY = agents->ourAgents[i][2] - 1 + agentsAction->actionDxDy[i][0].second.second;
 		
 		if (OurAgentsCheck[i]) {
-			field->tiled[ourNowX][ourNowY] = map->ourTeamID;
+			if (field->tiled[ourNowX][ourNowY] == map->otherTeamID) {
+				field->tiled[ourNowX][ourNowY] = 0;
+			}
+	//		else if(field->tiled[ourNowX][ourNowY] == map->ourTeamID){
+	//			
+	//		}
+			else {
+				//map->score[1][i] = ourNowY;
+				field->tiled[ourNowY][ourNowX] = map->ourTeamID;
+				agents->ourAgents[i][1] += agentsAction->actionDxDy[i][0].second.first;
+				agents->ourAgents[i][2] += agentsAction->actionDxDy[i][0].second.second;
+			}
 		}
 	}
 	rep(i, AgentS) {
 		otherNowX = agents->otherAgents[i][1] - 1 + agentsAction->actionEnemyDxDy[i].second.first;
-		otherNowY = agents->otherAgents[i][1] - 1 + agentsAction->actionEnemyDxDy[i].second.second;
+		otherNowY = agents->otherAgents[i][2] - 1 + agentsAction->actionEnemyDxDy[i].second.second;
 
 		if (OtherAgentsCheck[i]) {
-			field->tiled[otherNowX][otherNowY] = map->otherTeamID;
+
+			if (field->tiled[otherNowX][otherNowY] == map->ourTeamID) {
+				field->tiled[otherNowX][otherNowY] = 0;
+			}
+			else if(field->tiled[otherNowX][otherNowY] == map->otherTeamID){
+
+			}
+			else {
+				field->tiled[otherNowX][otherNowY] = map->otherTeamID;
+				agents->otherAgents[i][1] += agentsAction->actionEnemyDxDy[i].second.first;
+				agents->otherAgents[i][2] += agentsAction->actionEnemyDxDy[i].second.second;
+			}
 		}
 	}
 
 
 	//map->score.resize(2, vector<int>(3, 0));
-	map->score[0][0] = 0;
-	map->score[0][1] = 0;
-	map->score[0][2] = 0;
+	//map->score[0][0] = 0;
+	//map->score[0][1] = 0;
+	//map->score[0][2] = 0;
 
-	map->score[1][0] = 0;
-	map->score[1][1] = 0;
-	map->score[1][2] = 0;
+	//map->score[1][0] = 0;
+	//map->score[1][1] = 0;
+	////map->score[1][2] = 0;
 
 
-	rep(i, map->width) {
-		rep(j, map->vertical) {
-			if (field->tiled[i][j] == map->ourTeamID) {
-				map->score[0][1] += field->points[i][j];
-			}
-			else if (field->tiled[i][j] == map->otherTeamID) {
-				map->score[1][1] += field->points[i][j];
-			}
-				
-		}
-	}
-	
-	map->score[0][2] = calculateAreaPoint(map->ourTeamID);
-	map->score[1][2] = calculateAreaPoint(map->otherTeamID);
+	//rep(i, map->width) {
+	//	rep(j, map->vertical) {
+	//		if (field->tiled[i][j] == map->ourTeamID) {
+	//			map->score[0][1] += field->points[i][j];
+	//		}
+	//		else if (field->tiled[i][j] == map->otherTeamID) {
+	//			map->score[1][1] += field->points[i][j];
+	//		}
+	//			
+	//	}
+	//}
+	//
+	//map->score[0][2] = calculateAreaPoint(map->ourTeamID);
+	//map->score[1][2] = calculateAreaPoint(map->otherTeamID);
 
-	map->score[0][0] += map->score[0][1] + map->score[0][2];
-	map->score[1][0] += map->score[1][1] + map->score[1][2];
+	////map->score[1][2] = agents->otherAgents[0][1];
+
+	//map->score[0][0] += map->score[0][1] + map->score[0][2];
+	//map->score[1][0] += map->score[1][1] + map->score[1][2];
 
 	map->turnFlg = true;
 	map->turn++;

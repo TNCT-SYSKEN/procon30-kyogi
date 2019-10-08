@@ -15,11 +15,9 @@ DrawData::DrawData()
 
 	gui.addln(L"json_option", GUIText::Create(L"JSON_option"));
 	gui.add(L"token_name", GUIText::Create(L"トークン"));
-<<<<<<< HEAD
-	gui.add(L"token", GUITextArea::Create(1, 10));
-=======
+
 	gui.addln(L"token", GUITextArea::Create(1, 8));
->>>>>>> gui-S
+
 	gui.add(L"port_name", GUIText::Create(L"Port"));
 	gui.addln(L"port", GUITextArea::Create(1, 4));
 	
@@ -56,15 +54,11 @@ DrawData::DrawData()
 	gui.addln(L"searchALL", GUIToggleSwitch::Create( L"全探索モード",L"評価関数モード",true));
 
 	//先読みターン数変更
-<<<<<<< HEAD
+
 	gui.add(L"text0", GUIText::Create(L"先読みターン数"));
 	gui.add(L"ptnc", GUITextArea::Create(1, 2));
 	gui.addln(L"bt3", GUIButton::Create(L"決定"));
-=======
-	gui.addln(L"text0", GUIText::Create(L"先読みターン数"));
-	gui.add(L"ptnc", GUITextArea::Create(1,2));
-	gui.addln(L"bt3", GUIButton::Create(L"OK"));
->>>>>>> gui-S
+
 
 	//最大ターン数
 	//全探索で使う
@@ -173,7 +167,7 @@ void DrawData::drawDataManager() {
 	drawSumScore();
 	clickedButton();
 	drawData();
-	drawMap.drawMapManager(map->mapChange);
+	//drawMap.drawMapManager(map->mapChange);
 
 }
 
