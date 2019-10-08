@@ -8,5 +8,5 @@
 
 class FetchJson {
 public:
-	void fetch(string, string, string);
+	void fetch(string, string, string, int);
 };

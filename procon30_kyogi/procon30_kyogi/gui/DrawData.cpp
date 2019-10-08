@@ -14,27 +14,28 @@ DrawData::DrawData()
 	gui.addln(L"IsDebugMode", GUIToggleSwitch::Create(L"大会モード", L"DebugMode",true));
 
 	gui.addln(L"json_option", GUIText::Create(L"JSON_option"));
+	
 	gui.add(L"token_name", GUIText::Create(L"トークン"));
-
 	gui.addln(L"token", GUITextArea::Create(1, 8));
-
+	
 	gui.add(L"port_name", GUIText::Create(L"Port"));
 	gui.addln(L"port", GUITextArea::Create(1, 4));
-	
-	gui.add(L"bt1", GUIButton::Create(L"ターン終了"));
 
-	//トグルスイッチ　デバッグ用
-	gui.addln(L"jsonMode", GUIToggleSwitch::Create(L"相手の行動jsonMode",L"フィールド情報取得Mode",true));
-	//json 入力
-	gui.add(L"jsonTextArea", GUITextArea::Create(3, 10));
-	//reset
-	gui.addln(L"reset", GUIButton::Create(L"リセット"));
+	gui.add(L"matchNumberText", GUIText::Create(L"試合ID"));
+	gui.addln(L"matchNumber", GUITextArea::Create(1, 2));
+
+
+	
+	
+
+	gui.add(L"bt1", GUIButton::Create(L"ターン終了"));
+	
 
 	//json生成(action)
-	gui.add(L"JsonAction", GUIButton::Create(L"行動情報出力(行動決定)"));
+	gui.add(L"createJsonAction", GUIButton::Create(L"行動情報出力(行動決定)"));
 
 	//JsonFile読み込み
-	gui.addln(L"bt5", GUIButton::Create(L"JsonFile読み込み"));
+	gui.addln(L"getJSON", GUIButton::Create(L"MapJSON取得"));
 
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
 	gui.horizontalLine(L"hr").style.color = Color(127);
@@ -197,7 +198,7 @@ void DrawData::drawAreaScore() {
 	gui.textArea(L"OurAreaScore").setText(OurAreaScore);
 	gui.textArea(L"OtherAreaScore").setText(OtherAreaScore);
 }
-//総合展表示更新
+//総合表示更新
 void DrawData::drawSumScore() {
 	Map* map;
 	map = map->getMap();
@@ -207,6 +208,10 @@ void DrawData::drawSumScore() {
 
 	gui.textArea(L"OurSumScore").setText(OurSumScore);
 	gui.textArea(L"OtherSumScore").setText(OtherSumScore);
+
+
+	//ターン数
+	gui.textArea(L"turn").setText(Widen(to_string(map->turn)));
 }
 
 //ボタン入力をまとめた関数
@@ -233,9 +238,7 @@ void DrawData::clickedButton() {
 		map->isGameStarted = true;
 		gui.button(L"gameStart").enabled = false;
 	}
-	if (gui.button(L"reset").pushed) {
-		gui.textArea(L"jsonTextArea").setText(L"");
-	}
+
 
 	//先読みターン数決定ボタン
 	if (gui.button(L"bt3").pushed) {
@@ -254,26 +257,41 @@ void DrawData::clickedButton() {
 	if (gui.button(L"JsonAction").pushed) {
 		CreateJson cre;
 		cre.createJson();
+
+
 	}
 	//JsonFileの読み込み
-	if (gui.button(L"bt5").pushed) {
+	if (gui.button(L"getJSON").pushed) {
 		//gui.textArea(L"port").setText(gui.textArea(L"token").text)
-		if (gui.toggleSwitch(L"jsonMode").isRight) {
-			//debug
-			//textAreaからturn0 をとり、turn1からは取得しない
-			if (!map->firstJson) {
-				ParseJson par;
-				par.writeJsonToText((gui.textArea(L"jsonTextArea").text).narrow(),"data.json");
-				par.parse("data.json");
-			}
+		
+
+		//最初のMap取得
+		if (!map->firstJson) {
+			FetchJson fetchJson;
+			//Fetch Setting
+			string token = gui.textArea(L"token").text.narrow();
+			string port = gui.textArea(L"port").text.narrow();
+			string matchNumber = gui.textArea(L"matchNumber").text.narrow();
+
+			fetchJson.fetch(token, port, matchNumber, map->turn);
+
+			/*ParseJson parseJson;
+			parseJson.writeJsonToText((gui.textArea(L"jsonTextArea").text).narrow(),"data.json");
+			parseJson.parse("data.json");*/
 		}
-		if (gui.toggleSwitch(L"jsonMode").isLeft) {
-			//debug
-			ParseJson parJ;
-			parJ.writeJsonToText((gui.textArea(L"jsonTextArea").text).narrow(),"json/writeJson.json");
-			parJ.parseAction("json/writeJson.json");
-			map->enemyJson = true;
+		else {
+
+
 		}
+
+
+
+
+		////debug
+		//ParseJson parJ;
+		//			"json/writeJson.json");
+		//parJ.parseAction("json/writeJson.json");
+		//map->enemyJson = true;
 	}
 	//MaxTurn入力ボタン
 	if (gui.button(L"btMT").pushed) {

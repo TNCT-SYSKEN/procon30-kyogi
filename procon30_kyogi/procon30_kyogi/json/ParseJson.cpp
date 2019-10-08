@@ -1,6 +1,7 @@
 #include "ParseJson.h"
 #include"../gui/DrawData.h"
-//debug mode
+
+//ファイルに書き込み
 void ParseJson::writeJsonToText(string JSON,string path) {
 	// ファイルにJSONファイル書き込み
 	string filename = path;
@@ -19,6 +20,8 @@ picojson::value ParseJson::readJson(string path) {
 	ifs.close();
 	return json;
 }
+
+
 
 // string 型でプロパティの値を取得
 string ParseJson::getStrPropValue(picojson::value obj, string propName) {
