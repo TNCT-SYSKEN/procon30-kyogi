@@ -28,7 +28,7 @@ DrawData::DrawData()
 	gui.add(L"bt1", GUIButton::Create(L"ターン終了"));
 	
 	//アルゴリズム回す
-	gui.add(L"CalcAlgoprithm", GUIButton::Create(L"評価計算"));
+	gui.add(L"CalcAlgorithm", GUIButton::Create(L"評価計算"));
 
 	//JsonFile読み込み
 	gui.addln(L"getJSON", GUIButton::Create(L"MapJSON取得"));
@@ -168,7 +168,7 @@ void DrawData::drawDataManager() {
 	clickedButton();
 	drawData();
 	drawMap.drawMapManager(map->mapChange);
-
+	
 }
 
 
@@ -255,7 +255,12 @@ void DrawData::clickedButton() {
 	}
 	if (gui.button(L"createJsonAction").pushed) {
 		CreateJson cre;
-		cre.createJson();
+
+		string token = gui.textArea(L"token").text.narrow();
+		string port = gui.textArea(L"port").text.narrow();
+		string matchID = gui.textArea(L"matchNumber").text.narrow();
+		//JSON書き込み + 送信
+		cre.createJson(token,port,matchID);
 
 
 	}
@@ -287,7 +292,6 @@ void DrawData::clickedButton() {
 		}
 		else {
 
-			FetchJson fetchJson;
 			fetchJson.fetch(token, port, matchNumber, map->turn);
 
 			//string 
@@ -384,7 +388,19 @@ void DrawData::inputID() {
 	while (System::Update()) {
 		//自分、相手ID定義
 		if (guiID.button(L"IDbutton").pushed) {
-			//最初のフィールドマップが来てから実行しないと危険
+
+			//相手チームIDがわからないとき
+			if ((guiID.textArea(L"redID").text) == Widen("")) {
+				//自分チームは空でなかったら登録
+				if (guiID.textArea(L"blueID").text != Widen("")) {
+
+					map->ourTeamID= Parse<int>(guiID.textArea(L"blueID").text);
+					gui.textArea(L"blueID").setText(Widen(to_string(map->ourTeamID)));
+				}
+				break;
+			}
+
+
 
 			//if ourTeamID != blueID || otherTeamID != redID
 			if (map->ourTeamID != Parse<int>(guiID.textArea(L"blueID").text)

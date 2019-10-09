@@ -1,12 +1,13 @@
 #include"CreateJson.h"
-using namespace std;
-/*
-string escapeStr(string str) {
-	return + str + ";"
-}
-*/
 
-void CreateJson::createJson()
+string escapeStr(string str) {
+	string ans = "\"" + str + "\"";
+
+	return ans;
+}
+
+
+void CreateJson::createJson(string token,string port,string matchID)
 {
 	/*using v = picojson::value;
 	using o = picojson::object;
@@ -83,20 +84,33 @@ void CreateJson::createJson()
 	ifs.close();
 	
 	
-	/*string token = "procon30_example_token";
+	
 	string auth = escapeStr("Authorization: " + token) + " ";
 	string content_type = escapeStr("Content-Type: application/json") + " ";
-	string port = "55021";
-	string matchID = "1";
-	string host = "htp://localhost:" + port + "/matches/" + matchID + "/action ";
+	string host = "http://localhost:" + port + "/matches/" + matchID + "/action ";
 
-*/
+	//Action Jsonに
+	string SystemJSON = "";
+	string filePath = "json/data/Agents/writeJson.json";
+
+	for (int i = 0; i < json.size(); i++) {
+		if (json[i] == '\"') {
+			SystemJSON += '\\';
+		}
+
+		SystemJSON += json[i];
+		
+	}
+
+	ofstream Write(filePath);
+	Write << SystemJSON << endl;
+	Write.close();
 
 	// あとで直す
-   //string command = "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + json;
-	//cout<<command;
-	//system(command.c_str());
-	//string json = "1";
+	//string command = "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d ";// 
+	string hoge= "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + SystemJSON;
+
+	system(hoge.c_str());
 	
 	
 }

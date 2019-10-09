@@ -8,7 +8,7 @@ public:
 	int calculateScore(pair<int,int>,int);
 private:
 	
-	void calculateEvalution(vector<pair<int,pair<int,int>>>,pair<int,int>,vector<pair<int,pair<int,int>>>,int, int,int);
+	void calculateEvalution(vector<pair<int,pair<int,int>>>,pair<int,int>,vector<vector<int>>,int, int,int);
 
 	
 };

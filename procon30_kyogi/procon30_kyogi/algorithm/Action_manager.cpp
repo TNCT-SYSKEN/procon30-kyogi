@@ -27,7 +27,6 @@ void Action_manager::Action()
 	//‘S’Tõƒ‚[ƒh‚Å‚È‚©‚Á‚½‚ç
 	if (map->isSearchAll) {
 		prefetching.hyoukaKeisan();
-		
 	}
 	else {
 		judge.fullSearch();

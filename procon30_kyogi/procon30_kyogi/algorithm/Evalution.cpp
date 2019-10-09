@@ -14,7 +14,7 @@ float magnificat[] = { 1,1.2,1,1,1,1 };
 
 */
 
-void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vector<pair<int, pair<int, int>>>moveUpTile, int moveup, int sum)
+void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, int agentsnum, int sum)
 {
 
 	int dx[] = { 1,1,1,0,0,0,-1,-1,-1 };
@@ -64,7 +64,7 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 		if (route[turn + 1].second.first == 0 && route[turn + 1].second.second==0) {
 			calcTurn = 4;
 		}
-		//タイルポイント計算
+	//	//タイルポイント計算
 		sum += Pre.calculateScore(make_pair(nowX, nowY),calcTurn);
 		if (field->tiled[nowX][nowY] == map->ourTeamID ||
 			field->tiled[nowX][nowY] == map->otherTeamID){
@@ -166,15 +166,15 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 	if (agentsEvalution->maxEvalutionPoint < sumOfEvalution) {
 
 
-	//	map->score[1][2]++;
-		int R = route[0].first - agents->ourAgents[0][0];
-		agentsEvalution->maxRoute[R].resize(0);
+		//map->score[1][2]++;
+		
+		agentsEvalution->maxRoute[agentsnum].resize(0);
 		rep(i, routeS) {
-			agentsEvalution->maxRoute[R].push_back(route[i+1]);
+			agentsEvalution->maxRoute[agentsnum].push_back(route[i+1]);
 			
 			
 		}
-		//map->score[1][2] = agentsEvalution->maxRoute[R].size();
+		
 	}
 	
 
