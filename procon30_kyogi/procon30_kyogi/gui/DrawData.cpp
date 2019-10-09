@@ -16,27 +16,26 @@ DrawData::DrawData()
 	gui.addln(L"json_option", GUIText::Create(L"JSON_option"));
 	
 	gui.add(L"token_name", GUIText::Create(L"トークン"));
-	gui.addln(L"token", GUITextArea::Create(1, 8));
+	gui.addln(L"token", GUITextArea::Create(1, 14));
 	
 	gui.add(L"port_name", GUIText::Create(L"Port"));
-	gui.addln(L"port", GUITextArea::Create(1, 4));
+	gui.add(L"port", GUITextArea::Create(1, 4));
 
 	gui.add(L"matchNumberText", GUIText::Create(L"試合ID"));
 	gui.addln(L"matchNumber", GUITextArea::Create(1, 2));
 
 
-	
-	
-
 	gui.add(L"bt1", GUIButton::Create(L"ターン終了"));
 	
-
-	//json生成(action)
-	gui.add(L"createJsonAction", GUIButton::Create(L"行動情報出力(行動決定)"));
+	//アルゴリズム回す
+	gui.add(L"CalcAlgoprithm", GUIButton::Create(L"評価計算"));
 
 	//JsonFile読み込み
 	gui.addln(L"getJSON", GUIButton::Create(L"MapJSON取得"));
-
+	
+	//json生成(action)
+	gui.add(L"createJsonAction", GUIButton::Create(L"行動情報出力(行動決定)"));
+	
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
 	gui.horizontalLine(L"hr").style.color = Color(127);
 
@@ -168,7 +167,7 @@ void DrawData::drawDataManager() {
 	drawSumScore();
 	clickedButton();
 	drawData();
-	//drawMap.drawMapManager(map->mapChange);
+	drawMap.drawMapManager(map->mapChange);
 
 }
 
@@ -254,7 +253,7 @@ void DrawData::clickedButton() {
 	if (gui.button(L"bt4").pushed) {
 		inputID();
 	}
-	if (gui.button(L"JsonAction").pushed) {
+	if (gui.button(L"createJsonAction").pushed) {
 		CreateJson cre;
 		cre.createJson();
 
@@ -264,34 +263,40 @@ void DrawData::clickedButton() {
 	if (gui.button(L"getJSON").pushed) {
 		//gui.textArea(L"port").setText(gui.textArea(L"token").text)
 		
+		FetchJson fetchJson;
+			//Fetch Setting
+		string token = gui.textArea(L"token").text.narrow();
+		string port = gui.textArea(L"port").text.narrow();
+		string matchNumber = gui.textArea(L"matchNumber").text.narrow();
+
+		ParseJson parseJson;
 
 		//最初のMap取得
 		if (!map->firstJson) {
-			FetchJson fetchJson;
-			//Fetch Setting
-			string token = gui.textArea(L"token").text.narrow();
-			string port = gui.textArea(L"port").text.narrow();
-			string matchNumber = gui.textArea(L"matchNumber").text.narrow();
-
+			//サーバーから取ってくる
 			fetchJson.fetch(token, port, matchNumber, map->turn);
 
-			/*ParseJson parseJson;
-			parseJson.writeJsonToText((gui.textArea(L"jsonTextArea").text).narrow(),"data.json");
-			parseJson.parse("data.json");*/
+			
+			
+			//0ターンの情報
+
+			parseJson.parse("json/data/Map/turn0.json");
+			map->turn++;
+
+			map->firstJson = true;
 		}
 		else {
 
+			FetchJson fetchJson;
+			fetchJson.fetch(token, port, matchNumber, map->turn);
 
+			//string 
+			parseJson.parseTurn1("json/data/Map/turn" + to_string(map->turn) + ".json");
 		}
-
-
-
-
-		////debug
-		//ParseJson parJ;
-		//			"json/writeJson.json");
-		//parJ.parseAction("json/writeJson.json");
-		//map->enemyJson = true;
+	}
+	if (gui.button(L"CalcAlgorithm").pushed) {
+		Action_manager AC;
+		AC.Action();
 	}
 	//MaxTurn入力ボタン
 	if (gui.button(L"btMT").pushed) {

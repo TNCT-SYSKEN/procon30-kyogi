@@ -1,4 +1,1 @@
-{"actions":[{"agentID":4,"dx":-1,"dy":1,"type":"move"},{"agentID":5,"dx":1,"dy":1,"type":"move"},{"agentID":6,"dx":-1,"dy":1,"type":"move"}]}
-
-
-
+{"actions":[{"agentID":2,"type":""},{"agentID":3,"type":""}]}

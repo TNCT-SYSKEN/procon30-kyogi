@@ -48,6 +48,7 @@ void CreateJson::createJson()
 			picojson::object Action;
 			Action.insert(make_pair(("dy"), picojson::value(static_cast<double>(agentsAcn->actionDxDy[i][0].second.second))));
 			Action.insert(make_pair(("dx"), picojson::value(static_cast<double>(agentsAcn->actionDxDy[i][0].second.first))));
+			
 			if (agentsAcn->actionType[i][0] == 0) {
 				ActionMove = "stay";
 			}
