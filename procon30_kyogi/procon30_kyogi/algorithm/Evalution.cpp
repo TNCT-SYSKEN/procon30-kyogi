@@ -105,7 +105,7 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, int 
 	
 
 	rep(i, map->width) {
-		rep(j, map->width) {
+		rep(j, map->vertical) {
 			tiledArea[i][j] = field->tiled[i][j];
 		}
 	}
@@ -167,12 +167,16 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, int 
 
 
 		//map->score[1][2]++;
-		
+		agentsEvalution->maxEvalutionPoint = sumOfEvalution;
+
 		agentsEvalution->maxRoute[agentsnum].resize(0);
 		rep(i, routeS) {
 			agentsEvalution->maxRoute[agentsnum].push_back(route[i+1]);
 			
 			
+		}
+		if (route[1].second.first == 0 && route[1].second.second == 1) {
+			map->score[1][2]++;
 		}
 		
 	}

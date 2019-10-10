@@ -205,14 +205,14 @@ void CreateMap::debugSetUp() {
 	Field* field;
 	field = field->getField();
 	//Map.h
-	map->vertical = 10;
-	map->width = 10;
+	map->vertical = 20;
+	map->width = 20;
 	map->makeReadTurnMap = false;
 	map->ourTeamID = 1;
 	map->otherTeamID = 2;
 	//Agents.h
-	agents->ourAgents.resize(4, vector<int>(3));
-	agents->otherAgents.resize(4, vector<int>(3));
+	agents->ourAgents.resize(8, vector<int>(3));
+	agents->otherAgents.resize(8, vector<int>(3));
 	
 
 
@@ -226,57 +226,20 @@ void CreateMap::debugSetUp() {
 	}
 	
 	//Žè“®‚Åagent‚Ì‰ŠúˆÊ’u“ü—Í
-	agents->ourAgents[0][1] = 1;
-	agents->ourAgents[0][2] = 2;
-	agents->ourAgents[1][1] = 9;
-	agents->ourAgents[1][2] = 1;
-	agents->ourAgents[2][1] = 10;
-	agents->ourAgents[2][2] = 9;
-	agents->ourAgents[3][1] = 2;
-	agents->ourAgents[3][2] = 10;
-	
-	agents->otherAgents[0][1] = 2;
-	agents->otherAgents[0][2] = 1;
 
-	agents->otherAgents[1][1] = 10;
-	agents->otherAgents[1][2] = 2;
+	rep(i, agents->ourAgents.size()) {
+		rep(xy, 2) {
+			agents->ourAgents[i][xy+1] = 1;
+			agents->otherAgents[i][xy+1] = 2;
+		}
+	}
 
-	agents->otherAgents[2][1] = 9;
-	agents->otherAgents[2][2] = 10;
-	
-	agents->otherAgents[3][1] = 1;
-	agents->otherAgents[3][2] = 9;
-	
 	
 	//Field.h
 	field->points.resize(map->width, vector<int>(map->vertical, 0));
-	field->points = {
-		{0,1,2,3,4,-4,-3,-2,-1,0},
-		{0,1,2,3,4,-4,-3,-2,-1,0},
-		{0,1,2,3,4,-4,-3,-2,-1,0},
-		{0,1,2,3,4,-4,-3,-2,-1,0},
-		{0,1,2,3,4,-4,-3,-2,-1,0},
-		{0,1,2,3,4,-4,-3,-2,-1,0},
-		{0,1,2,3,4,-4,-3,-2,-1,0},
-		{0,1,2,3,4,-4,-3,-2,-1,0},
-		{0,1,2,3,4,-4,-3,-2,-1,0},
-		{0,1,2,3,4,-4,-3,-2,-1,0}
-	};
 	
 	field->tiled.resize(map->width, vector<int>(map->vertical, 0));
-	field->tiled = {
-		{0,1,0,0,0,0,0,0,2,0},
-		{2,0,0,0,0,0,0,0,0,1},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0},
-		{1,0,0,0,0,0,0,0,0,2},
-		{0,2,0,0,0,0,0,0,1,0}
-	};
-
+	
 	
 	field->turnTiled.resize(map->readTurn+1 ,vector<vector<int>>(map->width, vector<int>(map->vertical, 0)));
 	

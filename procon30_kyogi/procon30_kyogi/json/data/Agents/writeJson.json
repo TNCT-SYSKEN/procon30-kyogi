@@ -1,1 +1,1 @@
-{\"actions\":[{\"agentID\":2,\"dx\":-1,\"dy\":0,\"type\":\"move\"},{\"agentID\":3,\"dx\":0,\"dy\":-1,\"type\":\"move\"}]}
+{\"actions\":[{\"agentID\":1,\"dx\":-1,\"dy\":1,\"type\":\"remove\"},{\"agentID\":2,\"dx\":-1,\"dy\":1,\"type\":\"remove\"},{\"agentID\":3,\"dx\":-1,\"dy\":-1,\"type\":\"remove\"},{\"agentID\":4,\"dx\":0,\"dy\":1,\"type\":\"remove\"},{\"agentID\":5,\"dx\":1,\"dy\":1,\"type\":\"remove\"},{\"agentID\":6,\"dx\":1,\"dy\":1,\"type\":\"remove\"},{\"agentID\":7,\"dx\":1,\"dy\":-1,\"type\":\"remove\"},{\"agentID\":8,\"dx\":1,\"dy\":-1,\"type\":\"remove\"}]}

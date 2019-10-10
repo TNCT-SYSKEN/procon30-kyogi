@@ -279,7 +279,7 @@ void DrawData::clickedButton() {
 		//最初のMap取得
 		if (!map->firstJson) {
 			//サーバーから取ってくる
-			fetchJson.fetch(token, port, matchNumber, map->turn);
+			//fetchJson.fetch(token, port, matchNumber, map->turn);
 
 			
 			
@@ -467,7 +467,10 @@ void DrawData::manualDirection(const int number) {
 	guiManual.add(L"btm8", GUIButton::Create(L"↓"));
 	guiManual.addln(L"btm9", GUIButton::Create(L"右下"));
 	guiManual.add(L"btm10",GUIButton::Create(L"キャンセル"));
-	guiManual.setPos(1500,800);
+	//はみ出たから位置変える
+	//guiManual.setPos(1500,800);
+	guiManual.setPos(500, 10);
+
 	DrawMap drawMap;
 	AgentsAction* agentsAction;
 	agentsAction = agentsAction->getAgentsAction();
