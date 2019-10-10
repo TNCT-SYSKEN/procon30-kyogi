@@ -81,24 +81,24 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, int 
 	
 	int lastGetEnemyAreaPointR = map->score[1][2];
 	//敵タイル除去を行うかどうか
-	rep(i, map->readTurn) {
-		
-		nowX += route[i + 1].second.first;
-		nowY += route[i + 1].second.second;
+	//rep(i, map->readTurn) {
+	//	
+	//	nowX += route[i + 1].second.first;
+	//	nowY += route[i + 1].second.second;
 
-		if (field->tiled[nowX][nowY] == map->otherTeamID) {
+	//	if (field->tiled[nowX][nowY] == map->otherTeamID) {
 
-			int areaenemypoint = map->score[0][2] - calculateEnemyAreaPoint(route);
-			
-			/////////////////////////////////////////////////////
-			if (areaenemypoint > 0) {
-	
-				sumOfEvalution += (float)(areaenemypoint*evalution[0]);
-			}
-			
-		}
-		
-	}
+	//		int areaenemypoint = map->score[0][2] - calculateEnemyAreaPoint(route);
+	//		
+	//		/////////////////////////////////////////////////////
+	//		if (areaenemypoint > 0) {
+	//
+	//			sumOfEvalution += (float)(areaenemypoint*evalution[0]);
+	//		}
+	//		
+	//	}
+	//	
+	//}
 
 
 	//移動可能マス計算

@@ -60,7 +60,7 @@ void ParseJson::parse(string path) {
 	map->vertical = getIntPropValue(json, "height");
 	
 	map->startedAtUnixTime = getFloatPropValue(json, "startedAtUnixTime");
-	map->turn = getIntPropValue(json, "turn")+1;
+	map->turn = getIntPropValue(json, "turn");
 	
 	//field ‰Šú‰»
 	field->points.resize(map->width, vector<int>(map->vertical));
@@ -191,7 +191,7 @@ void ParseJson::parseTurn1(string path) {
 	map->vertical = getIntPropValue(json, "height");
 
 	map->startedAtUnixTime = getFloatPropValue(json, "startedAtUnixTime");
-	map->turn = getIntPropValue(json, "turn") + 1;
+	map->turn = getIntPropValue(json, "turn");
 
 	//field ‰Šú‰»
 	field->points.resize(map->width, vector<int>(map->vertical));
