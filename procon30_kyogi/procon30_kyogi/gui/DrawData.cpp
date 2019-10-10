@@ -153,11 +153,6 @@ DrawData::DrawData()
 	const Size targetSize(1920, 1080);
 	//バックグラウンドを白
 	Graphics::SetBackground(Palette::Gray);
-	//フルスクリーン
-	if (!Window::SetFullscreen(true, targetSize))
-	{
-		System::Exit();
-	}	
 	outputTurn();
 }
 
@@ -473,7 +468,7 @@ void DrawData::manualDirection(const int number) {
 	guiManual.add(L"btm10",GUIButton::Create(L"キャンセル"));
 	//はみ出たから位置変える
 	//guiManual.setPos(1500,800);
-	guiManual.setPos(500, 10);
+	guiManual.setPos(450, 10);
 
 	DrawMap drawMap;
 	AgentsAction* agentsAction;
