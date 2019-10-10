@@ -149,11 +149,6 @@ DrawData::DrawData()
 	const Size targetSize(1920, 1080);
 	//バックグラウンドを白
 	Graphics::SetBackground(Palette::Gray);
-	//フルスクリーン
-	if (!Window::SetFullscreen(true, targetSize))
-	{
-		System::Exit();
-	}	
 	outputTurn();
 }
 
