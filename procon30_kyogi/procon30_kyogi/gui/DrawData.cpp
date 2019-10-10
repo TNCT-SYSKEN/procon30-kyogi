@@ -469,7 +469,7 @@ void DrawData::manualDirection(const int number) {
 	guiManual.add(L"btm10",GUIButton::Create(L"キャンセル"));
 	//はみ出たから位置変える
 	//guiManual.setPos(1500,800);
-	guiManual.setPos(500, 10);
+	guiManual.setPos(450, 10);
 
 	DrawMap drawMap;
 	AgentsAction* agentsAction;
