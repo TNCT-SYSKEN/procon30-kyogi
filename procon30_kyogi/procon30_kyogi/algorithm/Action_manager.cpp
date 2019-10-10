@@ -12,18 +12,21 @@ void Action_manager::Action()
 
 	//Hyouka.cppの関数を呼び出す
 	//現在の得点などをちゃんと別のファイル、もしくは関数で取得する必要がある。
-
-
-	Prefetching prefetching;
-
+	AgentsAction* agentsAction;
+	agentsAction = agentsAction->getAgentsAction();
 	AgentsEvalution* agentsEvalution;
 	agentsEvalution = agentsEvalution->getAgentsEvalution();
-
-	Judge judge;
-	
 	Map* map;
 	map = map->getMap();
+	Field* field;
+	field = field->getField();
+	Agents* agents;
+	agents = agents->getAgents();
 	
+	Prefetching prefetching;
+	Judge judge;
+
+	//計算
 	//全探索モードでなかったら
 	if (map->isSearchAll) {
 		prefetching.hyoukaKeisan();
@@ -31,5 +34,46 @@ void Action_manager::Action()
 	else {
 		judge.fullSearch();
 	}
+	
+
+	//評価計算終わった後
+	//turnAgent,turnTiledの更新
+	int agentS = agents->ourAgents.size();
+
+	field->turnAgent.resize(0);
+	field->turnAgent.resize(map->readTurn + 1,vector<pair<int,int>>(agentS));
+
+	field->turnTiled.resize(map->readTurn + 1,vector<vector<int>>(map->width,vector<int>(map->vertical)));
+
+	int nowX[8],nowY[8];
+	
+	rep(i, agentS) {
+		nowX[i] = agents->ourAgents[i][1] - 1;
+		nowY[i] = agents->ourAgents[i][2] - 1;
+		
+		field->turnAgent[0][i] = make_pair(nowX[i], nowY[i]);
+	}
+	rep(turn, map->readTurn + 1) {
+		field->turnTiled[turn] = field->tiled;
+	}
+	
+
+	rep(turn, map->readTurn) {
+		rep(agentnum, agentS) {
+			nowX[agentnum] += agentsAction->actionDxDy[agentnum][turn].second.first;
+			nowY[agentnum] += agentsAction->actionDxDy[agentnum][turn].second.second;
+
+			if (field->turnTiled[turn + 1][nowX[agentnum]][nowY[agentnum]] == map->otherTeamID) {
+				nowX[agentnum] -= agentsAction->actionDxDy[agentnum][turn].second.first;
+				nowY[agentnum] -= agentsAction->actionDxDy[agentnum][turn].second.second;
+			}
+			else {
+				field->turnTiled[turn + 1][nowX[agentnum]][nowY[agentnum]] = map->ourTeamID;
+			}
+
+			field->turnAgent[turn + 1][agentnum] = make_pair(nowX[agentnum], nowY[agentnum]);
+		}
+	}
+
 
 }

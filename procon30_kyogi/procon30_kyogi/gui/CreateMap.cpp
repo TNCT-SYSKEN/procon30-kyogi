@@ -137,7 +137,7 @@ bool CreateMap::createMapClass() {
 
 	//debug—p
 	debugSetUp();
-	//createTurnField();
+	createTurnField();
 	return true;
 }
 
@@ -155,7 +155,7 @@ void CreateMap::createTurnField() {
 
 	int agentS = agents->ourAgents.size();
 	field->turnAgent.resize(map->readTurn+1, vector<pair<int, int>>(agentS));
-	//agentsAcn->actionDxDy.resize(agentS, vector<pair<int, pair<int, int>>>(map->readTurn+1 , pair<int, pair<int, int>>(0, pair<int, int>(0, 0))));
+	agentsAcn->actionDxDy.resize(agentS, vector<pair<int, pair<int, int>>>(map->readTurn+1 , pair<int, pair<int, int>>(0, pair<int, int>(0, 0))));
 
 	int nowX[8];
 	int nowY[8];

@@ -193,8 +193,16 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 					nowX -= route[Checkturn + 1].second.first;
 					nowY -= route[Checkturn + 1].second.second;
 				}
+				else {
+
+				}
+
 			}
 			
+
+			if (turn == 5) {
+				map->score[0][2]++;
+			}
 			
 			evalution.calculateEvalution(route, agentsnum, sum);
 			route.resize(route.size() - 1);
