@@ -36,6 +36,8 @@ public:
 	bool click;
 	int x, y;
 
+	//—ÌˆæŒvŽZONOFF
+	bool calcArea = false;
 
 
 	//ŒvŽZ‚µ‚½‚©‚Ç‚¤‚©

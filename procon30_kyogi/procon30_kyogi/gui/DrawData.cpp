@@ -39,6 +39,10 @@ DrawData::DrawData()
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
 	gui.horizontalLine(L"hr").style.color = Color(127);
 
+	//—ÌˆæŒvŽZONoff
+	gui.add(L"calcArea", GUIToggleSwitch::Create(L"—ÌˆæŒvŽZ", L"—ÌˆæŒvŽZON", false));
+
+
 	//Input
 	//…•½ü
 	gui.add(GUIText::Create(L"Input"));
@@ -333,6 +337,13 @@ void DrawData::clickedButton() {
 		{
 			System::Exit();
 		}
+	}
+
+	if (gui.toggleSwitch(L"calcArea").isRight) {
+		map->calcArea = true;
+	}
+	else if (gui.toggleSwitch(L"calcArea").isLeft) {
+		map->calcArea=false;
 	}
 }
 

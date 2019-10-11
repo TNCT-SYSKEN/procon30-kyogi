@@ -63,13 +63,13 @@ void Action_manager::Action()
 			nowX[agentnum] += agentsAction->actionDxDy[agentnum][turn].second.first;
 			nowY[agentnum] += agentsAction->actionDxDy[agentnum][turn].second.second;
 
-			if (field->turnTiled[turn + 1][nowX[agentnum]][nowY[agentnum]] == map->otherTeamID) {
+			/*if (field->turnTiled[turn + 1][nowX[agentnum]][nowY[agentnum]] == map->otherTeamID) {
 				nowX[agentnum] -= agentsAction->actionDxDy[agentnum][turn].second.first;
 				nowY[agentnum] -= agentsAction->actionDxDy[agentnum][turn].second.second;
-			}
-			else {
-				field->turnTiled[turn + 1][nowX[agentnum]][nowY[agentnum]] = map->ourTeamID;
-			}
+			}*/
+			
+			field->turnTiled[turn + 1][nowX[agentnum]][nowY[agentnum]] = map->ourTeamID;
+			
 
 			field->turnAgent[turn + 1][agentnum] = make_pair(nowX[agentnum], nowY[agentnum]);
 		}

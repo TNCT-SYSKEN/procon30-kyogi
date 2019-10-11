@@ -191,7 +191,7 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 		//移動先が相手チームタイルだったら
 		else if (moveUpTile[Dx + dx[turn]][Dy + dy[turn]] == map->otherTeamID) {
 
-			moveUpTile[Dx + dx[turn]][Dy + dy[turn]];
+			moveUpTile[Dx + dx[turn]][Dy + dy[turn]] = 0;
 			Dx -= dx[turn];
 			Dy -= dy[turn];
 		}
@@ -241,7 +241,7 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 			}*/
 			
 			
-			evalution.calculateEvalution(route, agentsnum, sum);
+			evalution.calculateEvalution(route,moveUpTile, agentsnum, sum);
 			route.resize(route.size() - 1);
 		}
 		
