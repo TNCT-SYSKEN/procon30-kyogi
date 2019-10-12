@@ -59,6 +59,8 @@ void Action_manager::Action()
 	
 
 	rep(turn, map->readTurn) {
+		field->turnTiled[turn + 1] = field->turnTiled[turn];
+
 		rep(agentnum, agentS) {
 			nowX[agentnum] += agentsAction->actionDxDy[agentnum][turn].second.first;
 			nowY[agentnum] += agentsAction->actionDxDy[agentnum][turn].second.second;
@@ -69,8 +71,7 @@ void Action_manager::Action()
 			}*/
 			
 			field->turnTiled[turn + 1][nowX[agentnum]][nowY[agentnum]] = map->ourTeamID;
-			
-
+		
 			field->turnAgent[turn + 1][agentnum] = make_pair(nowX[agentnum], nowY[agentnum]);
 		}
 	}
