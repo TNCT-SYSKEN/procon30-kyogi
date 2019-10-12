@@ -29,6 +29,8 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 	field = field->getField();
 	Agents* agents;
 	agents = agents->getAgents();
+	AgentsAction* agentsAction;
+	agentsAction = agentsAction->getAgentsAction();
 
 
 	//エージェントがそのマスの付近にいたら評価を下げる（戦局次第では上げる）
@@ -131,13 +133,29 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 
 	//競合を治す
 	///////////////////////////////////////////////
-	/*nowX=route[0]
+	nowX = route[0].second.first;
+	nowY = route[0].second.second;
+	
+	
 	
 	rep(count, agentsnum) {
+		int OnowX = agents->ourAgents[count][1];
+		int OnowY = agents->ourAgents[count][2];
+
+
+
 		rep(turn, map->readTurn) {
-			
+
+			OnowX += agentsAction->actionDxDy[count][turn].second.first;
+			OnowY += agentsAction->actionDxDy[count][turn].second.second;
+
+			nowX += route[turn + 1].second.first;
+			nowY += route[turn + 1].second.second;
+
+
+			sumOfEvalution -= 3 - abs(OnowX - nowX)*1.3;
 		}
-	}*/
+	}
 
 
 
