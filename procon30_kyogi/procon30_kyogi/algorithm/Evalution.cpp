@@ -133,7 +133,7 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 
 	//ã£çáÇé°Ç∑
 	///////////////////////////////////////////////
-	nowX = route[0].second.first;
+	/*nowX = route[0].second.first;
 	nowY = route[0].second.second;
 	
 	
@@ -155,7 +155,7 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 
 			sumOfEvalution -= 3 - abs(OnowX - nowX)*1.3;
 		}
-	}
+	}*/
 
 
 
