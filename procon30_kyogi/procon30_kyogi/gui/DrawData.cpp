@@ -295,7 +295,7 @@ void DrawData::clickedButton() {
 		}
 		else {
 
-			fetchJson.fetch(token, port, matchNumber, map->turn);
+			//fetchJson.fetch(token, port, matchNumber, map->turn);
 
 			//string 
 			parseJson.parseTurn1("json/data/Map/turn" + to_string(map->turn) + ".json");

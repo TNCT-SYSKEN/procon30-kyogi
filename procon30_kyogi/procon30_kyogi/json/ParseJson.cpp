@@ -191,7 +191,7 @@ void ParseJson::parseTurn1(string path) {
 	map->vertical = getIntPropValue(json, "height");
 
 	map->startedAtUnixTime = getFloatPropValue(json, "startedAtUnixTime");
-	map->turn = getIntPropValue(json, "turn");
+	map->turn = getIntPropValue(json, "turn") + 1;
 
 	//field ‰Šú‰»
 	field->points.resize(map->width, vector<int>(map->vertical));
@@ -296,31 +296,31 @@ void ParseJson::parseTurn1(string path) {
 
 
 
-	picojson::array& arr = obj["actions"].get<picojson::array>();
+	//picojson::array& arr = obj["actions"].get<picojson::array>();
 
-	for (const auto& actions : arr) {
-		//
-		for (int i = 0; i < agentSize; i++) {
-			//
-			if (agents->ourAgents[i][0] == stoi(actions.get("agentID").to_str())) {
-				//ourAgents.x.y+
-				agents->ourAgents[i][1] += stoi(actions.get("dx").to_str());
-				agents->ourAgents[i][2] += stoi(actions.get("dy").to_str());
-			}
-			else if (agents->otherAgents[i][0] == stoi(actions.get("agentID").to_str())) {
-				//otherAgents.x.y
-				agents->otherAgents[i][1] += stoi(actions.get("dx").to_str());
-				agents->otherAgents[i][2] += stoi(actions.get("dy").to_str());
-			}
-			
-		}
-		/*agentsAction->actionEnemyDxDy[i] = make_pair(
-			stoi(actions.get("agentID").to_str()), make_pair(
-				stoi(actions.get("dx").to_str()),
-				stoi(actions.get("dy").to_str())
-			));
-		i++;*/
-	}
+	//for (const auto& actions : arr) {
+	//	//
+	//	for (int i = 0; i < agentSize; i++) {
+	//		//
+	//		if (agents->ourAgents[i][0] == stoi(actions.get("agentID").to_str())) {
+	//			//ourAgents.x.y+
+	//			agents->ourAgents[i][1] += stoi(actions.get("dx").to_str());
+	//			agents->ourAgents[i][2] += stoi(actions.get("dy").to_str());
+	//		}
+	//		else if (agents->otherAgents[i][0] == stoi(actions.get("agentID").to_str())) {
+	//			//otherAgents.x.y
+	//			agents->otherAgents[i][1] += stoi(actions.get("dx").to_str());
+	//			agents->otherAgents[i][2] += stoi(actions.get("dy").to_str());
+	//		}
+	//		
+	//	}
+	//	/*agentsAction->actionEnemyDxDy[i] = make_pair(
+	//		stoi(actions.get("agentID").to_str()), make_pair(
+	//			stoi(actions.get("dx").to_str()),
+	//			stoi(actions.get("dy").to_str())
+	//		));
+	//	i++;*/
+	//}
 
 
 
