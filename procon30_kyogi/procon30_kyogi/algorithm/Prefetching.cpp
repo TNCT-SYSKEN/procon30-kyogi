@@ -58,7 +58,7 @@ void Prefetching::hyoukaKeisan()
 		
 		//ƒ^ƒCƒ‹ó‘Ô
 		vector<vector<int>> moveUpTile;
-		moveUpTile.resize(20, vector<int>(20));
+		moveUpTile.resize(map->width, vector<int>(map->vertical));
 		rep(i, map->width) {
 			rep(j, map->vertical) {
 				moveUpTile[i][j] = field->tiled[i][j];
@@ -75,9 +75,15 @@ void Prefetching::hyoukaKeisan()
 		
 		agentsEvalution->maxEvalutionPoint=-100;
 		
-		
+		//
+		int nowX = 0;
+		int nowY = 0;
+			nowX = agents->ourAgents[agentsnum][1] - 1;
+			nowY = agents->otherAgents[agentsnum][2] - 1;
 
 		rep(i,map->readTurn) {
+			nowX += agentsEvalution->maxRoute[agentsnum][i].second.first;
+			nowY += agentsEvalution->maxRoute[agentsnum][i].second.second;
 
 			agentsAction->actionDxDy[agentsnum].push_back(
 				agentsEvalution->maxRoute[agentsnum][i]);
@@ -87,13 +93,13 @@ void Prefetching::hyoukaKeisan()
 				agentsAction->actionType[agentsnum].push_back(0);
 				
 			}
-			else if (field->tiled[(agents->ourAgents[agentsnum][1]-1)+(agentsEvalution->maxRoute[agentsnum][i].second.first)]
-			[(agents->ourAgents[agentsnum][2]-1) + (agentsEvalution->maxRoute[agentsnum][i].second.second)] == map->otherTeamID){
+			else if (field->tiled[nowX][nowY] == map->otherTeamID){
 				//remove
 				agentsAction->actionType[agentsnum].push_back(-1);
 				
 			}
 			else {
+
 				//move
 				agentsAction->actionType[agentsnum].push_back(1);
 				
