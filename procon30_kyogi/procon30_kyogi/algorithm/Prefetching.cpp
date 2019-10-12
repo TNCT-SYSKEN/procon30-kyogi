@@ -201,6 +201,10 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 			Dx -= dx[turn];
 			Dy -= dy[turn];
 		}
+		else {
+			moveUpTile[Dx + dx[turn]][Dy + dy[turn]] = map->ourTeamID;
+			
+		}
 		
 
 		//à íuçXêV
@@ -211,7 +215,8 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 			
 			route.push_back(make_pair(route[0].first, make_pair(dx[turn], dy[turn])));
 			giveReadTurn = readTurn-1;
-		
+
+
 			calculateEvalution(route, make_pair(Dx,Dy), moveUpTile, agentsnum, giveReadTurn, sum);
 				route.resize(route.size() - 1);
 		
