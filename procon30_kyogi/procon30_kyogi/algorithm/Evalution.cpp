@@ -1,8 +1,8 @@
 #include"Evalution.h"
 
 
-float evalution[5] = { 8,10,5,16,10 };
-// 領域, 相手の点が高いか, 移動可能マス,　移動先の点数の高さ,タイル除去
+float evalution[] = { 8,10, 3 ,20,10,13};
+// 領域, 相手の点が高いか, 移動可能マス,　移動先の点数の高さ,タイル除去,外側に行こうとしているか
 
 
 float magnificat[] = { 1.04 , 1.2,1,1,1,1 };
@@ -65,8 +65,11 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 			calcTurn = 4;
 		}
 
-	//タイルポイント計算
-		
+	
+		//端に行くほど評価点は高くなる
+		sumOfEvalution += (abs(nowX - map->width/2) + abs(nowY - map->vertical/2) )* evalution[5];
+
+		//タイルポイント計算
 		//相手タイル除去の場合
 		if (field->tiled[nowX][nowY] == map->otherTeamID) {
 			
@@ -149,6 +152,9 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 	int canMove = 0;
 	rep(i, map->readTurn) {
 
+		nowX += route[i+1].second.first;
+		nowY += route[i+1].second.second;
+
 		//９方向
 		rep(j, 9) {
 			//マスがそとでないならば
@@ -162,11 +168,12 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 				canMove++;
 			}
 		}
-
+		
+		//sumOfEvalution += canMove* evalution[2];
 	}
 	
 	//移動可能マス評価加算
-	sumOfEvalution += canMove * evalution[2];
+
 	
 
 	if (map->score[0][0] < map->score[1][0]) {

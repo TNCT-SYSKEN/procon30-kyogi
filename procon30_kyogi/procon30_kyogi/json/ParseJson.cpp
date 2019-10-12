@@ -240,16 +240,19 @@ void ParseJson::parseTurn1(string path) {
 		agentSize = 0;
 		for (const auto& aLi : agentArray) {
 
-			if (map->ourTeamID==stoi(aLi.get("agentID").to_str())) {
+			if (map->ourTeamID == stoi(li.get("teamID").to_str())) {
 				//agentID
 				agents->ourAgents[agentSize][0] = stoi(aLi.get("agentID").to_str());
 				agents->ourAgents[agentSize][1] = stoi(aLi.get("x").to_str());
 				agents->ourAgents[agentSize][2] = stoi(aLi.get("y").to_str());
 			}
-			else {
+
+			if (map->otherTeamID == stoi(li.get("teamID").to_str())) {
+
 				agents->otherAgents[agentSize][0] = stoi(aLi.get("agentID").to_str());
 				agents->otherAgents[agentSize][1] = stoi(aLi.get("x").to_str());
 				agents->otherAgents[agentSize][2] = stoi(aLi.get("y").to_str());
+				
 			}
 			agentSize++;
 		}
