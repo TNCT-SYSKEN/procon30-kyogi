@@ -140,7 +140,8 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 	int dy[9] = { 1,0,-1,1,0,-1,1,0,-1 };
 	Map* map;
 	map = map->getMap();
-	
+	Agents* agents;
+	agents = agents->getAgents();
 	Field* field;
 	field = field->getField();
 	Evalution evalution;
@@ -159,18 +160,58 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 		Dy = nowAgentPosition.second;
 		
 
+		/*一部の計算を除外する部分（処理軽量化のため）*/
+		
+		//nowX = route[0].second.first;
+		//nowY = route[0].second.second;
+
+		
+			//画面外
+		if (Dx + dx[turn] < 0 || Dx + dx[turn] >= map->width || Dy + dy[turn] < 0 || Dy + dy[turn] >= map->vertical) {
+			goto fini;
+		}
+
+		//移動先に味方エージェントがいるかどうか
+		rep(i, agents->ourAgents.size()) {
+			if (Dx + dx[turn] == agents->ourAgents[agentsnum][1] && 
+				Dy + dy[turn] == agents->ourAgents[agentsnum][2]) {
+
+				goto fini;
+			}
+		}
+
+		//戻ろうとするときの除外
+		//dx,dyが入ってるとき
+
+		//移動先が自分チーム（戻るも含まれる）
+		if (moveUpTile[Dx + dx[turn]][Dy + dy[turn]] == map->ourTeamID) {
+			goto fini;
+		}
+
+		//移動先が相手チームタイルだったら
+		else if (moveUpTile[Dx + dx[turn]][Dy + dy[turn]] == map->otherTeamID) {
+
+			moveUpTile[Dx + dx[turn]][Dy + dy[turn]] = 0;
+			Dx -= dx[turn];
+			Dy -= dy[turn];
+		}
+		
+
+		//位置更新
+		Dx += dx[turn];
+		Dy += dy[turn];
 
 		if (readTurn > 1) {
 			
 			route.push_back(make_pair(route[0].first, make_pair(dx[turn], dy[turn])));
 			giveReadTurn = readTurn-1;
 		
-				calculateEvalution(route, make_pair(Dx,Dy), moveUpTile, agentsnum, giveReadTurn, sum);
+			calculateEvalution(route, make_pair(Dx,Dy), moveUpTile, agentsnum, giveReadTurn, sum);
 				route.resize(route.size() - 1);
 		
 		}else if (readTurn==1){
 			route.push_back(make_pair(route[0].first, make_pair(dx[turn], dy[turn])));
-			nowX = route[0].second.first;
+			/*nowX = route[0].second.first;
 			nowY = route[0].second.second;
 			rep(Checkturn, map->readTurn) {
 				nowX += route[Checkturn + 1].second.first;
@@ -197,10 +238,10 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 
 				}
 
-			}
+			}*/
 			
 			
-			evalution.calculateEvalution(route, agentsnum, sum);
+			evalution.calculateEvalution(route,moveUpTile, agentsnum, sum);
 			route.resize(route.size() - 1);
 		}
 		

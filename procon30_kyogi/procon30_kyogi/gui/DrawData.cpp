@@ -11,7 +11,7 @@ DrawData::DrawData()
 
 
 	//json読み込みのためのtokenなどの指定
-	gui.addln(L"IsDebugMode", GUIToggleSwitch::Create(L"大会モード", L"DebugMode",true));
+	//gui.addln(L"IsDebugMode", GUIToggleSwitch::Create(L"大会モード", L"DebugMode",true));
 
 	gui.addln(L"json_option", GUIText::Create(L"JSON_option"));
 	
@@ -25,7 +25,7 @@ DrawData::DrawData()
 	gui.addln(L"matchNumber", GUITextArea::Create(1, 2));
 
 
-	gui.add(L"bt1", GUIButton::Create(L"ターン終了"));
+	//gui.add(L"bt1", GUIButton::Create(L"ターン終了"));
 	
 	//アルゴリズム回す
 	gui.add(L"CalcAlgorithm", GUIButton::Create(L"評価計算"));
@@ -39,6 +39,10 @@ DrawData::DrawData()
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
 	gui.horizontalLine(L"hr").style.color = Color(127);
 
+	//領域計算ONoff
+	gui.add(L"calcArea", GUIToggleSwitch::Create(L"領域計算", L"領域計算ON", false));
+
+
 	//Input
 	//水平線
 	gui.add(GUIText::Create(L"Input"));
@@ -48,10 +52,10 @@ DrawData::DrawData()
 
 	//ボタン
 	//ゲームスタート
-	gui.add(L"gameStart", GUIButton::Create(L"gameStart"));
+	//gui.add(L"gameStart", GUIButton::Create(L"gameStart"));
 
 	//全探索モード
-	gui.addln(L"searchALL", GUIToggleSwitch::Create( L"全探索モード",L"評価関数モード",true));
+	//gui.addln(L"searchALL", GUIToggleSwitch::Create( L"全探索モード",L"評価関数モード",true));
 
 	//先読みターン数変更
 
@@ -65,6 +69,21 @@ DrawData::DrawData()
 	gui.add(L"textMT", GUIText::Create(L"終了ターン数"));
 	gui.add(L"readMT", GUITextArea::Create(1, 2));
 	gui.addln(L"btnMT", GUIButton::Create(L"決定"));
+
+	//チームID
+	//青
+	gui.add(L"text9", GUIText::Create(L"自チームID        :"));
+	gui.text(L"text9").style.color = Palette::Blue;
+	gui.addln(L"blueID", GUITextArea::Create(1, 3, none, false));
+
+	//赤
+	gui.add(L"text10", GUIText::Create(L"敵チームID          :"));
+	gui.text(L"text10").style.color = Palette::Red;
+	gui.addln(L"redID", GUITextArea::Create(1, 3, none, false));
+	//ID入力ボタン
+	gui.addln(L"bt4", GUIButton::Create(L"ID入力"));
+
+
 	//水平線
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
 	gui.horizontalLine(L"hr").style.color = Color(127);
@@ -123,18 +142,7 @@ DrawData::DrawData()
 	gui.add(L"text8", GUIText::Create(L" タイマー:"));
 	gui.addln(L"timer", GUITextArea::Create(1, 5));
 
-	//チームID
-	//青
-	gui.add(L"text9", GUIText::Create(L"自チームID        :"));
-	gui.text(L"text9").style.color = Palette::Blue;
-	gui.addln(L"blueID", GUITextArea::Create(1,3,none,false));
-
-	//赤
-	gui.add(L"text10", GUIText::Create(L"敵チームID          :"));
-	gui.text(L"text10").style.color = Palette::Red;
-	gui.addln(L"redID", GUITextArea::Create(1,3,none,false));
-	//ID入力ボタン
-	gui.addln(L"bt4", GUIButton::Create(L"ID入力"));
+	
 	//ターン切り替え
 	gui.add(L"bt6", GUIButton::Create(L"前ターン"));
 	gui.addln(L"bt7", GUIButton::Create(L"次ターン"));
@@ -287,7 +295,7 @@ void DrawData::clickedButton() {
 		}
 		else {
 
-			fetchJson.fetch(token, port, matchNumber, map->turn);
+			//fetchJson.fetch(token, port, matchNumber, map->turn);
 
 			//string 
 			parseJson.parseTurn1("json/data/Map/turn" + to_string(map->turn) + ".json");
@@ -329,6 +337,13 @@ void DrawData::clickedButton() {
 		{
 			System::Exit();
 		}
+	}
+
+	if (gui.toggleSwitch(L"calcArea").isRight) {
+		map->calcArea = true;
+	}
+	else if (gui.toggleSwitch(L"calcArea").isLeft) {
+		map->calcArea=false;
 	}
 }
 
