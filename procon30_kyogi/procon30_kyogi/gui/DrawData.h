@@ -19,6 +19,9 @@ public:
 	void drawSumScore();
 	void outputTurn();
 
+
+	void tokenSetUp();
+
 	void inputID();
 	void manualDirection(const int number);
 };

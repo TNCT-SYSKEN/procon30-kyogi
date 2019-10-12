@@ -171,7 +171,7 @@ void DrawData::drawDataManager() {
 	clickedButton();
 	drawData();
 	drawMap.drawMapManager(map->mapChange);
-	
+	tokenSetUp();
 }
 
 
@@ -282,7 +282,7 @@ void DrawData::clickedButton() {
 		//最初のMap取得
 		if (!map->firstJson) {
 			//サーバーから取ってくる
-			//fetchJson.fetch(token, port, matchNumber, map->turn);
+			fetchJson.fetch(token, port, matchNumber, map->turn);
 
 			
 			
@@ -295,7 +295,7 @@ void DrawData::clickedButton() {
 		}
 		else {
 
-			//fetchJson.fetch(token, port, matchNumber, map->turn);
+			fetchJson.fetch(token, port, matchNumber, map->turn);
 
 			//string 
 			parseJson.parseTurn1("json/data/Map/turn" + to_string(map->turn) + ".json");
@@ -304,6 +304,16 @@ void DrawData::clickedButton() {
 	if (gui.button(L"CalcAlgorithm").pushed) {
 		Action_manager AC;
 		AC.Action();
+		///////////////////////////////////////////////////////
+		string token = gui.textArea(L"token").text.narrow();
+		string port = gui.textArea(L"port").text.narrow();
+		string matchNumber = gui.textArea(L"matchNumber").text.narrow();
+		
+
+		//自動
+		CreateJson createJSON;
+		createJSON.createJson(token, port, matchNumber);
+	
 	}
 	//MaxTurn入力ボタン
 	if (gui.button(L"btMT").pushed) {
@@ -358,6 +368,16 @@ void DrawData::outputTurn() {
 	gui.textArea(L"turn").setText(Turn);
 	gui.textArea(L"ptnc").setText(Rturn);
 }
+
+
+
+
+void DrawData::tokenSetUp() {
+	String Token = Widen("dbc07e57a1e7b1342c0570d0a4393a53bef552ac2c900f3d2c21dd68a40f3d8b");
+
+	gui.textArea(L"token").setText(Token);
+}
+
 
 
 void DrawData::drawData()

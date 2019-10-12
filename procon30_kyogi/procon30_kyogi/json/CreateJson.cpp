@@ -102,15 +102,15 @@ void CreateJson::createJson(string token,string port,string matchID)
 	string filePath = "json/data/Agents/writeJson.json";
 
 	//debug
-	/*for (int i = 0; i < json.size(); i++) {
+	for (int i = 0; i < json.size(); i++) {
 		if (json[i] == '\"') {
 			SystemJSON += '\\';
 		}
 
 		SystemJSON += json[i];
 		
-	}*/
-	SystemJSON = json;
+	}
+	//SystemJSON = json;
 
 	ofstream Write(filePath);
 	Write << SystemJSON << endl;
@@ -121,7 +121,7 @@ void CreateJson::createJson(string token,string port,string matchID)
 	string hoge= "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + SystemJSON;
 
 	//debug
-	//system(hoge.c_str());
+	system(hoge.c_str());
 	
 	
 }

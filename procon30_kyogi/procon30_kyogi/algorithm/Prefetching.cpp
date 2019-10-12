@@ -81,38 +81,36 @@ void Prefetching::hyoukaKeisan()
 			nowX = agents->ourAgents[agentsnum][1] - 1;
 			nowY = agents->otherAgents[agentsnum][2] - 1;
 
-		rep(i,map->readTurn) {
-			nowX += agentsEvalution->maxRoute[agentsnum][i].second.first;
-			nowY += agentsEvalution->maxRoute[agentsnum][i].second.second;
+			rep(i, map->readTurn) {
+				nowX += agentsEvalution->maxRoute[agentsnum][i].second.first;
+				nowY += agentsEvalution->maxRoute[agentsnum][i].second.second;
 
-			agentsAction->actionDxDy[agentsnum].push_back(
-				agentsEvalution->maxRoute[agentsnum][i]);
-			if (agentsEvalution->maxRoute[agentsnum][i].second.first == 0 &&
-				agentsEvalution->maxRoute[agentsnum][i].second.second == 0) {
-				//stay
-				agentsAction->actionType[agentsnum].push_back(0);
-				
-			}
-			//else if (field->tiled[nowX][nowY] == map->otherTeamID){
-			//	//remove
-			//	agentsAction->actionType[agentsnum].push_back(-1);
-			//	nowX -= agentsEvalution->maxRoute[agentsnum][i].second.first;
-			//	nowY -= agentsEvalution->maxRoute[agentsnum][i].second.second;
+				agentsAction->actionDxDy[agentsnum].push_back(
+					agentsEvalution->maxRoute[agentsnum][i]);
+				if (agentsEvalution->maxRoute[agentsnum][i].second.first == 0 &&
+					agentsEvalution->maxRoute[agentsnum][i].second.second == 0) {
+					//stay
+					agentsAction->actionType[agentsnum].push_back(0);
 
-			//}
-			//
-			else {
-				if (nowY == -1) {
-					map->score[1][2] = i;
 				}
-				//move
-				agentsAction->actionType[agentsnum].push_back(1);
-				
-			}
-			//map->score[1][1]++;
-		}
-		map->score[1][2] = min(map->score[1][2], nowX);
+				//else if (field->tiled[nowX][nowY] == map->otherTeamID){
+				//	//remove
+				//	agentsAction->actionType[agentsnum].push_back(-1);
+				//	nowX -= agentsEvalution->maxRoute[agentsnum][i].second.first;
+				//	nowY -= agentsEvalution->maxRoute[agentsnum][i].second.second;
 
+				//}
+				//
+				else {
+					if (nowY == -1) {
+						map->score[1][2] = i;
+					}
+					//move
+					agentsAction->actionType[agentsnum].push_back(1);
+
+				}
+				//map->score[1][1]+
+			}
 		//map->score[1][2] += agentsEvalution->maxRoute[agentsnum].size();
 
 	}
