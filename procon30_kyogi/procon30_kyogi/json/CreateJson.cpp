@@ -55,8 +55,8 @@ void CreateJson::createJson(string token,string port,string matchID)
 			Action.insert(make_pair(("dy"), picojson::value(static_cast<double>(agentsAcn->actionDxDy[i][0].second.second))));
 			Action.insert(make_pair(("dx"), picojson::value(static_cast<double>(agentsAcn->actionDxDy[i][0].second.first))));
 			
-			nowX = agents->ourAgents[i][1] - 1 + agentsAcn->actionDxDy[i][1].second.first;
-			nowY = agents->ourAgents[i][2] - 1 + agentsAcn->actionDxDy[i][2].second.second;
+			nowX = agents->ourAgents[i][1] - 1 + agentsAcn->actionDxDy[i][0].second.first;
+			nowY = agents->ourAgents[i][2] - 1 + agentsAcn->actionDxDy[i][0].second.second;
 
 			if (agentsAcn->actionDxDy[i][1].second.first == 0 && agentsAcn->actionDxDy[i][2].second.second) {
 				ActionMove = "stay";
@@ -118,7 +118,7 @@ void CreateJson::createJson(string token,string port,string matchID)
 
 	// あとで直す
 	//string command = "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d ";// 
-	string hoge= "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + SystemJSON;
+	string hoge= "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + SystemJSON + "> json/req.json";
 
 	//debug
 	system(hoge.c_str());

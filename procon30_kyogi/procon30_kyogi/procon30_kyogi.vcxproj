@@ -162,6 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="algorithm\Analysis.cpp" />
     <ClCompile Include="algorithm\Evalution.cpp" />
     <ClCompile Include="algorithm\Judge.cpp" />
     <ClCompile Include="algorithm\JudgeEvalution.cpp" />
@@ -270,6 +271,7 @@
     <Text Include="json\WriteJson.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="algorithm\Analysis.h" />
     <ClInclude Include="algorithm\Evalution.h" />
     <ClInclude Include="algorithm\Judge.h" />
     <ClInclude Include="algorithm\JudgeEvalution.h" />

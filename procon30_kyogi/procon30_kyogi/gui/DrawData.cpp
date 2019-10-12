@@ -25,6 +25,8 @@ DrawData::DrawData()
 	gui.addln(L"matchNumber", GUITextArea::Create(1, 2));
 
 
+	gui.addln(L"AnalysButton", GUIButton::Create(L"AnalysŒvŽZ"));
+
 	//gui.add(L"bt1", GUIButton::Create(L"ƒ^[ƒ“I—¹"));
 	
 	//ƒAƒ‹ƒSƒŠƒYƒ€‰ñ‚·
@@ -40,8 +42,11 @@ DrawData::DrawData()
 	gui.horizontalLine(L"hr").style.color = Color(127);
 
 	//—ÌˆæŒvŽZONoff
-	gui.add(L"calcArea", GUIToggleSwitch::Create(L"—ÌˆæŒvŽZ", L"—ÌˆæŒvŽZON", false));
+	gui.addln(L"calcArea", GUIToggleSwitch::Create(L"—ÌˆæŒvŽZ", L"—ÌˆæŒvŽZON", false));
 
+
+	//analys
+	gui.add(L"Analys", GUIToggleSwitch::Create(L"Analys False", L"Analys True", false));
 
 	//Input
 	//…•½ü
@@ -225,7 +230,6 @@ void DrawData::clickedButton() {
 	Agents* agents;
 	agents = agents->getAgents();
 
-
 	const Size targetSize(1920, 1080);
 	//s“®Šm’èƒ{ƒ^ƒ“
 	if (gui.button(L"bt1").pushed) {
@@ -355,6 +359,22 @@ void DrawData::clickedButton() {
 	else if (gui.toggleSwitch(L"calcArea").isLeft) {
 		map->calcArea=false;
 	}
+
+	if (gui.toggleSwitch(L"Analys").isRight && map->AnalysCalcC) {
+		map->AnalysFieled = true;
+	}
+	else if (gui.toggleSwitch(L"Analys").isLeft) {
+		map->AnalysFieled = false;
+	}
+	if (gui.button(L"AnalysButton").pushed) {
+		if (map->firstJson == true) {
+			Analysis analysis;
+			analysis.AnalysisCalc();
+			gui.button(L"AnalysButton").enabled = false;
+		}
+	}
+
+
 }
 
 void DrawData::outputTurn() {

@@ -103,7 +103,7 @@ void Prefetching::hyoukaKeisan()
 				//
 				else {
 					if (nowY == -1) {
-						map->score[1][2] = i;
+					//	map->score[1][2] = i;
 					}
 					//move
 					agentsAction->actionType[agentsnum].push_back(1);
@@ -203,6 +203,7 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 			moveUpTile[Dx + dx[turn]][Dy + dy[turn]] = 0;
 			Dx -= dx[turn];
 			Dy -= dy[turn];
+			
 		}
 		else {
 			moveUpTile[Dx + dx[turn]][Dy + dy[turn]] = map->ourTeamID;

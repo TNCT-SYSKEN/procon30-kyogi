@@ -1,11 +1,11 @@
 #include"Evalution.h"
 
 
-float evalution[] = { 8,10, 3 ,16,10,13};
-// 領域, 相手の点が高いか, 移動可能マス,　移動先の点数の高さ,タイル除去,外側に行こうとしているか
+float evalution[] = { 6,5,4,3,4.3 ,4};
+// 0. 領域, 相手の点が高いか, 移動可能マス,　移動先の点数の高さ,タイル除去,外側に行こうとしているか, 6. Analysis
 
 
-float magnificat[] = { 1.04 , 1.2,1,1,1,1 };
+float magnificat[] = { 1.1 , 1.2,1,1,1,1 };
 /*
 	倍率補正
 	0 タイル除去するとき　tilePointをかける（小さめ）
@@ -63,6 +63,10 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 		//もし動かない時
 		if (route[turn + 1].second.first == 0 && route[turn + 1].second.second==0) {
 			calcTurn = 4;
+		}
+		
+		if (map->AnalysFieled == true) {
+			sumOfEvalution += field->AnalysisField[nowX][nowY] * evalution[6];
 		}
 
 	

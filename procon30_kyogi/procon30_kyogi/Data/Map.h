@@ -55,6 +55,10 @@ public:
 	//debug そのターンにエージェントの評価計算したかどうか
 	bool isCalcOurAction = false;
 
+
+	bool AnalysFieled = false;
+	bool AnalysCalcC = false;
+
 private:
 	static Map* stayMap;
 };

@@ -2,6 +2,9 @@
 #include "InputOutputManager.h"
 #include"../Data/Map.h"
 #include"../json/ParseJson.h"
+#include"../algorithm/Analysis.h"
+
+
 class DrawData
 {
 public:
