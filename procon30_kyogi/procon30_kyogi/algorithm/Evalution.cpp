@@ -1,7 +1,8 @@
 #include"Evalution.h"
 
 
-float evalution[] = { 8,10, 3 ,20,10,13};
+float evalution[] = { 8,10, 3 ,16,10,13};
+float evalution[] = { 8,10, 3 ,16,10,13};
 // 領域, 相手の点が高いか, 移動可能マス,　移動先の点数の高さ,タイル除去,外側に行こうとしているか
 
 
@@ -122,6 +123,20 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 	if (map->calcArea) {
 		sum += calculateAreaPoint(moveUpTile);
 	}
+	
+	
+
+	//競合を治す
+	///////////////////////////////////////////////
+	/*nowX=route[0]
+	
+	rep(count, agentsnum) {
+		rep(turn, map->readTurn) {
+			
+		}
+	}*/
+
+
 
 
 

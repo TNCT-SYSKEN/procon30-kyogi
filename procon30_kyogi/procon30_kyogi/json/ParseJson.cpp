@@ -208,7 +208,7 @@ void ParseJson::parseTurn1(string path) {
 		}
 		Y++;
 	}
-
+	
 
 
 	// tiled
