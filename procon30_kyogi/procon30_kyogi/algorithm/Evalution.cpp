@@ -248,9 +248,9 @@ int Evalution::calculateAreaPoint(vector<vector<int>> moveUpTile) {
 
 	rep(i, map->width) {
 		rep(j, map->vertical) {
-			if (field->tiled[i][j] == map->otherTeamID)
+			if (field->tiled[i][j] == map->ourTeamID)
 			{
-				tiledArea[i + 1][j + 1] = map->otherTeamID;
+				tiledArea[i + 1][j + 1] = map->ourTeamID;
 			}
 
 		}
@@ -301,16 +301,11 @@ int Evalution::calculateAreaPoint(vector<vector<int>> moveUpTile) {
 
 		lastSize = counter;
 		stac.resize(0);
-
-
-
-
-	calc:;
-
-
-
-
 	}
+
+calc:;
+
+
 	//—ÌˆæŒvŽZ
 	rep(i, map->width) {
 		rep(j, map->vertical) {

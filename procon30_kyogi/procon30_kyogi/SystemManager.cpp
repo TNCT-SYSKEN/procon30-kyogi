@@ -272,8 +272,6 @@ int SystemManager::calculateAreaPoint(int ourTeamID) {
 
 	}
 
-
-
 	calc:;
 
 	//—ÌˆæŒvZ
