@@ -31,7 +31,7 @@ void Prefetching::hyoukaKeisan()
 
 	//maxRoute,actionDXDYの初期化
 	agentsEvalution->maxRoute.resize(0);
-	agentsEvalution->maxRoute.resize(agents->ourAgents.size());
+	agentsEvalution->maxRoute.resize(agents->ourAgents.size(),vector<pair<int,pair<int,int>>>(0));
 	agentsAction->actionDxDy.resize(0);
 	agentsAction->actionDxDy.resize(ourAgentsS,vector<pair<int,pair<int,int>>>(0));
 
@@ -58,7 +58,7 @@ void Prefetching::hyoukaKeisan()
 		
 		//タイル状態
 		vector<vector<int>> moveUpTile;
-		moveUpTile.resize(20, vector<int>(20));
+		moveUpTile.resize(map->width, vector<int>(map->vertical));
 		rep(i, map->width) {
 			rep(j, map->vertical) {
 				moveUpTile[i][j] = field->tiled[i][j];
@@ -75,33 +75,42 @@ void Prefetching::hyoukaKeisan()
 		
 		agentsEvalution->maxEvalutionPoint=-100;
 		
-		
+		//
+		int nowX = 0;
+		int nowY = 0;
+			nowX = agents->ourAgents[agentsnum][1] - 1;
+			nowY = agents->otherAgents[agentsnum][2] - 1;
 
-		rep(i,map->readTurn) {
+			rep(i, map->readTurn) {
+				nowX += agentsEvalution->maxRoute[agentsnum][i].second.first;
+				nowY += agentsEvalution->maxRoute[agentsnum][i].second.second;
 
-			agentsAction->actionDxDy[agentsnum].push_back(
-				agentsEvalution->maxRoute[agentsnum][i]);
-			if (agentsEvalution->maxRoute[agentsnum][i].second.first == 0 &&
-				agentsEvalution->maxRoute[agentsnum][i].second.second == 0) {
-				//stay
-				agentsAction->actionType[agentsnum].push_back(0);
-				
+				agentsAction->actionDxDy[agentsnum].push_back(
+					agentsEvalution->maxRoute[agentsnum][i]);
+				if (agentsEvalution->maxRoute[agentsnum][i].second.first == 0 &&
+					agentsEvalution->maxRoute[agentsnum][i].second.second == 0) {
+					//stay
+					agentsAction->actionType[agentsnum].push_back(0);
+
+				}
+				//else if (field->tiled[nowX][nowY] == map->otherTeamID){
+				//	//remove
+				//	agentsAction->actionType[agentsnum].push_back(-1);
+				//	nowX -= agentsEvalution->maxRoute[agentsnum][i].second.first;
+				//	nowY -= agentsEvalution->maxRoute[agentsnum][i].second.second;
+
+				//}
+				//
+				else {
+					if (nowY == -1) {
+					//	map->score[1][2] = i;
+					}
+					//move
+					agentsAction->actionType[agentsnum].push_back(1);
+
+				}
+				//map->score[1][1]+
 			}
-			else if (field->tiled[(agents->ourAgents[agentsnum][1]-1)+(agentsEvalution->maxRoute[agentsnum][i].second.first)]
-			[(agents->ourAgents[agentsnum][2]-1) + (agentsEvalution->maxRoute[agentsnum][i].second.second)] == map->otherTeamID){
-				//remove
-				agentsAction->actionType[agentsnum].push_back(-1);
-				
-			}
-			else {
-				//move
-				agentsAction->actionType[agentsnum].push_back(1);
-				
-			}
-			//map->score[1][1]++;
-		}
-
-
 		//map->score[1][2] += agentsEvalution->maxRoute[agentsnum].size();
 
 	}
@@ -185,7 +194,7 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 
 		//移動先が自分チーム（戻るも含まれる）
 		if (moveUpTile[Dx + dx[turn]][Dy + dy[turn]] == map->ourTeamID) {
-			goto fini;
+			sum -= 7;
 		}
 
 		//移動先が相手チームタイルだったら
@@ -194,6 +203,11 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 			moveUpTile[Dx + dx[turn]][Dy + dy[turn]] = 0;
 			Dx -= dx[turn];
 			Dy -= dy[turn];
+			
+		}
+		else {
+			moveUpTile[Dx + dx[turn]][Dy + dy[turn]] = map->ourTeamID;
+			
 		}
 		
 
@@ -205,7 +219,8 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 			
 			route.push_back(make_pair(route[0].first, make_pair(dx[turn], dy[turn])));
 			giveReadTurn = readTurn-1;
-		
+
+
 			calculateEvalution(route, make_pair(Dx,Dy), moveUpTile, agentsnum, giveReadTurn, sum);
 				route.resize(route.size() - 1);
 		

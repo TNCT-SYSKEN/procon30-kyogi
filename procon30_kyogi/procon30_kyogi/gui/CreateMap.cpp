@@ -6,7 +6,7 @@
 void CreateMap::createMapFrame(const int vertical,const int side) {
 	int k,c;
 	for (int i = 0; i < side + 1; i++) {
-		k = 725 + 40 * i;
+		k = 600 + 60 * i;
 		c = 40 * vertical;
 		//1
 		Line(k, 30, k, c + 30).draw(5);
@@ -16,9 +16,9 @@ void CreateMap::createMapFrame(const int vertical,const int side) {
 
 	for (int i = 0; i < vertical + 1; i++) {
 		k = 40 * (i + 1);
-		c = 40 * side;
+		c = 60 * side;
 		//1
-		Line(725, k-10, c + 725, k-10).draw(5);
+		Line(600, k-10, c + 600, k-10).draw(5);
 		//2
 		//Line(1100, k-10, c + 1100, k-10).draw(5);
 	}
@@ -26,7 +26,7 @@ void CreateMap::createMapFrame(const int vertical,const int side) {
 
 //ColorMap1
 void CreateMap::createMapState1(const int state,const int x,const int y){
-	Rect rect(725 +40*(x-1),30+40*(y-1),40,40);
+	Rect rect(600 +60*(x-1),30+40*(y-1),60,40);
 	Map* map;
 	map = map->getMap();
 	if (state == map->ourTeamID) {
@@ -45,7 +45,7 @@ void CreateMap::createMapState1(const int state,const int x,const int y){
 
 //ColorMap2
 void CreateMap::createMapState2(const int state, const int x, const int y) {
-	Rect rect(1100 + 40 * (x - 1), 30 + 40 * (y - 1), 40, 40);
+	Rect rect(1100 + 60 * (x - 1), 30 + 40 * (y - 1), 60, 40);
 	Map* map;
 	map = map->getMap();
 	if (state == map->ourTeamID) {
@@ -61,7 +61,7 @@ void CreateMap::createMapState2(const int state, const int x, const int y) {
 
 //AgentsMap1
 void CreateMap::createMapAgent1(const int who, const int x, const int y) {
-	Circle circle(725 + 40 * (x - 1) + 20, 30 + 40 * (y - 1) + 20,15);
+	Circle circle(600 + 60 * (x - 1) + 20, 30 + 40 * (y - 1) + 20,15);
 	switch (who) {
 	case 1:
 		circle.draw(Palette::Lightskyblue);
@@ -74,7 +74,7 @@ void CreateMap::createMapAgent1(const int who, const int x, const int y) {
 
 //AgentsMap2
 void CreateMap::createMapAgent2(const int who, const int x, const int y) {
-	Circle circle(1100 + 40 * (x - 1) + 20, 30 + 40 * (y - 1) + 20, 15);
+	Circle circle(1100 + 60 * (x - 1) + 20, 30 + 40 * (y - 1) + 20, 15);
 	switch (who) {
 	case 1:
 		circle.draw(Palette::Lightskyblue);
@@ -88,29 +88,29 @@ void CreateMap::createMapAgent2(const int who, const int x, const int y) {
 //PointMap1
 void CreateMap::createMapPoint1(const int point, const int x, const int y) {
 	if (point >= 0) {
-		font(point).draw(725 + 40 * (x - 1) + 12, 30 + 40 * (y - 1) - 2, Palette::White);
+		font(point).draw(600 + 60 * (x - 1) + 12, 30 + 40 * (y - 1) - 2, Palette::White);
 	}else{
-		font(point).draw(725 + 40 * (x - 1) + 4, 30 + 40 * (y - 1) - 2, Palette::White);
+		font(point).draw(600 + 60 * (x - 1) + 4, 30 + 40 * (y - 1) - 2, Palette::White);
 	}
 }
 
 //PointMap2
 void CreateMap::createMapPoint2(const int point, const int x, const int y) {
 	if (point >= 0) {
-		font(point).draw(1100 + 40 * (x - 1) + 12, 30 + 40 * (y - 1) - 2, Palette::White);
+		font(point).draw(1100 + 60 * (x - 1) + 12, 30 + 40 * (y - 1) - 2, Palette::White);
 	}else{
-		font(point).draw(1100 + 40 * (x - 1) + 4, 30 + 40 * (y - 1) - 2, Palette::White);
+		font(point).draw(1100 + 60 * (x - 1) + 4, 30 + 40 * (y - 1) - 2, Palette::White);
 	}
 }
 
 //LineMap1
 void CreateMap::createMapLine1(const int x1, const int y1, const int x2, const int y2) {
-	Line(725 + 40 * (x1 - 1) + 20, 30 + 40 * (y1 - 1) + 20, 725 + 40 * (x2 - 1) + 20, 30 + 40 * (y2 - 1) + 20).draw(5,Palette::White);
+	Line(600 + 60 * (x1 - 1) + 20, 30 + 40 * (y1 - 1) + 20, 600 + 60 * (x2 - 1) + 20, 30 + 40 * (y2 - 1) + 20).draw(5,Palette::White);
 }
 
 //LineMap2
 void CreateMap::createMapLine2(const int x1, const int y1, const int x2, const int y2) {
-	Line(1100 + 40 * (x1 - 1) + 20, 30 + 40 * (y1 - 1) + 20, 1100 + 40 * (x2 - 1) + 20, 30 + 40 * (y2 - 1) + 20).draw(5, Palette::White);
+	Line(1100 + 60 * (x1 - 1) + 20, 30 + 40 * (y1 - 1) + 20, 1100 + 60 * (x2 - 1) + 20, 30 + 40 * (y2 - 1) + 20).draw(5, Palette::White);
 }
 
 

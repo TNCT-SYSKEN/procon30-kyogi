@@ -33,6 +33,10 @@ void CreateJson::createJson(string token,string port,string matchID)
 	agents = agents->getAgents();
 	AgentsAction* agentsAcn;
 	agentsAcn = agentsAcn->getAgentsAction();
+	Field* field;
+	field = field->getField();
+	Map* map;
+	map = map->getMap();
 	///////////////////
 
 
@@ -42,6 +46,7 @@ void CreateJson::createJson(string token,string port,string matchID)
 	int ourAgentS = agents->ourAgents.size();
 	string ActionMove;
 
+	int nowX = 0,nowY=0;
 
 	for (int i = 0; i < ourAgentS; i++) {
 		{
@@ -50,14 +55,17 @@ void CreateJson::createJson(string token,string port,string matchID)
 			Action.insert(make_pair(("dy"), picojson::value(static_cast<double>(agentsAcn->actionDxDy[i][0].second.second))));
 			Action.insert(make_pair(("dx"), picojson::value(static_cast<double>(agentsAcn->actionDxDy[i][0].second.first))));
 			
-			if (agentsAcn->actionType[i][0] == 0) {
+			nowX = agents->ourAgents[i][1] - 1 + agentsAcn->actionDxDy[i][0].second.first;
+			nowY = agents->ourAgents[i][2] - 1 + agentsAcn->actionDxDy[i][0].second.second;
+
+			if (agentsAcn->actionDxDy[i][1].second.first == 0 && agentsAcn->actionDxDy[i][2].second.second) {
 				ActionMove = "stay";
 			}
-			else if (agentsAcn->actionType[i][0] == 1) {
-				ActionMove = "move";
-			}
-			else if (agentsAcn->actionType[i][0] == -1) {
+			else if (field->tiled[nowX][nowY] == map->otherTeamID) {
 				ActionMove = "remove";
+			}
+			else{
+				ActionMove = "move";
 			}
 
 			Action.insert(make_pair(("type"), picojson::value(ActionMove)));// ActionMove)));
@@ -94,15 +102,15 @@ void CreateJson::createJson(string token,string port,string matchID)
 	string filePath = "json/data/Agents/writeJson.json";
 
 	//debug
-	/*for (int i = 0; i < json.size(); i++) {
+	for (int i = 0; i < json.size(); i++) {
 		if (json[i] == '\"') {
 			SystemJSON += '\\';
 		}
 
 		SystemJSON += json[i];
 		
-	}*/
-	SystemJSON = json;
+	}
+	//SystemJSON = json;
 
 	ofstream Write(filePath);
 	Write << SystemJSON << endl;
@@ -110,10 +118,10 @@ void CreateJson::createJson(string token,string port,string matchID)
 
 	// あとで直す
 	//string command = "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d ";// 
-	string hoge= "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + SystemJSON;
+	string hoge= "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + SystemJSON + "> json/req.json";
 
 	//debug
-	//system(hoge.c_str());
+	system(hoge.c_str());
 	
 	
 }

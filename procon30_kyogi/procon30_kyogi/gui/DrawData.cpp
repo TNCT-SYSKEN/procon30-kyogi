@@ -25,6 +25,8 @@ DrawData::DrawData()
 	gui.addln(L"matchNumber", GUITextArea::Create(1, 2));
 
 
+	gui.addln(L"AnalysButton", GUIButton::Create(L"Analys計算"));
+
 	//gui.add(L"bt1", GUIButton::Create(L"ターン終了"));
 	
 	//アルゴリズム回す
@@ -40,8 +42,11 @@ DrawData::DrawData()
 	gui.horizontalLine(L"hr").style.color = Color(127);
 
 	//領域計算ONoff
-	gui.add(L"calcArea", GUIToggleSwitch::Create(L"領域計算", L"領域計算ON", false));
+	gui.addln(L"calcArea", GUIToggleSwitch::Create(L"領域計算", L"領域計算ON", false));
 
+
+	//analys
+	gui.add(L"Analys", GUIToggleSwitch::Create(L"Analys False", L"Analys True", false));
 
 	//Input
 	//水平線
@@ -171,7 +176,7 @@ void DrawData::drawDataManager() {
 	clickedButton();
 	drawData();
 	drawMap.drawMapManager(map->mapChange);
-	
+	tokenSetUp();
 }
 
 
@@ -224,7 +229,6 @@ void DrawData::clickedButton() {
 	agentsAction = agentsAction->getAgentsAction();
 	Agents* agents;
 	agents = agents->getAgents();
-
 
 	const Size targetSize(1920, 1080);
 	//行動確定ボタン
@@ -282,7 +286,7 @@ void DrawData::clickedButton() {
 		//最初のMap取得
 		if (!map->firstJson) {
 			//サーバーから取ってくる
-			//fetchJson.fetch(token, port, matchNumber, map->turn);
+			fetchJson.fetch(token, port, matchNumber, map->turn);
 
 			
 			
@@ -295,7 +299,7 @@ void DrawData::clickedButton() {
 		}
 		else {
 
-			//fetchJson.fetch(token, port, matchNumber, map->turn);
+			fetchJson.fetch(token, port, matchNumber, map->turn);
 
 			//string 
 			parseJson.parseTurn1("json/data/Map/turn" + to_string(map->turn) + ".json");
@@ -304,6 +308,16 @@ void DrawData::clickedButton() {
 	if (gui.button(L"CalcAlgorithm").pushed) {
 		Action_manager AC;
 		AC.Action();
+		///////////////////////////////////////////////////////
+		string token = gui.textArea(L"token").text.narrow();
+		string port = gui.textArea(L"port").text.narrow();
+		string matchNumber = gui.textArea(L"matchNumber").text.narrow();
+		
+
+		//自動
+		CreateJson createJSON;
+		createJSON.createJson(token, port, matchNumber);
+	
 	}
 	//MaxTurn入力ボタン
 	if (gui.button(L"btMT").pushed) {
@@ -345,6 +359,22 @@ void DrawData::clickedButton() {
 	else if (gui.toggleSwitch(L"calcArea").isLeft) {
 		map->calcArea=false;
 	}
+
+	if (gui.toggleSwitch(L"Analys").isRight && map->AnalysCalcC) {
+		map->AnalysFieled = true;
+	}
+	else if (gui.toggleSwitch(L"Analys").isLeft) {
+		map->AnalysFieled = false;
+	}
+	if (gui.button(L"AnalysButton").pushed) {
+		if (map->firstJson == true) {
+			Analysis analysis;
+			analysis.AnalysisCalc();
+			gui.button(L"AnalysButton").enabled = false;
+		}
+	}
+
+
 }
 
 void DrawData::outputTurn() {
@@ -358,6 +388,16 @@ void DrawData::outputTurn() {
 	gui.textArea(L"turn").setText(Turn);
 	gui.textArea(L"ptnc").setText(Rturn);
 }
+
+
+
+
+void DrawData::tokenSetUp() {
+	String Token = Widen("dbc07e57a1e7b1342c0570d0a4393a53bef552ac2c900f3d2c21dd68a40f3d8b");
+
+	gui.textArea(L"token").setText(Token);
+}
+
 
 
 void DrawData::drawData()
@@ -479,7 +519,7 @@ void DrawData::manualDirection(const int number) {
 	guiManual.add(L"btm10",GUIButton::Create(L"キャンセル"));
 	//はみ出たから位置変える
 	//guiManual.setPos(1500,800);
-	guiManual.setPos(450, 10);
+	guiManual.setPos(250, 800);
 
 	DrawMap drawMap;
 	AgentsAction* agentsAction;

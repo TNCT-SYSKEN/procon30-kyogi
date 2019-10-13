@@ -19,7 +19,7 @@ void ManualInput::onMap(const int posx, const int posy) {
 	Map* map;
 	map = map->getMap();
 
-	if ((725 <= posx && posx <=725 + 40 * map->width) && (30 <= posy && posy <= 30 + 40 * map->vertical)) {
+	if ((600 <= posx && posx <=600 + 60 * map->width) && (30 <= posy && posy <= 30 + 40 * map->vertical)) {
 		onMapAgents(posx,posy);
 	}
 }
@@ -34,7 +34,7 @@ void ManualInput::onMapAgents(const int posx, const int posy) {
 	CreateMap create;
 	DrawData drawData;
 	int x, y;
-	x = (posx - 725)/40+1;
+	x = (posx - 600)/60+1;
 	y = (posy - 30) / 40+1;
 	for (int i = 0; i < agents->ourAgents.size(); i++) {
 		if (x == agents->ourAgents[i][1] && y == agents->ourAgents[i][2]) {
