@@ -22,7 +22,7 @@
     <ProjectGuid>{9F5A5474-73E0-4FF4-B48D-EB59009B9D4A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>procon30_kyogi</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -162,7 +162,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="algorithm\Analysis.cpp" />
     <ClCompile Include="algorithm\Evalution.cpp" />
+    <ClCompile Include="algorithm\Judge.cpp" />
+    <ClCompile Include="algorithm\JudgeEvalution.cpp" />
     <ClCompile Include="algorithm\Prefetching.cpp" />
     <ClCompile Include="Data\Agents.cpp" />
     <ClCompile Include="Data\AgentsAction.cpp" />
@@ -170,8 +173,24 @@
     <ClCompile Include="Data\Field.cpp" />
     <ClCompile Include="Data\Map.cpp" />
     <ClCompile Include="algorithm\Action_manager.cpp" />
-    <ClCompile Include="algorithm\Hyouka.cpp" />
+    <ClCompile Include="gui\DrawMap.cpp" />
+    <ClCompile Include="gui\ChangeAlgorithm.cpp" />
+    <ClCompile Include="gui\ChangeStatus.cpp" />
+    <ClCompile Include="gui\CreateMap.cpp" />
+    <ClCompile Include="gui\DrawData.cpp" />
+    <ClCompile Include="gui\InputOutputManager.cpp" />
+    <ClCompile Include="gui\OutputData.cpp" />
+    <ClCompile Include="gui\TurnManager.cpp" />
+    <ClCompile Include="Initialize\Initialize.cpp" />
+    <ClCompile Include="json\CreateJson.cpp" />
+    <ClCompile Include="json\data\JsonOption.cpp" />
+    <ClCompile Include="json\FetchJson.cpp" />
+    <ClCompile Include="json\ParseJson.cpp" />
+    <ClCompile Include="json\Source.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="gui\ManualInput.cpp" />
+    <ClCompile Include="SystemManager.cpp" />
+    <ClCompile Include="algorithm\Hyouka.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
@@ -243,6 +262,7 @@
     <None Include="Engine\Shaders\D3D11\Sprite.vs" />
     <None Include="Engine\Shaders\D3D11\Sprite_Font.ps" />
     <None Include="Engine\Shaders\D3D11\Sprite_Stencil.ps" />
+    <None Include="procon30_kyogi_log.html" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Engine\dll(x64)\libmpg123\COPYING.txt" />
@@ -250,8 +270,10 @@
     <Text Include="Engine\dll(x86)\libmpg123\COPYING.txt" />
     <Text Include="Engine\dll(x86)\SoundTouch\COPYING.TXT" />
     <Text Include="Engine\LogMessages.txt" />
+    <Text Include="json\WriteJson.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="algorithm\Analysis.h" />
     <ClInclude Include="algorithm\Evalution.h" />
     <ClInclude Include="algorithm\Prefetching.h" />
     <ClInclude Include="Data\Agents.h" />
@@ -261,9 +283,26 @@
     <ClInclude Include="Data\Map.h" />
     <ClInclude Include="algorithm\Action_manager.h" />
     <ClInclude Include="algorithm\Field_test.h" />
-    <ClInclude Include="algorithm\Hyouka.h" />
+    <ClInclude Include="gui\DrawMap.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="general.h" />
+    <ClInclude Include="gui\ChangeAlgorithm.h" />
+    <ClInclude Include="gui\ChangeStatus.h" />
+    <ClInclude Include="gui\CreateMap.h" />
+    <ClInclude Include="gui\DrawData.h" />
+    <ClInclude Include="gui\InputOutputManager.h" />
+    <ClInclude Include="gui\OutputData.h" />
+    <ClInclude Include="gui\TurnManager.h" />
+    <ClInclude Include="gui\ManualInput.h" />
+    <ClInclude Include="Initialize\Initialize.h" />
+    <ClInclude Include="json\CreateJson.h" />
+    <ClInclude Include="json\data\JsonOption.h" />
+    <ClInclude Include="json\FetchJson.h" />
+    <ClInclude Include="json\ParseJson.h" />
+    <ClInclude Include="json\picojson.h" />
+    <ClInclude Include="json\resource.h" />
+    <ClInclude Include="SystemManager.h" />
+    <ClInclude Include="algorithm\Hyouka.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

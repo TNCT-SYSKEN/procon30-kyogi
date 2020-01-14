@@ -1,14 +1,13 @@
 #pragma once
 #include"Action_manager.h"
-
+#include"../gui/DrawData.h"
 class Prefetching {
 public:
 
-	vector<vector<int>>hyoukaKeisan();
-
+	void hyoukaKeisan();
+	int calculateScore(pair<int,int>,int);
 private:
-	int calculateScore(pair<int,int>);
-	pair<int,int> calculateEvalution(vector<pair<int,pair<int,int>>>,int,pair<int,int>,int,int);
-
 	
+	void calculateEvalution(vector<pair<int,pair<int,int>>>,pair<int,int>,vector<vector<int>>,int, int,int);
+
 };

@@ -1,14 +1,33 @@
-﻿
-# include <Siv3D.hpp>
+﻿# include <Siv3D.hpp>
+# include"../procon30_kyogi/gui/InputOutputManager.h"
+
+#include"SystemManager.h"
+#include"gui/InputOutputManager.h"
+#include"..//procon30_kyogi/gui/DrawMap.h"
+SystemManager sys;
+
 
 void Main()
 {
-	const Font font(30);
+	InputOutputManager iOManager;
 
-	while (System::Update())
-	{
-		font(L"ようこそ、Siv3D の世界へ！").draw();
+	//jsonなかったら無限ループ
+	//iOManager.init();
+	Map *map;
+	map = map->getMap();
+	map->turnFlg = false;
+	map->isSearchAll = false;
 
-		Circle(Mouse::Pos(), 50).draw({ 255, 0, 0, 127 });
+	iOManager.init();
+	DrawData drawData;
+	Profiler::EnableWarning(false);
+
+	DrawMap drawMap;
+
+	while (System::Update()) {
+
+		//drawManager
+		drawData.drawDataManager();
+		sys.systemManager();
 	}
 }
