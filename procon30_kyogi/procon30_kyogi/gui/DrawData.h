@@ -9,6 +9,7 @@ class DrawData
 {
 public:
 	DrawData();
+
 	void drawDataManager();
 	void drawData();
 	GUI gui;
@@ -27,5 +28,6 @@ public:
 
 	void inputID();
 	void manualDirection(const int number);
+
 };
 

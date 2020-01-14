@@ -2,8 +2,11 @@
 
 
 
-void ChangeAlgorithm::changeAlgorithm()
+ChangeAlgorithm::ChangeAlgorithm()
 {
 }
 
 
+ChangeAlgorithm::~ChangeAlgorithm()
+{
+}

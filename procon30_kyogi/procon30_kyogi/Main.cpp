@@ -5,12 +5,12 @@
 #include"gui/InputOutputManager.h"
 #include"..//procon30_kyogi/gui/DrawMap.h"
 SystemManager sys;
-	
-	
+
+
 void Main()
 {
 	InputOutputManager iOManager;
-	
+
 	//jsonなかったら無限ループ
 	//iOManager.init();
 	Map *map;
@@ -25,7 +25,7 @@ void Main()
 	DrawMap drawMap;
 
 	while (System::Update()) {
-		
+
 		//drawManager
 		drawData.drawDataManager();
 		sys.systemManager();

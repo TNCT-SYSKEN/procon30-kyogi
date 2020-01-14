@@ -592,4 +592,3 @@ void DrawData::manualDirection(const int number) {
 	}
 }
 
-

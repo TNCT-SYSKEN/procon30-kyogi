@@ -2,8 +2,8 @@
 
 void InputOutputManager::init()
 {
-	//setup ’l‚Ì‰Šú‰»
+	//setup åˆæœŸè¨­å®š
 	Initialize initialize;
 	initialize.initialize();
-
 }
+

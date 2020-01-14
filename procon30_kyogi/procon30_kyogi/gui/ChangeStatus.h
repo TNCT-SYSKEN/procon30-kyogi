@@ -2,7 +2,7 @@
 class ChangeStatus
 {
 public:
-	void changeStatus();
-
+	ChangeStatus();
+	~ChangeStatus();
 };
 

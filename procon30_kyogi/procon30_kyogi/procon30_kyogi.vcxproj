@@ -190,6 +190,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="gui\ManualInput.cpp" />
     <ClCompile Include="SystemManager.cpp" />
+    <ClCompile Include="algorithm\Hyouka.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
@@ -274,8 +275,6 @@
   <ItemGroup>
     <ClInclude Include="algorithm\Analysis.h" />
     <ClInclude Include="algorithm\Evalution.h" />
-    <ClInclude Include="algorithm\Judge.h" />
-    <ClInclude Include="algorithm\JudgeEvalution.h" />
     <ClInclude Include="algorithm\Prefetching.h" />
     <ClInclude Include="Data\Agents.h" />
     <ClInclude Include="Data\AgentsAction.h" />
@@ -303,6 +302,7 @@
     <ClInclude Include="json\picojson.h" />
     <ClInclude Include="json\resource.h" />
     <ClInclude Include="SystemManager.h" />
+    <ClInclude Include="algorithm\Hyouka.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

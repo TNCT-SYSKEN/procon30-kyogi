@@ -11,11 +11,11 @@ public:
 	vector<vector<int>> actionType;
 
 
-	
+
 	//{{number,{{dx(turn1),dy(turn1)},{dx(turn2),dx(turn2)}...}},..}
 	//エージェントの数(先読みターン（agentNuber(dx,dy)）)
-	vector<vector<pair<int,pair<int,int>>>>actionDxDy;
-	
+	vector<vector<pair<int, pair<int, int>>>>actionDxDy;
+
 	vector<pair<int, pair<int, int>>>actionEnemyDxDy;
 
 	static AgentsAction* getAgentsAction();

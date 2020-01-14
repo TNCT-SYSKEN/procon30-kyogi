@@ -3,11 +3,13 @@
 #include"../Data/AgentsEvalution.h"
 
 
+
 void Prefetching::hyoukaKeisan()
 {	
 	int dx[9] = { 1,1,1,0,0,0,-1,-1,-1 };
 	int dy[9] = { 1,0,-1,1,0,-1,1,0,-1 };
 	
+
 	Map *map;
 	map = map->getMap();
 	
@@ -26,8 +28,7 @@ void Prefetching::hyoukaKeisan()
 
 	//agentnumber,<agentpositionX,Y>
 	vector<pair<int, pair<int, int>>>route;//経路初期化
-	int ourAgentsS = agents->ourAgents.size();
-	
+	int ourAgentsS = agents->ourAgents.size();	
 
 	//maxRoute,actionDXDYの初期化
 	agentsEvalution->maxRoute.resize(0);
@@ -42,7 +43,6 @@ void Prefetching::hyoukaKeisan()
 	int Agent0 = agents->ourAgents[0][0];
 
 
-
 	 //エージェントの数だけループ
 	for (int agentsnum = 0; agentsnum < ourAgentsS; agentsnum++) {
 		//positionに-1	
@@ -53,7 +53,11 @@ void Prefetching::hyoukaKeisan()
 			//agentの初期位置
 		route.push_back(make_pair(agents->ourAgents[agentsnum][0], agentPosition));
 
+		//agentsEvalution maxRoute vectorの解放
+		vector<pair<int, int>>().swap(agentsEvalution->maxRoute);
+
 		//agentsEvalutionのmax評価値を初期化
+
 		agentsEvalution->maxEvalutionPoint = -100;
 		
 		//タイル状態
@@ -114,7 +118,33 @@ void Prefetching::hyoukaKeisan()
 		//map->score[1][2] += agentsEvalution->maxRoute[agentsnum].size();
 
 	}
+	/*
 
+
+		agentsEvalution->maxEvalutionPoint = 0;
+		agentPosition = calculateEvalution(route,agentsnum,agentPosition,map->readTurn,0);
+		//
+	
+			//AgentsAction.hに書き込み
+		agentsAction->actionDxDy[agentsnum - agents->ourAgents[0][0]].second.push_back(agentPosition);
+		agentsAction->actionDxDy[agentsnum - agents->ourAgents[0][0]].first = agentsnum;
+		
+		if (agentPosition.first == 0 && agentPosition.second == 0) {
+			agentsAction->actionType[agentsnum - agents->ourAgents[0][0]].push_back(0);
+		}
+		else {
+			agentsAction->actionType[agentsnum - agents->ourAgents[0][0]].push_back(1);
+		}
+
+	}
+
+	
+
+	
+
+	return vector<vector<int>>();
+
+*/
 }
 
 
@@ -269,7 +299,57 @@ void  Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route, pair
 		//ひとつ前を消す
 		
 		fini:;
+/*=======
+pair<int,int> Prefetching::calculateEvalution(vector<pair<int,pair<int,int>>>route,int agentnum,pair<int,int>agentPosition,int readTurn,int sum)
+{		
+	Map* map;
+	map = map->getMap();
+	
+	rep(turn,9) {
+
+		//行けない方向に行こうとしたときに強制終了させる
+		if (agentPosition.first + dx[turn] < 0 || agentPosition.first + dx[turn] >= map->width
+			|| agentPosition.second + dy[turn] < 0 || agentPosition.second + dy[turn] >= map->vertical) {
+			goto CantGoThere;
+		}
+
+
+		agentPosition.first += dx[turn];
+		agentPosition.second += dy[turn];
+
+		route.push_back(make_pair(agentnum, agentPosition));
+
+		if (turn == 4) 
+		{
+		
+		}//移動しない
+		else {
+			sum += calculateScore(agentPosition);
+		}
+		if (readTurn > 0) {
+			readTurn--;
+			//再帰
+			calculateEvalution(route, agentnum,agentPosition,readTurn,sum);
+		}
+		else {
+			//枝先(評価計算)
+			Evalution evalution;
+			evalution.calculateEvalution(route,sum);
+
+
+			//route vectorの解放
+			vector<pair<int, pair<int, int>>>().swap(route);
+		}
+
+
+*/
 	}
 
+	
+
+	//行けない方向に行こうとしたときに強制終了させる
+CantGoThere:;
+	pair<int, int>Retur = make_pair(route[1].second.first, route[1].second.second);
+	return Retur;
 }
 

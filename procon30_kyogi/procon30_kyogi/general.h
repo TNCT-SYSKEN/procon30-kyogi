@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 #include <stdio.h>
-#include <cstdlib>
+
 using namespace std;
 
 //このファイルは去年の先輩のものとほぼ同じ

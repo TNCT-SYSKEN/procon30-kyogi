@@ -3,8 +3,11 @@
 #include "ChangeStatus.h"
 
 
-void OutputData::outputData()
+OutputData::OutputData()
 {
 }
 
 
+OutputData::~OutputData()
+{
+}

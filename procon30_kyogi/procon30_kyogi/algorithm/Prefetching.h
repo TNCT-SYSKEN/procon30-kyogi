@@ -10,5 +10,4 @@ private:
 	
 	void calculateEvalution(vector<pair<int,pair<int,int>>>,pair<int,int>,vector<vector<int>>,int, int,int);
 
-	
 };

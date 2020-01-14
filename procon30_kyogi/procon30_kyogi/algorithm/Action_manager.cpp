@@ -7,11 +7,12 @@
 //	2.移動情報を表示
 
 
-void Action_manager::Action()
+int Action_manager::Action(int)
 {	
 
 	//Hyouka.cppの関数を呼び出す
 	//現在の得点などをちゃんと別のファイル、もしくは関数で取得する必要がある。
+
 	AgentsAction* agentsAction;
 	agentsAction = agentsAction->getAgentsAction();
 	AgentsEvalution* agentsEvalution;
@@ -76,5 +77,19 @@ void Action_manager::Action()
 		}
 	}
 
+/*
 
+
+	Prefetching prefetching;
+	prefetching.hyoukaKeisan();
+
+	AgentsEvalution *agentsEvalution;
+	agentsEvalution = agentsEvalution->getAgentsEvalution();
+
+	
+
+*/
+
+
+	return 0;
 }

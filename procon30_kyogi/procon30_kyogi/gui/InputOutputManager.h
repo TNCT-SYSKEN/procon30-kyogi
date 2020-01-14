@@ -16,6 +16,5 @@ class InputOutputManager
 {
 public:
 	// ‰Šúİ’è
-	void init();	
+	void init();
 };
-
