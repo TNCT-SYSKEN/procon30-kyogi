@@ -1,19 +1,21 @@
 #pragma once
-#include "CreateMap.h"
-#include"../general.h"
+
 #include"../json/FetchJson.h"
+#include"../json/CreateJson.h"
+
 #include"../Data/Agents.h"
 #include"../Data/AgentsAction.h"
 #include"../Data/Field.h"
-#include"../json/CreateJson.h"
+#include"../Data/Map.h"
 
-
+#include"../Initialize/Initialize.h"
+#include "CreateMap.h"
+#include"../general.h"
 
 class InputOutputManager
 {
 public:
-	//json‚È‚©‚Á‚½‚ç–³ŒÀƒ‹[ƒv
-	void init();
-	void inputOutputManager();
+	// ‰Šúİ’è
+	void init();	
 };
 

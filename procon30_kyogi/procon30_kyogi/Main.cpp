@@ -25,10 +25,7 @@ void Main()
 	DrawMap drawMap;
 
 	while (System::Update()) {
-		if (!map->firstJson) {
-
-		}
-
+		
 		//drawManager
 		drawData.drawDataManager();
 		sys.systemManager();

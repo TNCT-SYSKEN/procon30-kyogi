@@ -593,6 +593,3 @@ void DrawData::manualDirection(const int number) {
 }
 
 
-void DrawData::check() {
-	gui.textArea(L"token").setText(L"null");
-}
