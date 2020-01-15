@@ -7,8 +7,8 @@ void Analysis::AnalysisCalc() {
 	map = map->getMap();
 
 	vector<vector<int>> AnalysField;
-	AnalysField.resize(map->width, vector<int>(map->vertical,0));
-	
+	AnalysField.resize(map->width, vector<int>(map->vertical, 0));
+
 	int dx[] = { 1,1,1,0,0,-1,-1,-1 };
 	int dy[] = { 1,0,-1,1,-1,1,0,-1 };
 
@@ -17,12 +17,12 @@ void Analysis::AnalysisCalc() {
 
 	rep(j, map->vertical) {
 		nowX = 0;
-		
+
 		rep(i, map->width) {
-			
+
 			rep(count, 8) {
 				if (nowX + dx[count] < 0 || nowX + dx[count] >= map->width || nowY + dy[count] < 0 || nowY + dy[count] >= map->vertical)continue;
-				
+
 				else {
 					if (field->points[nowX][nowY] < 0) {
 
@@ -41,9 +41,9 @@ void Analysis::AnalysisCalc() {
 		}
 		nowY++;
 	}
-	
+
 	field->AnalysisField.resize(map->width, vector <int>(map->vertical));
-	
+
 	field->AnalysisField = AnalysField;
 
 

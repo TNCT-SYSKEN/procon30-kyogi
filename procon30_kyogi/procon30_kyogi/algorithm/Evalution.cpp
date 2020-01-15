@@ -11,6 +11,7 @@ float magnificat[] = { 1.1 , 1.2,1,1,1,1 };
 	0 タイル除去するとき　tilePointをかける（小さめ）
 	1 相手の領域ポイントが自分のものより高いとき
 	2 相手のほうがポイントが高い
+
 */
 
 void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vector<vector<int>>moveUpTile, int agentsnum, int sum)
@@ -85,6 +86,12 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 			nowX -= route[turn + 1].second.first;
 			nowY -= route[turn + 1].second.second;
 		}
+		else if (field->tiled[nowX][nowY] == map->ourTeamID) {
+			sumOfEvalution -= 6;
+		}
+
+
+
 		else {
 			//タイルスコア加算
 			sum += Pre.calculateScore(make_pair(nowX, nowY), calcTurn);
@@ -125,7 +132,7 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 	//味方チーム領域取れるかどうかの計算
 	//GUIToggleSwitchで切り替える対象
 	if (map->calcArea) {
-		sum += calculateAreaPoint(moveUpTile);
+		sum += calculateAreaPoint(moveUpTile)*evalution[0];
 	}
 
 
@@ -140,11 +147,18 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 	rep(count, agentsnum) {
 		int OnowX = agents->ourAgents[count][1];
 		int OnowY = agents->ourAgents[count][2];
+
+
+
 		rep(turn, map->readTurn) {
+
 			OnowX += agentsAction->actionDxDy[count][turn].second.first;
 			OnowY += agentsAction->actionDxDy[count][turn].second.second;
+
 			nowX += route[turn + 1].second.first;
 			nowY += route[turn + 1].second.second;
+
+
 			sumOfEvalution -= 3 - abs(OnowX - nowX)*1.3;
 		}
 	}*/

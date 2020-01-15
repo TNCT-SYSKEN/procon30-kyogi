@@ -9,14 +9,15 @@ class DrawData
 {
 public:
 	DrawData();
-
 	void drawDataManager();
-	void drawData();
+	void drawMapFrame();
 	GUI gui;
 
-	//debug
-	void check();
-public:
+	void manualDirection(const int number);
+
+
+
+private:
 	void clickedButton();
 	void drawTiledScore();
 	void drawAreaScore();
@@ -27,7 +28,6 @@ public:
 	void tokenSetUp();
 
 	void inputID();
-	void manualDirection(const int number);
 
 };
 

@@ -2,7 +2,7 @@
 #include"../gui/DrawData.h"
 
 //ファイルに書き込み
-void ParseJson::writeJsonToText(string JSON,string path) {
+void ParseJson::writeJsonToText(string JSON, string path) {
 	// ファイルにJSONファイル書き込み
 	string filename = path;
 	ofstream ofs(filename);
@@ -40,7 +40,7 @@ float ParseJson::getFloatPropValue(picojson::value obj, string propName) {
 
 // JSON を解析
 void ParseJson::parse(string path) {
-	
+
 	picojson::value json = readJson(path);
 	picojson::object& obj = json.get<picojson::object>();
 
@@ -50,7 +50,7 @@ void ParseJson::parse(string path) {
 	field = field->getField();
 	Agents* agents;
 	agents = agents->getAgents();
-	
+
 
 
 	//map初期化
@@ -58,20 +58,20 @@ void ParseJson::parse(string path) {
 	//map
 	map->width = getIntPropValue(json, "width");
 	map->vertical = getIntPropValue(json, "height");
-	
+
 	map->startedAtUnixTime = getFloatPropValue(json, "startedAtUnixTime");
 	map->turn = getIntPropValue(json, "turn");
-	
+
 	//field 初期化
 	field->points.resize(map->width, vector<int>(map->vertical));
 	field->tiled.resize(map->width, vector<int>(map->vertical));
 	// tiled
 	picojson::array Tiled = obj["tiled"].get <picojson::array>();
 	int X = 0, Y = 0;
-	for(const auto& tiledY :Tiled) {
+	for (const auto& tiledY : Tiled) {
 		X = 0;
 		picojson::array gyou = tiledY.get<picojson::array>();
-		for(const auto& tiledX :gyou){
+		for (const auto& tiledX : gyou) {
 			field->tiled[X][Y] = stoi(tiledX.to_str());
 			X++;
 		}
@@ -107,8 +107,8 @@ void ParseJson::parse(string path) {
 		picojson::array agentArray = li.get("agents").get<picojson::array>();
 		agentSize = 0;
 		for (const auto& aLi : agentArray) {
-			
-			if(map->ourTeamID==stoi(li.get("teamID").to_str())) {
+
+			if (map->ourTeamID == stoi(li.get("teamID").to_str())) {
 				//agentID
 				agents->ourAgents[agentSize][0] = stoi(aLi.get("agentID").to_str());
 				agents->ourAgents[agentSize][1] = stoi(aLi.get("x").to_str());
@@ -123,8 +123,8 @@ void ParseJson::parse(string path) {
 			agentSize++;
 		}
 
-		
-		if (map->ourTeamID==stoi(li.get("teamID").to_str())) {
+
+		if (map->ourTeamID == stoi(li.get("teamID").to_str())) {
 			//teamID
 			map->ourTeamID = stoi(li.get("teamID").to_str());
 			//teamPoint
@@ -156,7 +156,7 @@ void ParseJson::parse(string path) {
 		agents->otherAgents[i] = stack[agentSize - 1 - i];
 	}*/
 
-	
+
 	map->firstJson = true;
 	map->turnFlg = true;
 	// actions
@@ -208,7 +208,7 @@ void ParseJson::parseTurn1(string path) {
 		}
 		Y++;
 	}
-	
+
 
 
 	// tiled
@@ -252,7 +252,7 @@ void ParseJson::parseTurn1(string path) {
 				agents->otherAgents[agentSize][0] = stoi(aLi.get("agentID").to_str());
 				agents->otherAgents[agentSize][1] = stoi(aLi.get("x").to_str());
 				agents->otherAgents[agentSize][2] = stoi(aLi.get("y").to_str());
-				
+
 			}
 			agentSize++;
 		}
@@ -289,13 +289,13 @@ void ParseJson::parseTurn1(string path) {
 	rep(i, agentSize) {
 		agents->otherAgents[i] = stack[agentSize - 1 - i];
 	}*/
-	
+
 
 	//action代入
 //	int agentSize = agents->otherAgents.size();
-	
 
-	
+
+
 
 
 
@@ -362,5 +362,5 @@ void ParseJson::parseAction(string path) {
 			));
 		i++;
 	}
-	
+
 }

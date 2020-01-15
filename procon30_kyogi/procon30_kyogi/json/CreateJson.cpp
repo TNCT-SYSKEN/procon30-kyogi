@@ -7,12 +7,12 @@ string escapeStr(string str) {
 }
 
 
-void CreateJson::createJson(string token,string port,string matchID)
+void CreateJson::createJson(string token, string port, string matchID)
 {
 	/*using v = picojson::value;
 	using o = picojson::object;
 	using a = picojson::array;
-	
+
 	o l{ {
 		"actions", v(a{
 			v(o{
@@ -46,25 +46,27 @@ void CreateJson::createJson(string token,string port,string matchID)
 	int ourAgentS = agents->ourAgents.size();
 	string ActionMove;
 
-	int nowX = 0,nowY=0;
+	int nowX = 0, nowY = 0;
 
 	for (int i = 0; i < ourAgentS; i++) {
 		{
-		
+			nowX = 0;
+			nowY = 0;
+
 			picojson::object Action;
 			Action.insert(make_pair(("dy"), picojson::value(static_cast<double>(agentsAcn->actionDxDy[i][0].second.second))));
 			Action.insert(make_pair(("dx"), picojson::value(static_cast<double>(agentsAcn->actionDxDy[i][0].second.first))));
-			
-			nowX = agents->ourAgents[i][1] - 1 + agentsAcn->actionDxDy[i][0].second.first;
-			nowY = agents->ourAgents[i][2] - 1 + agentsAcn->actionDxDy[i][0].second.second;
 
-			if (agentsAcn->actionDxDy[i][1].second.first == 0 && agentsAcn->actionDxDy[i][2].second.second) {
+			nowX = agents->ourAgents[i][1] + agentsAcn->actionDxDy[i][0].second.first;
+			nowY = agents->ourAgents[i][2] + agentsAcn->actionDxDy[i][0].second.second;
+
+			if (agentsAcn->actionDxDy[i][0].second.first == 0 && agentsAcn->actionDxDy[i][0].second.second == 0) {
 				ActionMove = "stay";
 			}
 			else if (field->tiled[nowX][nowY] == map->otherTeamID) {
 				ActionMove = "remove";
 			}
-			else{
+			else {
 				ActionMove = "move";
 			}
 
@@ -73,13 +75,13 @@ void CreateJson::createJson(string token,string port,string matchID)
 
 			datalist.push_back(picojson::value(Action));
 		}
-		
+
 	}
 	lisence.insert(make_pair("actions", picojson::value(datalist)));
 
 	// ファイルにJSONファイル書き込み
 
-	string filename = "json/WriteJson.json";
+	string filename = "json/WriteJson" + to_string(map->makeJsonCount) + ".json";
 	ofstream ofs(filename);
 	ofs << picojson::value(lisence) << endl;
 	//ofs << v(l)<< map->readTurn<< endl;	
@@ -90,16 +92,16 @@ void CreateJson::createJson(string token,string port,string matchID)
 	string json;
 	ifs >> json;
 	ifs.close();
-	
-	
-	
+
+
+
 	string auth = escapeStr("Authorization: " + token) + " ";
 	string content_type = escapeStr("Content-Type: application/json") + " ";
-	string host = "http://localhost:" + port + "/matches/" + matchID + "/action ";
+	string host = "http://10.10.52.252/matches/" + matchID + "/action ";
 
 	//Action Jsonに
 	string SystemJSON = "";
-	string filePath = "json/data/Agents/writeJson.json";
+	string filePath = "json/data/Agents/writeJson" + to_string(map->makeJsonCount) + ".json";
 
 	//debug
 	for (int i = 0; i < json.size(); i++) {
@@ -108,7 +110,7 @@ void CreateJson::createJson(string token,string port,string matchID)
 		}
 
 		SystemJSON += json[i];
-		
+
 	}
 	//SystemJSON = json;
 
@@ -118,10 +120,11 @@ void CreateJson::createJson(string token,string port,string matchID)
 
 	// あとで直す
 	//string command = "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d ";// 
-	string hoge= "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + SystemJSON + "> json/req.json";
+	string hoge = "curl -H " + auth + "-H " + content_type + "-X POST " + host + "-d " + SystemJSON + "> json/req.json";
 
 	//debug
 	system(hoge.c_str());
-	
-	
+
+	map->makeJsonCount++;
+
 }

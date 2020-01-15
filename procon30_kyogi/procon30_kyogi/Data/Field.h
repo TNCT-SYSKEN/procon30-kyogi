@@ -14,7 +14,7 @@ public:
 	vector<vector<pair<int, int>>>turnAgent;
 
 	static Field* getField();
-	
+
 
 
 	vector<vector<int>> AnalysisField;

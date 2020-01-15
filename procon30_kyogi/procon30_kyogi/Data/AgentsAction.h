@@ -13,9 +13,10 @@ public:
 
 
 	//{{number,{{dx(turn1),dy(turn1)},{dx(turn2),dx(turn2)}...}},..}
-	//エージェントの数(先読みターン（agentNuber(dx,dy)）)
+	//エージェントの数(先読みターン（agentNumber(dx,dy)）)
 	vector<vector<pair<int, pair<int, int>>>>actionDxDy;
 
+	//turn0でアクセスさせないようにする
 	vector<pair<int, pair<int, int>>>actionEnemyDxDy;
 
 	static AgentsAction* getAgentsAction();

@@ -28,7 +28,7 @@ void Judge::fullSearch() {
 
 
 	//敵ルート
-	vector<pair<int,pair<int,int>>>enemyRoute(0);
+	vector<pair<int, pair<int, int>>>enemyRoute(0);
 	int ourAgentsS = agents->ourAgents.size();
 
 	//タイル除去したマスの座標、先読みターン数の記録
@@ -37,12 +37,12 @@ void Judge::fullSearch() {
 	//敵の獲得最大ポイント（合計）
 	int enemyGetPointMax = 0;
 
-	agentsEvalution->enemyMaxRoute.resize(ourAgentsS,vector<pair<int,pair<int,int>>>(map->finalTurn-map->turn));
+	agentsEvalution->enemyMaxRoute.resize(ourAgentsS, vector<pair<int, pair<int, int>>>(map->finalTurn - map->turn));
 	agentsEvalution->enemyMaxGetPoint.resize(ourAgentsS, 0);
 
 
-	pair<int,int>agentsPosition;
-	for (int agentsnum = agents->otherAgents[0][0]; agentsnum < agents->otherAgents[0][0] +ourAgentsS; agentsnum++) {
+	pair<int, int>agentsPosition;
+	for (int agentsnum = agents->otherAgents[0][0]; agentsnum < agents->otherAgents[0][0] + ourAgentsS; agentsnum++) {
 		//agents[0][1]などにアクセス
 		agentsPosition.first = agents->otherAgents[agentsnum - agents->otherAgents[0][0]][1] - 1;
 		agentsPosition.second = agents->otherAgents[agentsnum - agents->otherAgents[0][0]][2] - 1;
@@ -52,10 +52,10 @@ void Judge::fullSearch() {
 
 		//	ここで先読みターン数に応じたサイズを初期化する
 		agentsEvalution->enemyMaxRoute.resize(0);
-	
-		
+
+
 		//行動予測
-		calculateEnemyRoute(enemyRoute, agentsPosition,moveUpTile ,0,map->finalTurn-map->turn, 0);
+		calculateEnemyRoute(enemyRoute, agentsPosition, moveUpTile, 0, map->finalTurn - map->turn, 0);
 
 		//最大点を相手チームが獲得する
 		enemyGetPointMax += agentsEvalution->enemyMaxGetPoint[agentsnum - agents->otherAgents[0][0]];
@@ -64,7 +64,7 @@ void Judge::fullSearch() {
 
 
 	/* ここから相手の最大点を超える点をとるように設定する */
-	
+
 
 
 	//取るべき点数
@@ -73,8 +73,8 @@ void Judge::fullSearch() {
 
 
 	/*	ここで先読みターン数に応じたサイズを初期化する	*/
-	agentsEvalution->ourMaxRoute.resize(agents->ourAgents.size(),vector<pair<int,pair<int,int>>>(map->finalTurn - map->turn));
-	agentsEvalution->ourMaxGetPoint.resize(map->finalTurn-map->turn,0);
+	agentsEvalution->ourMaxRoute.resize(agents->ourAgents.size(), vector<pair<int, pair<int, int>>>(map->finalTurn - map->turn));
+	agentsEvalution->ourMaxGetPoint.resize(map->finalTurn - map->turn, 0);
 
 	vector<pair<int, pair<int, int>>> ourRoute;
 	int ourGetPointMax = 0;
@@ -85,12 +85,12 @@ void Judge::fullSearch() {
 		agentsPosition.first = agents->ourAgents[agentsnum - agents->ourAgents[0][0]][1];
 		agentsPosition.second = agents->ourAgents[agentsnum - agents->ourAgents[0][0]][2];
 
-		ourRoute.push_back(make_pair(agentsnum,agentsPosition));
+		ourRoute.push_back(make_pair(agentsnum, agentsPosition));
 
 		calculateOurRoute(ourRoute, agentsPosition, moveUpTile, 0, map->finalTurn - map->turn, 0);
 		//最高点加算
 		ourGetPointMax += agentsEvalution->ourMaxGetPoint[agentsnum - agents->ourAgents[0][0]];
-		
+
 		//一つ消す
 		ourRoute.resize(0);
 	}
@@ -135,7 +135,7 @@ void Judge::calculateEnemyRoute(vector<pair<int, pair<int, int>>>route, pair<int
 	}
 
 	rep(turn, 9) {
-		
+
 
 		if (nowAgentPosition.first + dx[turn] < 0 || nowAgentPosition.first + dx[turn] >= map->width
 			|| nowAgentPosition.second + dy[turn] < 0 || nowAgentPosition.second + dy[turn] >= map->vertical) {
@@ -172,20 +172,20 @@ void Judge::calculateEnemyRoute(vector<pair<int, pair<int, int>>>route, pair<int
 					moveCheck = true;
 					movedTiled[nowAgentPosition.first + dx[turn]][nowAgentPosition.second + dy[turn]];
 				}
-				
+
 			}
 			else {
 
 				nowAgentPosition.first += dx[turn];
 				nowAgentPosition.second += dy[turn];
-			}	
+			}
 		}
 		//routeサイズ調整
-		
+
 
 		if (readTurn > 0) {
-			
-			route.resize(route.size()+1);
+
+			route.resize(route.size() + 1);
 			route.push_back(make_pair(route[0].first, make_pair(dx[turn], dy[turn])));
 			readTurn--;
 			calculateEnemyRoute(route, nowAgentPosition, moveUpTile, moveup, readTurn, sum);
@@ -195,7 +195,7 @@ void Judge::calculateEnemyRoute(vector<pair<int, pair<int, int>>>route, pair<int
 			judgeEvalution.calculateEnemyEvalution(route, moveUpTile, moveup, sum);
 
 		}
-	
+
 
 		//ひとつ前を消す
 		route.resize(route.size() - 1);
@@ -204,7 +204,7 @@ void Judge::calculateEnemyRoute(vector<pair<int, pair<int, int>>>route, pair<int
 
 
 
-	
+
 }
 
 

@@ -12,12 +12,13 @@ void Main()
 	InputOutputManager iOManager;
 
 	//jsonなかったら無限ループ
-	//iOManager.init();
+
 	Map *map;
 	map = map->getMap();
 	map->turnFlg = false;
 	map->isSearchAll = false;
 
+	// 初期化
 	iOManager.init();
 	DrawData drawData;
 	Profiler::EnableWarning(false);
@@ -28,6 +29,6 @@ void Main()
 
 		//drawManager
 		drawData.drawDataManager();
-		sys.systemManager();
+		//sys.systemManager();
 	}
 }

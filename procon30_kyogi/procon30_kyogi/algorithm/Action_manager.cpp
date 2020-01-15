@@ -7,12 +7,11 @@
 //	2.移動情報を表示
 
 
-int Action_manager::Action(int)
-{	
+void Action_manager::Action()
+{
 
 	//Hyouka.cppの関数を呼び出す
 	//現在の得点などをちゃんと別のファイル、もしくは関数で取得する必要がある。
-
 	AgentsAction* agentsAction;
 	agentsAction = agentsAction->getAgentsAction();
 	AgentsEvalution* agentsEvalution;
@@ -23,7 +22,7 @@ int Action_manager::Action(int)
 	field = field->getField();
 	Agents* agents;
 	agents = agents->getAgents();
-	
+
 	Prefetching prefetching;
 	Judge judge;
 
@@ -35,29 +34,29 @@ int Action_manager::Action(int)
 	else {
 		judge.fullSearch();
 	}
-	
+
 
 	//評価計算終わった後
 	//turnAgent,turnTiledの更新
 	int agentS = agents->ourAgents.size();
 
 	field->turnAgent.resize(0);
-	field->turnAgent.resize(map->readTurn + 1,vector<pair<int,int>>(agentS));
+	field->turnAgent.resize(map->readTurn + 1, vector<pair<int, int>>(agentS));
 
-	field->turnTiled.resize(map->readTurn + 1,vector<vector<int>>(map->width,vector<int>(map->vertical)));
+	field->turnTiled.resize(map->readTurn + 1, vector<vector<int>>(map->width, vector<int>(map->vertical)));
 
-	int nowX[8],nowY[8];
-	
+	int nowX[8], nowY[8];
+
 	rep(i, agentS) {
 		nowX[i] = agents->ourAgents[i][1] - 1;
 		nowY[i] = agents->ourAgents[i][2] - 1;
-		
+
 		field->turnAgent[0][i] = make_pair(nowX[i], nowY[i]);
 	}
 	rep(turn, map->readTurn + 1) {
 		field->turnTiled[turn] = field->tiled;
 	}
-	
+
 
 	rep(turn, map->readTurn) {
 		field->turnTiled[turn + 1] = field->turnTiled[turn];
@@ -70,26 +69,12 @@ int Action_manager::Action(int)
 				nowX[agentnum] -= agentsAction->actionDxDy[agentnum][turn].second.first;
 				nowY[agentnum] -= agentsAction->actionDxDy[agentnum][turn].second.second;
 			}*/
-			
+
 			field->turnTiled[turn + 1][nowX[agentnum]][nowY[agentnum]] = map->ourTeamID;
-		
+
 			field->turnAgent[turn + 1][agentnum] = make_pair(nowX[agentnum], nowY[agentnum]);
 		}
 	}
 
-/*
 
-
-	Prefetching prefetching;
-	prefetching.hyoukaKeisan();
-
-	AgentsEvalution *agentsEvalution;
-	agentsEvalution = agentsEvalution->getAgentsEvalution();
-
-	
-
-*/
-
-
-	return 0;
 }

@@ -2,7 +2,7 @@
 #include "DrawMap.h"
 #include "../Data/AgentsAction.h"
 
-DrawData::DrawData() 
+DrawData::DrawData()
 	: gui(GUIStyle::Default) {
 
 
@@ -14,10 +14,10 @@ DrawData::DrawData()
 	//gui.addln(L"IsDebugMode", GUIToggleSwitch::Create(L"大会モード", L"DebugMode",true));
 
 	gui.addln(L"json_option", GUIText::Create(L"JSON_option"));
-	
+
 	gui.add(L"token_name", GUIText::Create(L"トークン"));
 	gui.addln(L"token", GUITextArea::Create(1, 14));
-	
+
 	gui.add(L"port_name", GUIText::Create(L"Port"));
 	gui.add(L"port", GUITextArea::Create(1, 4));
 
@@ -28,16 +28,16 @@ DrawData::DrawData()
 	gui.addln(L"AnalysButton", GUIButton::Create(L"Analys計算"));
 
 	//gui.add(L"bt1", GUIButton::Create(L"ターン終了"));
-	
+
 	//アルゴリズム回す
 	gui.add(L"CalcAlgorithm", GUIButton::Create(L"評価計算"));
 
 	//JsonFile読み込み
 	gui.addln(L"getJSON", GUIButton::Create(L"MapJSON取得"));
-	
+
 	//json生成(action)
 	gui.add(L"createJsonAction", GUIButton::Create(L"行動情報出力(行動決定)"));
-	
+
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
 	gui.horizontalLine(L"hr").style.color = Color(127);
 
@@ -57,7 +57,7 @@ DrawData::DrawData()
 
 	//ボタン
 	//ゲームスタート
-	//gui.add(L"gameStart", GUIButton::Create(L"gameStart"));
+	gui.add(L"gameStart", GUIButton::Create(L"gameStart"));
 
 	//全探索モード
 	//gui.addln(L"searchALL", GUIToggleSwitch::Create( L"全探索モード",L"評価関数モード",true));
@@ -147,14 +147,14 @@ DrawData::DrawData()
 	gui.add(L"text8", GUIText::Create(L" タイマー:"));
 	gui.addln(L"timer", GUITextArea::Create(1, 5));
 
-	
+
 	//ターン切り替え
 	gui.add(L"bt6", GUIButton::Create(L"前ターン"));
 	gui.addln(L"bt7", GUIButton::Create(L"次ターン"));
 	gui.style.showTitle = true;
 
 
-	
+
 
 
 	// Windowの設定
@@ -170,11 +170,13 @@ void DrawData::drawDataManager() {
 	Map* map;
 	map = map->getMap();
 	DrawMap drawMap;
+
 	drawTiledScore();
 	drawAreaScore();
 	drawSumScore();
+
 	clickedButton();
-	drawData();
+	drawMapFrame();
 	drawMap.drawMapManager(map->mapChange);
 	tokenSetUp();
 }
@@ -192,7 +194,7 @@ void DrawData::drawTiledScore() {
 
 	gui.textArea(L"OurTileScore").setText(OurTileScore);
 	gui.textArea(L"OtherTileScore").setText(OtherTileScore);
-	
+
 }
 //領域表示更新
 void DrawData::drawAreaScore() {
@@ -221,6 +223,7 @@ void DrawData::drawSumScore() {
 	gui.textArea(L"turn").setText(Widen(to_string(map->turn)));
 }
 
+
 //ボタン入力をまとめた関数
 void DrawData::clickedButton() {
 	Map *map;
@@ -238,17 +241,16 @@ void DrawData::clickedButton() {
 	}
 
 	if (gui.button(L"gameStart").pushed) {
-		
+
 
 		//ゲームスタート！！
 		map->isGameStarted = true;
 		gui.button(L"gameStart").enabled = false;
 	}
 
-
 	//先読みターン数決定ボタン
 	if (gui.button(L"bt3").pushed) {
-
+		/////////////////////////////////////
 
 		//String->string->int
 		//先読みターン数更新
@@ -263,33 +265,40 @@ void DrawData::clickedButton() {
 	if (gui.button(L"createJsonAction").pushed) {
 		CreateJson cre;
 
+
+
+		map->matchNumber = gui.textArea(L"matchNumber").text.narrow();
+
+
 		string token = gui.textArea(L"token").text.narrow();
 		string port = gui.textArea(L"port").text.narrow();
 		string matchID = gui.textArea(L"matchNumber").text.narrow();
 		//JSON書き込み + 送信
-		cre.createJson(token,port,matchID);
+		cre.createJson(token, port, matchID);
 
 
 	}
 	//JsonFileの読み込み
 	if (gui.button(L"getJSON").pushed) {
 		//gui.textArea(L"port").setText(gui.textArea(L"token").text)
-		
+
 		FetchJson fetchJson;
-			//Fetch Setting
+		//Fetch Setting
 		string token = gui.textArea(L"token").text.narrow();
 		string port = gui.textArea(L"port").text.narrow();
 		string matchNumber = gui.textArea(L"matchNumber").text.narrow();
 
 		ParseJson parseJson;
 
+
+		map->matchNumber = gui.textArea(L"matchNumber").text.narrow();
 		//最初のMap取得
 		if (!map->firstJson) {
 			//サーバーから取ってくる
 			fetchJson.fetch(token, port, matchNumber, map->turn);
 
-			
-			
+
+
 			//0ターンの情報
 
 			parseJson.parse("json/data/Map/turn0.json");
@@ -312,12 +321,12 @@ void DrawData::clickedButton() {
 		string token = gui.textArea(L"token").text.narrow();
 		string port = gui.textArea(L"port").text.narrow();
 		string matchNumber = gui.textArea(L"matchNumber").text.narrow();
-		
+
 
 		//自動
-		CreateJson createJSON;
-		createJSON.createJson(token, port, matchNumber);
-	
+		CreateJson createJson;
+		createJson.createJson(token, port, matchNumber);
+
 	}
 	//MaxTurn入力ボタン
 	if (gui.button(L"btMT").pushed) {
@@ -357,7 +366,7 @@ void DrawData::clickedButton() {
 		map->calcArea = true;
 	}
 	else if (gui.toggleSwitch(L"calcArea").isLeft) {
-		map->calcArea=false;
+		map->calcArea = false;
 	}
 
 	if (gui.toggleSwitch(L"Analys").isRight && map->AnalysCalcC) {
@@ -393,29 +402,30 @@ void DrawData::outputTurn() {
 
 
 void DrawData::tokenSetUp() {
-	String Token = Widen("dbc07e57a1e7b1342c0570d0a4393a53bef552ac2c900f3d2c21dd68a40f3d8b");
+	Map* map;
+	map = map->getMap();
+
+	String Token = Widen(map->token);
 
 	gui.textArea(L"token").setText(Token);
 }
 
 
 
-void DrawData::drawData()
+void DrawData::drawMapFrame()
 {
-	CreateMap map;
+	CreateMap createMap;
 
-	
+
 	const Font font(30);
-	
-	Map* map1;
-	map1 = map1->getMap();
 
-	map.createMapFrame(map1->vertical,map1->width);
+	Map* map;
+	map = map->getMap();
+
+	createMap.createMapFrame(map->vertical, map->width);
 
 	Circle(Mouse::Pos(), 20).draw();
-
 	font(Mouse::Pos()).draw();
-	
 }
 
 void DrawData::inputID() {
@@ -444,7 +454,7 @@ void DrawData::inputID() {
 				//自分チームは空でなかったら登録
 				if (guiID.textArea(L"blueID").text != Widen("")) {
 
-					map->ourTeamID= Parse<int>(guiID.textArea(L"blueID").text);
+					map->ourTeamID = Parse<int>(guiID.textArea(L"blueID").text);
 					gui.textArea(L"blueID").setText(Widen(to_string(map->ourTeamID)));
 				}
 				break;
@@ -452,14 +462,14 @@ void DrawData::inputID() {
 
 
 
-			//if ourTeamID != blueID || otherTeamID != redID
+			//if ourTeamID != blueID || oTeamID != redID
 			if (map->ourTeamID != Parse<int>(guiID.textArea(L"blueID").text)
 				|| map->otherTeamID != Parse<int>(guiID.textArea(L"redID").text)) {
 
 				//if blueID == otherTeamID && redID == ourTeamID
 				if (map->ourTeamID == Parse<int>(guiID.textArea(L"redID").text)
 					&& map->otherTeamID == Parse<int>(guiID.textArea(L"blueID").text)) {
-					
+
 					//teamID　変更（敵味方変更など）
 					map->ourTeamID = Parse<int>(guiID.textArea(L"redID").text);
 					map->otherTeamID = Parse<int>(guiID.textArea(L"blueID").text);
@@ -471,13 +481,13 @@ void DrawData::inputID() {
 
 				}
 				//if ourTeamID==redID || otherTeamID==blueID
-				else if(map->ourTeamID == Parse<int>(guiID.textArea(L"redID").text)
-					|| map->otherTeamID == Parse<int>(guiID.textArea(L"blueID").text)){
-					
+				else if (map->ourTeamID == Parse<int>(guiID.textArea(L"redID").text)
+					|| map->otherTeamID == Parse<int>(guiID.textArea(L"blueID").text)) {
+
 					//teamID　変更（敵味方変更など）
 					map->ourTeamID = Parse<int>(guiID.textArea(L"redID").text);
 					map->otherTeamID = Parse<int>(guiID.textArea(L"blueID").text);
-					
+
 					//swap ourAgents and otherAgents (in agents.h)
 					vector<vector<int>>ourAgentsStack = agents->ourAgents;
 					agents->ourAgents = agents->otherAgents;
@@ -494,7 +504,7 @@ void DrawData::inputID() {
 			//表示ID更新
 			gui.textArea(L"blueID").setText(Widen(to_string(map->ourTeamID)));
 			gui.textArea(L"redID").setText(Widen(to_string(map->otherTeamID)));
-			
+
 			break;
 		}
 		if (guiID.button(L"IDcancel").pushed) {
@@ -506,20 +516,28 @@ void DrawData::inputID() {
 void DrawData::manualDirection(const int number) {
 	GUI guiManual(GUIStyle::Default);
 	Map* map;
+
+
 	map = map->getMap();
 	guiManual.add(L"btm1", GUIButton::Create(L"左上"));
 	guiManual.add(L"btm2", GUIButton::Create(L"↑"));
-	guiManual.addln(L"btm3",GUIButton::Create(L"右上"));
+	guiManual.addln(L"btm3", GUIButton::Create(L"右上"));
 	guiManual.add(L"btm4", GUIButton::Create(L"←"));
 	guiManual.add(L"btm5", GUIButton::Create(L" 待機  "));
-	guiManual.addln(L"btm6",GUIButton::Create(L"→"));
+	guiManual.addln(L"btm6", GUIButton::Create(L"→"));
 	guiManual.add(L"btm7", GUIButton::Create(L"左下"));
 	guiManual.add(L"btm8", GUIButton::Create(L"↓"));
 	guiManual.addln(L"btm9", GUIButton::Create(L"右下"));
-	guiManual.add(L"btm10",GUIButton::Create(L"キャンセル"));
+	guiManual.add(L"btm10", GUIButton::Create(L"キャンセル"));
 	//はみ出たから位置変える
 	//guiManual.setPos(1500,800);
 	guiManual.setPos(250, 800);
+	CreateJson createJson;
+
+	string token = map->token;
+	string port = "";
+	string matchNumber = map->matchNumber;
+
 
 	DrawMap drawMap;
 	AgentsAction* agentsAction;
@@ -529,63 +547,81 @@ void DrawData::manualDirection(const int number) {
 
 		//上段
 		if (guiManual.button(L"btm1").pushed) {
-			agentsAction->actionDxDy[number][0].second.first=-1;
-			agentsAction->actionDxDy[number][0].second.second=-1;
+			agentsAction->actionDxDy[number][0].second.first = -1;
+			agentsAction->actionDxDy[number][0].second.second = -1;
+
+			//createJson.createJson(token, port, matchNumber);
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm2").pushed) {
-			agentsAction->actionDxDy[number][0].second.first=0;
-			agentsAction->actionDxDy[number][0].second.second=-1;
+			agentsAction->actionDxDy[number][0].second.first = 0;
+			agentsAction->actionDxDy[number][0].second.second = -1;
+
+			//createJson.createJson(token, port, matchNumber);
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm3").pushed) {
-			agentsAction->actionDxDy[number][0].second.first=1;
-			agentsAction->actionDxDy[number][0].second.second=-1;
+			agentsAction->actionDxDy[number][0].second.first = 1;
+			agentsAction->actionDxDy[number][0].second.second = -1;
+
+			createJson.createJson(token, port, matchNumber);
 			map->click = false;
 			break;
 		}
 		//中段
 		if (guiManual.button(L"btm4").pushed) {
-			agentsAction->actionDxDy[number][0].second.first=-1;
-			agentsAction->actionDxDy[number][0].second.second=0;
+			agentsAction->actionDxDy[number][0].second.first = -1;
+			agentsAction->actionDxDy[number][0].second.second = 0;
+
+			createJson.createJson(token, port, matchNumber);
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm5").pushed) {
-			agentsAction->actionDxDy[number][0].second.first=0;
-			agentsAction->actionDxDy[number][0].second.second=0;
+			agentsAction->actionDxDy[number][0].second.first = 0;
+			agentsAction->actionDxDy[number][0].second.second = 0;
+
+			createJson.createJson(token, port, matchNumber);
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm6").pushed) {
-			agentsAction->actionDxDy[number][0].second.first=1;
-			agentsAction->actionDxDy[number][0].second.second=0;
+			agentsAction->actionDxDy[number][0].second.first = 1;
+			agentsAction->actionDxDy[number][0].second.second = 0;
+
+			createJson.createJson(token, port, matchNumber);
 			map->click = false;
 			break;
 		}
 		//下段
 		if (guiManual.button(L"btm7").pushed) {
-			agentsAction->actionDxDy[number][0].second.first=-1;
-			agentsAction->actionDxDy[number][0].second.second=1;
+			agentsAction->actionDxDy[number][0].second.first = -1;
+			agentsAction->actionDxDy[number][0].second.second = 1;
+
+			createJson.createJson(token, port, matchNumber);
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm8").pushed) {
-			agentsAction->actionDxDy[number][0].second.first=0;
-			agentsAction->actionDxDy[number][0].second.second=1;
+			agentsAction->actionDxDy[number][0].second.first = 0;
+			agentsAction->actionDxDy[number][0].second.second = 1;
+
+			createJson.createJson(token, port, matchNumber);
 			map->click = false;
 			break;
 		}
 		if (guiManual.button(L"btm9").pushed) {
-			agentsAction->actionDxDy[number][0].second.first=1;
-			agentsAction->actionDxDy[number][0].second.second=1;
+			agentsAction->actionDxDy[number][0].second.first = 1;
+			agentsAction->actionDxDy[number][0].second.second = 1;
+
+			createJson.createJson(token, port, matchNumber);
 			map->click = false;
 			break;
 		}
 		//キャンセル
-		if(guiManual.button(L"btm10").pushed) {
+		if (guiManual.button(L"btm10").pushed) {
 			map->click = false;
 			break;
 		}

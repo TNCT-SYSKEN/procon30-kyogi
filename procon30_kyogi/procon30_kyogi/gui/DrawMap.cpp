@@ -22,11 +22,12 @@ void DrawMap::drawMapState2(const int turn) {
 				create.createMapState1(field->tiled[i][j], i + 1, j + 1);
 			}
 		}
-	}else{
+	}
+	else {
 		for (int i = 0; i < map->vertical; i++) {
 			for (int j = 0; j < map->width; j++) {
 				create.createMapState1(field->tiled[i][j], i + 1, j + 1);
-				if (field->turnTiled[turn][j][i]==map->ourTeamID) {
+				if (field->turnTiled[turn][j][i] == map->ourTeamID) {
 					create.createMapState1(field->turnTiled[turn][i][j], i + 1, j + 1);
 				}
 			}
@@ -46,10 +47,11 @@ void DrawMap::drawMap2AgentsTurn(const int turn) {
 			create.createMapAgent1(1, agents->ourAgents[i][1], agents->ourAgents[i][2]);
 			create.createMapAgent1(2, agents->otherAgents[i][1], agents->otherAgents[i][2]);
 		}
-	}else{
+	}
+	else {
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
 			create.createMapAgent1(2, agents->otherAgents[i][1], agents->otherAgents[i][2]);
-			create.createMapAgent1(1, field->turnAgent[turn][i].first+1, field->turnAgent[turn][i].second+1);
+			create.createMapAgent1(1, field->turnAgent[turn][i].first + 1, field->turnAgent[turn][i].second + 1);
 		}
 	}
 }
@@ -78,12 +80,14 @@ void DrawMap::drawMapLine2(const int turn) {
 	map = map->getMap();
 	CreateMap create;
 	if (turn == map->readTurn) {
-		//for (int i = 0; i < agents->ourAgents.size(); i++) {
-			//create.createMapLine1(field->turnAgent[turn][i].first, field->turnAgent[turn][i].second, field->turnAgent[turn + 1][i].first, field->turnAgent[turn + 1][i].second);
-		//}
-	}else{
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
-			create.createMapLine1(field->turnAgent[turn][i].first+1, field->turnAgent[turn][i].second+1, field->turnAgent[turn + 1][i].first+1, field->turnAgent[turn + 1][i].second+1);
+			create.createMapLine1(field->turnAgent[turn][i].first, field->turnAgent[turn][i].second, field->turnAgent[turn + 1][i].first, field->turnAgent[turn + 1][i].second);
+		}
+	}
+	else {
+		// error“f‚­‚©‚à
+		for (int i = 0; i < agents->ourAgents.size(); i++) {
+			create.createMapLine1(field->turnAgent[turn][i].first + 1, field->turnAgent[turn][i].second + 1, field->turnAgent[turn + 1][i].first + 1, field->turnAgent[turn + 1][i].second + 1);
 		}
 	}
 }
@@ -93,18 +97,20 @@ void DrawMap::drawMapManager(const int turn) {
 	Map* map;
 	map = map->getMap();
 	drawMapState2(turn);
-	
+
 	//manualInput
 	ManualInput manualInput;
 	manualInput.mousePosition();
 	if (map->click == true) {
-		manualInput.clickedMap(map->x,map->y);
+		manualInput.clickedMap(map->x, map->y);
 	}
 
 	drawMap2AgentsTurn(turn);
 	drawMapPoint2();
+	// error
 	drawMapLine2(turn);
 	drawMapFrame();
+
 }
 
 
@@ -169,7 +175,7 @@ void DrawMap::drawMap1AgentsTurn(const int turn) {
 	map = map->getMap();
 	CreateMap create;
 	if (turn == map->readTurn) {
-		
+
 	}else if(turn == 0){
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
 			create.createMapAgent1(1, field->turnAgent[turn][i].first, field->turnAgent[turn][i].second);
@@ -190,7 +196,7 @@ void DrawMap::drawMap2AgentsTurn(const int turn) {
 	field = field->getField();
 	CreateMap create;
 	if (turn == 0) {
-		
+
 	}else{
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
 			create.createMapAgent2(1, field->turnAgent[turn][i].first, field->turnAgent[turn][i].second);
