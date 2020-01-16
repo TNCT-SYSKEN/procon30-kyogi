@@ -67,7 +67,7 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 			calcTurn = 4;
 		}
 
-		if (map->AnalysFieled == true) {
+		if (map->AnalysField == true) {
 			sumOfEvalution += field->AnalysisField[nowX][nowY] * evalution[6];
 		}
 

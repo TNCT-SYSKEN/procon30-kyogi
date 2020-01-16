@@ -58,12 +58,9 @@ public:
 	int makeJsonCount = 0;
 
 
-	bool AnalysFieled = false;
+	bool AnalysField = false;
 	bool AnalysCalcC = false;
 
-
-	string token = "dbc07e57a1e7b1342c0570d0a4393a53bef552ac2c900f3d2c21dd68a40f3d8b";
-	string matchNumber;
 
 private:
 	static Map* stayMap;

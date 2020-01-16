@@ -1,7 +1,7 @@
 #pragma once
 #include <fstream>
 #include "../SystemManager.h"
-#include "../Data/Map.h"
+#include "../algorithm/Analysis.h"
 #include "picojson.h"
 // インクルード漏れがないか確認すること(ここらへん適当)
 
