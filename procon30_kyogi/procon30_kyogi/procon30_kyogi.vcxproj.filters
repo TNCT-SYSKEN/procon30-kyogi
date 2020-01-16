@@ -96,9 +96,6 @@
     <ClCompile Include="algorithm\Action_manager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="algorithm\Hyouka.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="algorithm\Evalution.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -406,9 +403,6 @@
     <ClInclude Include="algorithm\Action_manager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="algorithm\Hyouka.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="algorithm\Field_test.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -473,6 +467,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Initialize\Initialize.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="algorithm\JudgeEvalution.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="algorithm\Judge.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

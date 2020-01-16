@@ -2,33 +2,34 @@
 
 void SystemManager::systemManager() {
 
-	Action_manager acManager;
+	Action_manager ACManager;
 	Map* map;
 	map = map->getMap();
 
-	
-	if (map->isGameStarted) {
 
-		if (map->turnFlg) {
+	if (map->turnFlg) {
 			
-			acManager.Action();
+		ACManager.Action();
 				
-			//•]‰¿‚µ‚½‚Ì‚É‚à‚¤ˆê“x•]‰¿‚µ‚È‚¢‚æ‚¤‚É‚·‚é
-			map->turnFlg = false;
-			map->isCalcOurAction = true;
-
-		}
-		/*if (map->enemyJson && map->isCalcOurAction) {
-			
-			DebugSystem();
-		
-			map->isCalcOurAction = false;
-			map->turnFlg = true;
-		}
-		*/
+		//•]‰¿‚µ‚½‚Ì‚É‚à‚¤ˆê“x•]‰¿‚µ‚È‚¢‚æ‚¤‚É‚·‚é
+		map->turnFlg = false;
+		map->isCalcOurAction = true;
+			   
 	}
+	/*if (map->enemyJson && map->isCalcOurAction) {
+			
+		DebugSystem();
+		
+		map->isCalcOurAction = false;
+		map->turnFlg = true;
+	}
+	*/
+	
 
 }
+
+
+
 
 //debug‡is
 void SystemManager::DebugSystem() {

@@ -26,7 +26,9 @@ void Initialize::setupMap() {
 	map->turn = 0;
 	// æ“Ç‚Ýƒ^[ƒ“”‚Ì‰Šú‰»
 	map->readTurn = 3;
-	map->isGameStarted = false;
+
+	map->turnFlg = false;
+	map->isSearchAll = false;
 }
 
 

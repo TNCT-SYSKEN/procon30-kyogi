@@ -36,7 +36,7 @@ DrawData::DrawData()
 	gui.addln(L"getJSON", GUIButton::Create(L"MapJSON取得"));
 
 	//json生成(action)
-	gui.add(L"createJsonAction", GUIButton::Create(L"行動情報出力(行動決定)"));
+	gui.add(L"createJsonAction", GUIButton::Create(L"port,token,matchID確定"));
 
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
 	gui.horizontalLine(L"hr").style.color = Color(127);
@@ -55,9 +55,8 @@ DrawData::DrawData()
 	gui.horizontalLine(L"hr").style.color = Color(127);
 
 
-	//ボタン
-	//ゲームスタート
-	gui.add(L"gameStart", GUIButton::Create(L"gameStart"));
+	/*******************ボタン*******************/
+	
 
 	//全探索モード
 	//gui.addln(L"searchALL", GUIToggleSwitch::Create( L"全探索モード",L"評価関数モード",true));
@@ -196,6 +195,7 @@ void DrawData::drawTiledScore() {
 	gui.textArea(L"OtherTileScore").setText(OtherTileScore);
 
 }
+
 //領域表示更新
 void DrawData::drawAreaScore() {
 	Map* map;
@@ -207,6 +207,7 @@ void DrawData::drawAreaScore() {
 	gui.textArea(L"OurAreaScore").setText(OurAreaScore);
 	gui.textArea(L"OtherAreaScore").setText(OtherAreaScore);
 }
+
 //総合表示更新
 void DrawData::drawSumScore() {
 	Map* map;
@@ -236,16 +237,8 @@ void DrawData::clickedButton() {
 	const Size targetSize(1920, 1080);
 	//行動確定ボタン
 	if (gui.button(L"bt1").pushed) {
-		SystemManager SysM;
-		SysM.DebugSystem();
-	}
-
-	if (gui.button(L"gameStart").pushed) {
-
-
-		//ゲームスタート！！
-		map->isGameStarted = true;
-		gui.button(L"gameStart").enabled = false;
+		//SystemManager SysM;
+		//SysM.DebugSystem();
 	}
 
 	//先読みターン数決定ボタン
@@ -342,12 +335,13 @@ void DrawData::clickedButton() {
 
 	//Map切り替え
 	if (gui.button(L"bt6").pushed) {
-		if (map->mapChange != 0) {
+		if (map->mapChange > 0) {
 			map->mapChange--;
 		}
 	}
 	if (gui.button(L"bt7").pushed) {
-		if (map->mapChange != map->readTurn) {
+		//-1を追加することでvector要素範囲外アクセスerror解消 
+		if (map->mapChange < map->readTurn -1) {
 			map->mapChange++;
 		}
 	}

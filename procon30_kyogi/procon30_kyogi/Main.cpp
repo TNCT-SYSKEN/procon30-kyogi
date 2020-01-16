@@ -1,34 +1,27 @@
-﻿# include <Siv3D.hpp>
-# include"../procon30_kyogi/gui/InputOutputManager.h"
-
+﻿#include <Siv3D.hpp>
 #include"SystemManager.h"
+
 #include"gui/InputOutputManager.h"
-#include"..//procon30_kyogi/gui/DrawMap.h"
+#include"gui/DrawMap.h"
 SystemManager sys;
 
 
 void Main()
 {
-	InputOutputManager iOManager;
-
-	//jsonなかったら無限ループ
-
-	Map *map;
-	map = map->getMap();
-	map->turnFlg = false;
-	map->isSearchAll = false;
 
 	// 初期化
+	InputOutputManager iOManager;
 	iOManager.init();
-	DrawData drawData;
-	Profiler::EnableWarning(false);
 
+	DrawData drawData;
 	DrawMap drawMap;
+	
+	Profiler::EnableWarning(false);
 
 	while (System::Update()) {
 
-		//drawManager
+		// drawManager
 		drawData.drawDataManager();
-		//sys.systemManager();
+		// sys.systemManager();
 	}
 }

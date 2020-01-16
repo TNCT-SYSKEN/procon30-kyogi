@@ -1,6 +1,6 @@
 #include"DrawMap.h"
 #include"ManualInput.h"
-//debug用
+
 //FrameMap
 void DrawMap::drawMapFrame() {
 	Map* map1;
@@ -86,6 +86,7 @@ void DrawMap::drawMapLine2(const int turn) {
 	}
 	else {
 		// error吐くかも
+		// turn+1のせいで範囲外アクセスするからreadTurn-1までしか扱えない
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
 			create.createMapLine1(field->turnAgent[turn][i].first + 1, field->turnAgent[turn][i].second + 1, field->turnAgent[turn + 1][i].first + 1, field->turnAgent[turn + 1][i].second + 1);
 		}
