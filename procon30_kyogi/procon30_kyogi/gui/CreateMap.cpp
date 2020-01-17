@@ -41,24 +41,6 @@ void CreateMap::createMapState1(const int state, const int x, const int y) {
 	}
 }
 
-//ColorMap2
-void CreateMap::createMapState2(const int state, const int x, const int y) {
-	Rect rect(1100 + 60 * (x - 1), 30 + 40 * (y - 1), 60, 40);
-	Map* map;
-	map = map->getMap();
-	if (state == map->ourTeamID) {
-		rect.draw(Palette::Blue);
-	}
-	else if (state == map->otherTeamID) {
-		rect.draw(Palette::Red);
-	}
-	else if (state == 9999) {
-		rect.draw(Palette::Yellow);
-	}
-	else {
-		rect.draw(Palette::Black);
-	}
-}
 
 //AgentsMap1
 void CreateMap::createMapAgent1(const int who, const int x, const int y) {
