@@ -173,7 +173,7 @@ void DrawData::drawDataManager() {
 
 	clickedButton();
 	drawMapFrame();
-	drawMap.drawMapManager(map->mapChange);
+	drawMap.drawMapManager(map->mapChangeTurn);
 	
 }
 
@@ -322,14 +322,14 @@ void DrawData::clickedButton() {
 
 	//Map切り替え
 	if (gui.button(L"bt6").pushed) {
-		if (map->mapChange > 0) {
-			map->mapChange--;
+		if (map->mapChangeTurn > 0) {
+			map->mapChangeTurn--;
 		}
 	}
 	if (gui.button(L"bt7").pushed) {
 		//-1を追加することでvector要素範囲外アクセスerror解消 
-		if (map->mapChange < map->readTurn -1) {
-			map->mapChange++;
+		if (map->mapChangeTurn < map->readTurn -1) {
+			map->mapChangeTurn++;
 		}
 	}
 
@@ -525,7 +525,7 @@ void DrawData::manualDirection(const int number) {
 			agentsAction->actionDxDy[number][0].second.second = -1;
 
 			createJson.createJson();
-			map->click = false;
+			map->isClicked = false;
 			break;
 		}
 		if (guiManual.button(L"btm2").pushed) {
@@ -533,7 +533,7 @@ void DrawData::manualDirection(const int number) {
 			agentsAction->actionDxDy[number][0].second.second = -1;
 
 			createJson.createJson();
-			map->click = false;
+			map->isClicked = false;
 			break;
 		}
 		if (guiManual.button(L"btm3").pushed) {
@@ -541,7 +541,7 @@ void DrawData::manualDirection(const int number) {
 			agentsAction->actionDxDy[number][0].second.second = -1;
 
 			createJson.createJson();
-			map->click = false;
+			map->isClicked = false;
 			break;
 		}
 		//中段
@@ -550,7 +550,7 @@ void DrawData::manualDirection(const int number) {
 			agentsAction->actionDxDy[number][0].second.second = 0;
 
 			createJson.createJson();
-			map->click = false;
+			map->isClicked = false;
 			break;
 		}
 		if (guiManual.button(L"btm5").pushed) {
@@ -558,7 +558,7 @@ void DrawData::manualDirection(const int number) {
 			agentsAction->actionDxDy[number][0].second.second = 0;
 
 			createJson.createJson();
-			map->click = false;
+			map->isClicked = false;
 			break;
 		}
 		if (guiManual.button(L"btm6").pushed) {
@@ -566,7 +566,7 @@ void DrawData::manualDirection(const int number) {
 			agentsAction->actionDxDy[number][0].second.second = 0;
 
 			createJson.createJson();
-			map->click = false;
+			map->isClicked = false;
 			break;
 		}
 		//下段
@@ -575,7 +575,7 @@ void DrawData::manualDirection(const int number) {
 			agentsAction->actionDxDy[number][0].second.second = 1;
 
 			createJson.createJson();
-			map->click = false;
+			map->isClicked = false;
 			break;
 		}
 		if (guiManual.button(L"btm8").pushed) {
@@ -583,7 +583,7 @@ void DrawData::manualDirection(const int number) {
 			agentsAction->actionDxDy[number][0].second.second = 1;
 
 			createJson.createJson();
-			map->click = false;
+			map->isClicked = false;
 			break;
 		}
 		if (guiManual.button(L"btm9").pushed) {
@@ -591,12 +591,12 @@ void DrawData::manualDirection(const int number) {
 			agentsAction->actionDxDy[number][0].second.second = 1;
 
 			createJson.createJson();
-			map->click = false;
+			map->isClicked = false;
 			break;
 		}
 		//キャンセル
 		if (guiManual.button(L"btm10").pushed) {
-			map->click = false;
+			map->isClicked = false;
 			break;
 		}
 	}

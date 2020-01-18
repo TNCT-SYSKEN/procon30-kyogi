@@ -32,10 +32,10 @@ public:
 	//‘Šèƒ`[ƒ€ID
 	int otherTeamID;
 
-	//MapChange
-	int mapChange = 0;
-	bool click;
-	int x, y;
+	//TurnMap Change
+	int mapChangeTurn = 0;
+	bool isClicked;
+	int clickedPosx, clickedPosy;
 
 	//—ÌˆæŒvZONOFF
 	bool calcArea = false;

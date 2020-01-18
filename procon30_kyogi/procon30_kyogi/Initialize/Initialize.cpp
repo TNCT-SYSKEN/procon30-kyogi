@@ -43,7 +43,7 @@ void Initialize::setupField() {
 	field->points.resize(20, vector<int>(20, 0));
 	field->tiled.resize(20, vector<int>(20, 0));
 	field->turnTiled.resize(map->readTurn + 1, vector<vector<int>>(20, vector<int>(20, 0)));
-	field->turnAgent.resize(map->readTurn + 1, vector<pair<int, int>>(8, pair<int, int>(2, 2)));
+	field->turnAgent.resize(map->readTurn + 1, vector<pair<int, int>>(8, pair<int, int>(1, 1)));
 
 	// readTurn‰Šú‰»
 	//rep(i, map->readTurn + 1) {
