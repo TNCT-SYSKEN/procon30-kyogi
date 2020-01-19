@@ -17,6 +17,15 @@ public:
 	vector<vector<pair<int, pair<int, int>>>>enemyMaxRoute;
 	vector<int> enemyMaxGetPoint;
 
+
+	/*************** new ver*************/
+
+	//êÊì«Ç›1~4É^Å[ÉìÇ≈Ç§Ç‹Ç≠í≤êﬂ
+	// <agentnum <xy1 <xy2 <xy3 <xy4> >>>>
+	float readTurnEvalutionPointDP[8][9][9][9][9];
+
+
+
 	static AgentsEvalution* getAgentsEvalution();
 
 private:
