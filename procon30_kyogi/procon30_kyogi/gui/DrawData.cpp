@@ -243,12 +243,13 @@ void DrawData::clickedButton() {
 	//先読みターン数決定ボタン
 	if (gui.button(L"bt3").pushed) {
 		/////////////////////////////////////
-
+		Redefine redef;
+ 
 		//String->string->int
 		//先読みターン数更新
-		map->readTurn = Parse<int>(gui.textArea(L"ptnc").text);
-		//agentsAction dxdy の調整
-		agentsAction->actionDxDy.resize(agents->ourAgents.size(), vector<pair<int, pair<int, int>>>(map->readTurn));
+		int afterReadTurn = Parse<int>(gui.textArea(L"ptnc").text);
+		redef.readTurnChange(map->readTurn, afterReadTurn);
+		
 	}
 	//ID入力ボタン
 	if (gui.button(L"bt4").pushed) {
@@ -366,11 +367,11 @@ void DrawData::outputTurn() {
 	map = map->getMap();
 
 	String Turn = Widen(to_string(map->turn));
-	String Rturn = Widen(to_string(map->readTurn));
+	String ReadTurn = Widen(to_string(map->readTurn));
 
 
 	gui.textArea(L"turn").setText(Turn);
-	gui.textArea(L"ptnc").setText(Rturn);
+	gui.textArea(L"ptnc").setText(ReadTurn);
 }
 
 

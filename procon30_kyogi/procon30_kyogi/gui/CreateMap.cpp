@@ -77,7 +77,7 @@ void CreateMap::createMapPoint(const int point, const int x, const int y) {
 //ˆÚ“®æ•\¦
 //LineMap
 void CreateMap::createMapLine(const int x1, const int y1, const int x2, const int y2) {
-	Line(600 + 60 * (x1 - 1) + 20, 30 + 40 * (y1 - 1) + 20, 600 + 60 * (x2 - 1) + 20, 30 + 40 * (y2 - 1) + 20).draw(5, Palette::White);
+	Line(600 + 60 * (x1) + 20, 30 + 40 * (y1) + 20, 600 + 60 * (x2) + 20, 30 + 40 * (y2) + 20).draw(5, Palette::White);
 }
 
 

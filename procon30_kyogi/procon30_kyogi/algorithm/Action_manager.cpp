@@ -48,8 +48,8 @@ void Action_manager::Action()
 	int nowX[8], nowY[8];
 
 	rep(i, agentS) {
-		nowX[i] = agents->ourAgents[i][1] - 1;
-		nowY[i] = agents->ourAgents[i][2] - 1;
+		nowX[i] = agents->ourAgents[i][1];
+		nowY[i] = agents->ourAgents[i][2];
 
 		field->turnAgent[0][i] = make_pair(nowX[i], nowY[i]);
 	}
