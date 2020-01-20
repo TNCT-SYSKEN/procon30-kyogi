@@ -4,7 +4,7 @@
 class Evalution {
 public:
 	//•]‰¿“_ŒvŽZ
-	void calculateEvalution(vector<pair<int, pair<int, int>>>, vector<vector<int>>, int, int);
+	void calculateEvalution(vector<pair<int, pair<int, int>>>, vector<vector<vector<int>>>, int, int);
 	int calculateScore(pair<int, int>, int);
 
 

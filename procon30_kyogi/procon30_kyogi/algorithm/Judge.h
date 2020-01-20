@@ -9,7 +9,7 @@ public:
 	//自分のチームの得点、相手のチームの得点
 	//それぞれを引数として扱う
 
-	void fullSearch();
+	void changeDestination();
 
 
 

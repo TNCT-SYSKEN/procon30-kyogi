@@ -37,7 +37,7 @@ DrawData::DrawData()
 
 	/**********************Toggle********************/
 	//—ÌˆæŒvŽZONoff
-	gui.addln(L"calcArea", GUIToggleSwitch::Create(L"—ÌˆæŒvŽZ", L"—ÌˆæŒvŽZON", false));
+	gui.addln(L"calcArea", GUIToggleSwitch::Create(L"•]‰¿ŒvŽZ Žã‚ß", L"•]‰¿ŒvŽZ ‹­‚ß", false));
 
 
 	//analys
@@ -313,12 +313,6 @@ void DrawData::clickedButton() {
 		map->finalTurn = Parse<int>(gui.textArea(L"readMT").text);
 
 	}
-	if (gui.toggleSwitch(L"searchAll").isRight) {
-		map->isSearchAll = false;
-	}
-	if (gui.toggleSwitch(L"searchAll").isLeft) {
-		map->isSearchAll = true;
-	}
 
 	//MapØ‚è‘Ö‚¦
 	if (gui.button(L"bt6").pushed) {
@@ -342,12 +336,12 @@ void DrawData::clickedButton() {
 			System::Exit();
 		}
 	}
-
+	// 
 	if (gui.toggleSwitch(L"calcArea").isRight) {
-		map->calcArea = true;
+		map->evalutionOptionToggle = true;
 	}
 	else if (gui.toggleSwitch(L"calcArea").isLeft) {
-		map->calcArea = false;
+		map->evalutionOptionToggle = false;
 	}
 
 	if (gui.toggleSwitch(L"Analys").isRight && map->AnalysCalcC) {

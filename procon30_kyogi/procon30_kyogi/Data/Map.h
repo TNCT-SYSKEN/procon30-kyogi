@@ -36,15 +36,14 @@ public:
 	int mapChangeTurn = 0;
 	bool isClicked;
 	int clickedPosx, clickedPosy;
-
-	//領域計算ONOFF
-	bool calcArea = false;
+	
+	//テスト用計算　トグル
+	bool evalutionOptionToggle = false;
 
 
 	//計算したかどうか
 	bool turnFlg = false;
 
-	bool isSearchAll = false;
 	bool makeReadTurnMap = false;
 	//最初のjsonfile 読み取り
 	bool firstJson = false;

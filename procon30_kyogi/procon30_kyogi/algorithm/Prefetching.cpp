@@ -37,15 +37,19 @@ void Prefetching::hyoukaKeisan()
 	agentsAction->actionType.resize(0);
 	agentsAction->actionType.resize(ourAgentsS);
 
-
-	int Agent0 = agents->ourAgents[0][0];
-
+	// turn ごとのタイル状況
+	vector<vector<vector<int>>> moveUpTile;
+	moveUpTile.resize(map->readTurn, vector<vector<int>>(map->width, vector<int>(map->vertical)));
+	rep(i, map->width) {
+		rep(j, map->vertical) {
+			moveUpTile[0][i][j] = field->tiled[i][j];
+		}
+	}
 
 
 	//エージェントの数だけループ
 	for (int agentsnum = 0; agentsnum < ourAgentsS; agentsnum++) {
-		//positionに-1	
-		//そうしないとjsonとのhogehogeがやり取りしづらい
+		//
 		agentPosition = make_pair((agents->ourAgents[agentsnum][1]), (agents->ourAgents[agentsnum][2]));//
 
 
@@ -55,14 +59,7 @@ void Prefetching::hyoukaKeisan()
 		//agentsEvalutionのmax評価値を初期化
 		agentsEvalution->maxEvalutionPoint = mINF;
 
-		//タイル状態
-		vector<vector<int>> moveUpTile;
-		moveUpTile.resize(map->width, vector<int>(map->vertical));
-		rep(i, map->width) {
-			rep(j, map->vertical) {
-				moveUpTile[i][j] = field->tiled[i][j];
-			}
-		}
+		
 		//何番目に計算
 		calculateEvalution(route, agentPosition, moveUpTile, agentsnum, map->readTurn, 0);
 
@@ -93,16 +90,25 @@ void Prefetching::hyoukaKeisan()
 				agentsAction->actionType[agentsnum].push_back(0);
 
 			}
-			//else if (field->tiled[nowX][nowY] == map->otherTeamID){
-			//	//remove
-			//	agentsAction->actionType[agentsnum].push_back(-1);
-			//	nowX -= agentsEvalution->maxRoute[agentsnum][i].second.first;
-			//	nowY -= agentsEvalution->maxRoute[agentsnum][i].second.second;
-
-			//}
-			//
+			else if (field->tiled[nowX][nowY] == map->otherTeamID){
+				//remove
+				agentsAction->actionType[agentsnum].push_back(-1);
+				// moveUpTileに更新
+				// 後のターンのタイルにも反映
+				for (int tmp = i; i < map->readTurn; i++) {
+					moveUpTile[tmp + 1][nowX][nowY] = 0;
+				}
+				
+				nowX -= agentsEvalution->maxRoute[agentsnum][i].second.first;
+				nowY -= agentsEvalution->maxRoute[agentsnum][i].second.second;
+			}
 			else {
-				//move
+				//move	
+				// moveUpTileに更新
+				// 後のターンのタイルにも反映
+				for (int tmp = i; i < map->readTurn; i++) {
+					moveUpTile[tmp + 1][nowX][nowY] = map->ourTeamID;
+				}
 				agentsAction->actionType[agentsnum].push_back(1);
 
 			}
@@ -115,7 +121,7 @@ void Prefetching::hyoukaKeisan()
 
 //経路計算
 void  Prefetching::calculateEvalution(vector<pair<int, pair<int, int>>>route, pair<int, int> nowAgentPosition,
-	vector<vector<int>>moveUpTile, int agentsnum, int readTurn, int sum)
+	vector<vector<vector<int>>>moveUpTile, int agentsnum, int readTurn, int sum)
 {
 
 	int dx[9] = { 1,1,1,0,0,0,-1,-1,-1 };
@@ -146,19 +152,20 @@ void  Prefetching::calculateEvalution(vector<pair<int, pair<int, int>>>route, pa
 		//dx,dyが入ってるとき
 
 		//移動先が自分チーム（戻るも含まれる）
-		if (moveUpTile[Dx + dx[turn]][Dy + dy[turn]] == map->ourTeamID) {
+		if (moveUpTile[map->readTurn-readTurn][Dx + dx[turn]][Dy + dy[turn]] == map->ourTeamID) {
 			// sum を減らすかも
 		}
 		//移動先が相手チームタイルだったら
-		else if (moveUpTile[Dx + dx[turn]][Dy + dy[turn]] == map->otherTeamID) {
+		else if (moveUpTile[map->readTurn-readTurn][Dx + dx[turn]][Dy + dy[turn]] == map->otherTeamID) {
 
-			moveUpTile[Dx + dx[turn]][Dy + dy[turn]] = 0;
+			moveUpTile[map->readTurn-readTurn][Dx + dx[turn]][Dy + dy[turn]] = 0;
 			Dx -= dx[turn];
 			Dy -= dy[turn];
 
 		}
 		else {
-			moveUpTile[Dx + dx[turn]][Dy + dy[turn]] = map->ourTeamID;
+			// tile	を塗る	
+			moveUpTile[map->readTurn-readTurn][Dx + dx[turn]][Dy + dy[turn]] = map->ourTeamID;
 
 		}
 

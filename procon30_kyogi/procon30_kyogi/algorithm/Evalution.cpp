@@ -14,7 +14,7 @@ float magnificat[] = { 1.1 , 1.2,1,1,1,1 };
 
 */
 
-void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vector<vector<int>>moveUpTile, int agentsnum, int sum)
+void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vector<vector<vector<int>>>moveUpTile, int agentsnum, int sum)
 {
 
 	int dx[] = { 1,1,1,0,0,0,-1,-1,-1 };
@@ -79,7 +79,7 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 			nowX -= route[turn + 1].second.first;
 			nowY -= route[turn + 1].second.second;
 		}
-		else if (field->tiled[nowX][nowY] == map->ourTeamID) {
+		else if (moveUpTile[1][nowX][nowY] == map->ourTeamID) {
 			// pass
 			// ì_êîïœìÆÇ»Çµ
 		}

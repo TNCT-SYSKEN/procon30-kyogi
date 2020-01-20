@@ -26,14 +26,16 @@ void Action_manager::Action()
 	Prefetching prefetching;
 	Judge judge;
 
-	//計算
-	//全探索モードでなかったら
-	if (map->isSearchAll) {
-		prefetching.hyoukaKeisan();
+	//true ならjudge, falseならprefetching
+	if (map->evalutionOptionToggle) {
+		// 移動先重複判定
+		//judge.changeDestination();
 	}
 	else {
-		judge.fullSearch();
+		// 評価計算
+		prefetching.hyoukaKeisan();
 	}
+
 
 
 	//評価計算終わった後

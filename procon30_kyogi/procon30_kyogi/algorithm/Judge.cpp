@@ -1,17 +1,13 @@
 #include"Judge.h"
 
 
-//全てのエージェントについて一気に評価点計算をしたほうが
-//場所変更などをしやすい
-
-
 //注意
-//踏んだ後のタイルをもう一度取るかもしれない
+// 重いかも
 //
 
 
 //全探索モード
-void Judge::fullSearch() {
+void Judge::changeDestination() {
 
 
 	Map* map;
@@ -27,10 +23,22 @@ void Judge::fullSearch() {
 
 
 
-	//敵ルート
-	vector<pair<int, pair<int, int>>>enemyRoute(0);
-	int ourAgentsS = agents->ourAgents.size();
+	// 各エージェントの移動情報を確認する
+	int ourAgentS = agents->ourAgents.size();
 
+
+	rep(i, ourAgentS) {
+		
+	}
+
+
+
+
+	
+
+
+
+	
 	//タイル除去したマスの座標、先読みターン数の記録
 	vector<pair<int, pair<int, int>>>moveUpTile;
 
