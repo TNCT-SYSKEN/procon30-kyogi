@@ -3,7 +3,7 @@
 #include"../Data/AgentsEvalution.h"
 
 
-void Prefetching::hyoukaKeisan()
+void Prefetching::prefetching()
 {
 	int dx[9] = { 1,1,1,0,0,0,-1,-1,-1 };
 	int dy[9] = { 1,0,-1,1,0,-1,1,0,-1 };
@@ -59,7 +59,7 @@ void Prefetching::hyoukaKeisan()
 		//agentsEvalutionのmax評価値を初期化
 		agentsEvalution->maxEvalutionPoint = mINF;
 
-		
+
 		//何番目に計算
 		calculateEvalution(route, agentPosition, moveUpTile, agentsnum, map->readTurn, 0);
 
@@ -70,9 +70,16 @@ void Prefetching::hyoukaKeisan()
 		/////////////////////////////////////////////////////////
 		//AgentsAction.hに書き込み
 		agentsAction->actionDxDy[agentsnum].resize(0);
-
 		agentsEvalution->maxEvalutionPoint = mINF;
 
+	}
+
+	//　移動先重複確認
+	changeDestination();
+	
+
+	//移動先決定 and 書き込み
+	for(int agentsnum=0;agentsnum<ourAgentsS;agentsnum++){
 		//
 		int nowX = agents->ourAgents[agentsnum][1];
 		int nowY = agents->otherAgents[agentsnum][2];
@@ -114,6 +121,10 @@ void Prefetching::hyoukaKeisan()
 			}
 		}
 	}
+
+
+
+
 
 }
 
@@ -202,3 +213,101 @@ void  Prefetching::calculateEvalution(vector<pair<int, pair<int, int>>>route, pa
 
 }
 
+
+
+void Prefetching::changeDestination() {
+	Map* map;
+	map = map->getMap();
+	Agents* agents;
+	agents = agents->getAgents();
+	AgentsEvalution *agentsEvalution;
+	agentsEvalution = agentsEvalution->getAgentsEvalution();
+	AgentsAction *agentsAction;
+	agentsAction = agentsAction->getAgentsAction();
+	Field* field;
+	field = field->getField();
+
+	pair<int, int>mainAgent;
+	pair<int, int>partnerAgent;
+	
+	// defalutは現在4ターン設定
+	int useReadTurn = map->maxLimitReadTurn;
+	// 範囲外アクセスのエラーを防ぐ
+	if (map->readTurn < map->maxLimitReadTurn) {
+		useReadTurn = map->readTurn;
+	}
+
+	//turn->x->y->visitedAgentCounter
+	vector<vector<vector<vector<int>>>> movedTileAgent(useReadTurn,vector<vector<vector<int>>>(map->width,vector<vector<int>>(map->vertical)));
+	// turn->x->y
+	vector<vector<vector<int>>> turnTiled(useReadTurn + 1, vector<vector<int>>(map->width, vector<int>(map->vertical)));
+
+
+	rep(turn, useReadTurn) {
+		turnTiled[turn] = field->tiled;
+	}
+
+
+	// 2回同じペアを計算しないように重複判定を行う
+	rep(main, agents->ourAgents.size() - 1) {
+		for (int partner = main + 1; partner < agents->ourAgents.size; partner++) {
+			
+			mainAgent = make_pair(agents->ourAgents[main][1], agents->ourAgents[main][2]);
+			partnerAgent = make_pair(agents->ourAgents[partner][1], agents->ourAgents[partner][2]);
+
+			//調べる　先読みターン 1 ~ readTurn
+			//先読みターン数を大きくしすぎたら「まずい」からいったん上限を4にする
+			rep(turn, useReadTurn) {
+				mainAgent.first += agentsEvalution->maxRoute[main][turn].second.first;
+				mainAgent.second += agentsEvalution->maxRoute[main][turn].second.second;
+				
+				partnerAgent.first += agentsEvalution->maxRoute[partner][turn].second.first;
+				partnerAgent.second += agentsEvalution->maxRoute[partner][turn].second.second;
+
+				// 一致したら
+				if (mainAgent == partnerAgent) {
+					bool mainCheck = false;
+					bool partnerCheck = false;
+					rep(count, movedTileAgent[turn][mainAgent.first][mainAgent.second].size()) {
+						
+						if (movedTileAgent[turn][mainAgent.first][mainAgent.second][count] == main) {
+							mainCheck = true;
+						}
+						if(	movedTileAgent[turn][mainAgent.first][mainAgent.second][count] == partner){ 
+							partnerCheck = true;
+						}
+					}
+					// if mainCheck != true
+					if (!mainCheck) {
+						movedTileAgent[turn][mainAgent.first][mainAgent.second].push_back(main);
+					}
+					if (!partnerCheck) {
+						movedTileAgent[turn][mainAgent.first][mainAgent.second].push_back(partner);
+					}
+				}
+
+				if (turn + 1 < useReadTurn) {
+					// 相手タイル除去判定の計算
+					if (turnTiled[turn][mainAgent.first][mainAgent.second] == map->otherTeamID) {
+						//	次のターンのフィールドに更新
+						turnTiled[turn + 1][mainAgent.first][mainAgent.second] = 0;
+						// タイル除去ではエージェントの位置は動かない
+						mainAgent.first -= agentsEvalution->maxRoute[main][turn].second.first;
+						mainAgent.second -= agentsEvalution->maxRoute[main][turn].second.second;
+					}
+					if (turnTiled[turn][partnerAgent.first][partnerAgent.second] == map->otherTeamID) {
+						//	次のターンのフィールドに更新
+						turnTiled[turn + 1][partnerAgent.first][partnerAgent.second] = 0;
+						// タイル除去ではエージェントの位置は動かない
+						partnerAgent.first -= agentsEvalution->maxRoute[partner][turn].second.first;
+						partnerAgent.second -= agentsEvalution->maxRoute[partner][turn].second.second;
+					}
+				}
+			}
+		}
+	}
+
+	// 重複判定完了
+
+
+}

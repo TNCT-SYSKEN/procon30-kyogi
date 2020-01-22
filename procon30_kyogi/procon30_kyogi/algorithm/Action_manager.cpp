@@ -23,17 +23,17 @@ void Action_manager::Action()
 	Agents* agents;
 	agents = agents->getAgents();
 
-	Prefetching prefetching;
+	Prefetching Pre;
 	Judge judge;
 
 	//true ならjudge, falseならprefetching
 	if (map->evalutionOptionToggle) {
-		// 移動先重複判定
+		// 別モード
 		//judge.changeDestination();
 	}
 	else {
 		// 評価計算
-		prefetching.hyoukaKeisan();
+		Pre.prefetching();
 	}
 
 

@@ -5,8 +5,6 @@
 // 重いかも
 //
 
-
-//全探索モード
 void Judge::changeDestination() {
 
 
@@ -24,8 +22,8 @@ void Judge::changeDestination() {
 
 
 	// 各エージェントの移動情報を確認する
+	
 	int ourAgentS = agents->ourAgents.size();
-
 
 	rep(i, ourAgentS) {
 		
@@ -120,7 +118,7 @@ void Judge::changeDestination() {
 
 
 
-
+/*
 
 void Judge::calculateEnemyRoute(vector<pair<int, pair<int, int>>>route, pair<int, int> nowAgentPosition,
 	vector<pair<int, pair<int, int>>>moveUpTile, int moveup, int readTurn, int sum) {
@@ -307,3 +305,5 @@ void Judge::calculateOurRoute(vector<pair<int, pair<int, int>>>route, pair<int, 
 
 
 
+
+*/

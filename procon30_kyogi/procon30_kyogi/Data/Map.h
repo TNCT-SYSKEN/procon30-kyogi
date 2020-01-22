@@ -23,6 +23,8 @@ public:
 
 	//先読みターン数
 	int readTurn;
+	//アルゴリズム先読みターン数上限を処理軽量化で用いる
+	int maxLimitReadTurn = 4;
 
 	//最終ターン数
 	int finalTurn = 20;
