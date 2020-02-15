@@ -238,7 +238,10 @@ void Prefetching::changeDestination() {
 	}
 
 	//turn->x->y->visitedAgentCounter
-	vector<vector<vector<vector<int>>>> movedTileAgent(useReadTurn,vector<vector<vector<int>>>(map->width,vector<vector<int>>(map->vertical)));
+	vector<vector<vector<vector<int>>>> turnMovedTileAgent(useReadTurn,vector<vector<vector<int>>>(map->width,vector<vector<int>>(map->vertical)));
+	//x->y->visitedAgentCounter
+	//push_backで追加
+	vector<vector<int>> movedTiledCounter(map->width,vector<int>(map->vertical));
 	// turn->x->y
 	vector<vector<vector<int>>> turnTiled(useReadTurn + 1, vector<vector<int>>(map->width, vector<int>(map->vertical)));
 
@@ -264,50 +267,67 @@ void Prefetching::changeDestination() {
 				partnerAgent.first += agentsEvalution->maxRoute[partner][turn].second.first;
 				partnerAgent.second += agentsEvalution->maxRoute[partner][turn].second.second;
 
-				// 一致したら
-				if (mainAgent == partnerAgent) {
-					bool mainCheck = false;
-					bool partnerCheck = false;
-					rep(count, movedTileAgent[turn][mainAgent.first][mainAgent.second].size()) {
+
+				// check
+				bool mainCheck = false;
+				bool partnerCheck = false;
+
+				// 
+				rep(count, turnMovedTileAgent[turn][mainAgent.first][mainAgent.second].size()) {
 						
-						if (movedTileAgent[turn][mainAgent.first][mainAgent.second][count] == main) {
-							mainCheck = true;
-						}
-						if(	movedTileAgent[turn][mainAgent.first][mainAgent.second][count] == partner){ 
-							partnerCheck = true;
-						}
+					if (turnMovedTileAgent[turn][mainAgent.first][mainAgent.second][count] == main) {
+						mainCheck = true;
 					}
-					// if mainCheck != true
-					if (!mainCheck) {
-						movedTileAgent[turn][mainAgent.first][mainAgent.second].push_back(main);
-					}
-					if (!partnerCheck) {
-						movedTileAgent[turn][mainAgent.first][mainAgent.second].push_back(partner);
+					if(	turnMovedTileAgent[turn][partnerAgent.first][partnerAgent.second][count] == partner){ 
+						partnerCheck = true;
 					}
 				}
+				// if mainCheck != true
+				if (!mainCheck) {
+					turnMovedTileAgent[turn][mainAgent.first][mainAgent.second].push_back(main);
+				}
+				if (!partnerCheck) {
+					turnMovedTileAgent[turn][partnerAgent.first][partnerAgent.second].push_back(partner);
+					}
+				
 
 				if (turn + 1 < useReadTurn) {
 					// 相手タイル除去判定の計算
 					if (turnTiled[turn][mainAgent.first][mainAgent.second] == map->otherTeamID) {
-						//	次のターンのフィールドに更新
-						turnTiled[turn + 1][mainAgent.first][mainAgent.second] = 0;
+						for (int turnCount = turn; turnCount < useReadTurn - 1; turnCount++) {
+							//	次のターンのフィールドに更新
+							turnTiled[turn + 1][mainAgent.first][mainAgent.second] = 0;
+						}
 						// タイル除去ではエージェントの位置は動かない
 						mainAgent.first -= agentsEvalution->maxRoute[main][turn].second.first;
 						mainAgent.second -= agentsEvalution->maxRoute[main][turn].second.second;
 					}
 					if (turnTiled[turn][partnerAgent.first][partnerAgent.second] == map->otherTeamID) {
-						//	次のターンのフィールドに更新
-						turnTiled[turn + 1][partnerAgent.first][partnerAgent.second] = 0;
-						// タイル除去ではエージェントの位置は動かない
+						for (int turnCount = turn; turnCount < useReadTurn - 1; turnCount++) {
+							//	次のターンのフィールドに更新
+							turnTiled[turn + 1][partnerAgent.first][partnerAgent.second] = 0;
+						}
+							// タイル除去ではエージェントの位置は動かない
 						partnerAgent.first -= agentsEvalution->maxRoute[partner][turn].second.first;
 						partnerAgent.second -= agentsEvalution->maxRoute[partner][turn].second.second;
 					}
+
+
+
 				}
 			}
 		}
 	}
 
 	// 重複判定完了
+	
+	//agentfield作成しようか
+
+	//ここからややこしくなる
+
+
+
+
 
 
 }
