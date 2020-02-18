@@ -49,6 +49,8 @@ void Initialize::setupField() {
 	//rep(i, map->readTurn + 1) {
 	//	field->turnTiled[i] = field->tiled;
 	//}
+
+	field->evalutionField.resize(20, (vector<int>(20, 0)));
 }
 
 

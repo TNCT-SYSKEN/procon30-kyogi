@@ -1,7 +1,7 @@
 #include"Evalution.h"
 
 
-float evalution[] = { 6,5,1.8,3,4.3 ,4 };
+float evalution[] = { 6,5,1.8,3,2.3 ,4 };
 // 0. 領域, 相手の点が高いか, 移動可能マス,　移動先の点数の高さ,タイル除去,外側に行こうとしているか, 6. Analysis
 
 
@@ -17,20 +17,11 @@ float magnificat[] = { 1.1 , 1.2,1,1,1,1 };
 void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vector<vector<vector<int>>>moveUpTile, int agentsnum, int sum)
 {
 
-	int dx[] = { 1,1,1,0,0,0,-1,-1,-1 };
-	int dy[] = { 1,0,-1,1,0,-1,1,0,-1 };
-
-
 	Map *map;
 	map = map->getMap();
 	AgentsEvalution* agentsEvalution;
 	agentsEvalution = agentsEvalution->getAgentsEvalution();
-	Field *field;
-	field = field->getField();
-	Agents* agents;
-	agents = agents->getAgents();
-	AgentsAction* agentsAction;
-	agentsAction = agentsAction->getAgentsAction();
+	
 
 
 	//エージェントがそのマスの付近にいたら評価を下げる（戦局次第では上げる）
@@ -40,156 +31,6 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 	// ↓ 評価を普通くらいにする
 	//自分のチームのtiledを踏もうとするときには評価点をめちゃ下げる
 	//もしくは評価しない
-
-	//評価点合計
-	float sumOfEvalution = 0;
-
-	//計算途中でのエージェントの動いた後のposition
-	int nowX = route[0].second.first;
-	int nowY = route[0].second.second;
-
-	vector<vector<int>>tiledArea;
-	tiledArea.resize(map->width, vector<int>(map->vertical));
-
-
-	//タイルスコア計算
-	rep(turn, map->readTurn) {
-		
-		nowX += route[turn + 1].second.first;
-		nowY += route[turn + 1].second.second;
-		int calcTurn = 0;
-
-		//もし動かない時
-		if (route[turn + 1].second.first == 0 && route[turn + 1].second.second == 0) {
-			calcTurn = 4;
-		}
-		if (map->AnalysField == true) {
-			sumOfEvalution += field->AnalysisField[nowX][nowY] * evalution[6];
-		}
-
-
-		/**** calc tilePoint ******/
-
-		//相手タイル除去の場合
-		if (field->tiled[nowX][nowY] == map->otherTeamID) {
-
-			sumOfEvalution += field->points[nowX][nowY] * magnificat[0];
-			sumOfEvalution += map->score[1][2] * magnificat[1];
-			//位置を戻す
-			nowX -= route[turn + 1].second.first;
-			nowY -= route[turn + 1].second.second;
-		}
-		else if (moveUpTile[1][nowX][nowY] == map->ourTeamID) {
-			// pass
-			// 点数変動なし
-		}
-		else {
-			//タイルスコア加算
-			sum += calculateScore(make_pair(nowX, nowY), calcTurn) * evalution[4];
-
-			// 相手より高いかどうかで評価に倍率補正がかかる
-			if (map->score[0][0] < map->score[1][0]) {
-				sumOfEvalution += sum * evalution[3] * magnificat[2];
-			}
-			else {
-				sumOfEvalution += sum * evalution[3];
-			}
-
-		}
-
-
-		//端に行くほど評価点は高くなる
-		sumOfEvalution += (abs(nowX - map->width / 2) + abs(nowY - map->vertical / 2))* evalution[5];
-
-	}
-
-
-	nowX = route[0].second.first;
-	nowY = route[0].second.second;
-
-
-
-	int lastGetEnemyAreaPointR = map->score[1][2];
-
-
-	//競合を治す
-	///////////////////////////////////////////////
-	/*nowX = route[0].second.first;
-	nowY = route[0].second.second;
-
-
-
-	rep(count, agentsnum) {
-		int OnowX = agents->ourAgents[count][1];
-		int OnowY = agents->ourAgents[count][2];
-
-
-
-		rep(turn, map->readTurn) {
-
-			OnowX += agentsAction->actionDxDy[count][turn].second.first;
-			OnowY += agentsAction->actionDxDy[count][turn].second.second;
-
-			nowX += route[turn + 1].second.first;
-			nowY += route[turn + 1].second.second;
-
-
-			sumOfEvalution -= 3 - abs(OnowX - nowX)*1.3;
-		}
-	}*/
-
-
-
-
-
-	/*  移動可能マス計算	*/
-
-	rep(i, map->width) {
-		rep(j, map->vertical) {
-			tiledArea[i][j] = field->tiled[i][j];
-		}
-	}
-
-	//エージェント回数ループ
-
-	int agentsSize = agents->ourAgents.size();
-	rep(i, agentsSize) {
-		if (route[0].first != agents->ourAgents[i][0]) {
-			//味方　-2
-			tiledArea[agents->ourAgents[i][1] - 1][agents->ourAgents[i][2] - 1] = -2;
-		}
-		//敵　-3
-		tiledArea[agents->otherAgents[i][1] - 1][agents->otherAgents[i][2] - 1] = -3;
-
-	}
-
-	nowX = route[0].second.first;
-	nowY = route[0].second.second;
-	//移動可能マス
-	int canMove = 0;
-	rep(i, map->readTurn) {
-
-		nowX += route[i + 1].second.first;
-		nowY += route[i + 1].second.second;
-
-		//９方向
-		rep(j, 9) {
-			//マスがそとでないならば
-			if (nowX + dx[j] >= 0 && nowX + dx[j] < map->width
-				&& nowY + dy[j] >= 0 && nowY + dy[j] < map->vertical) {
-				if (tiledArea[nowX + dx[j]][nowY + dy[j]] == map->ourTeamID) {
-				}
-				else if (tiledArea[nowX + dx[j]][nowY + dy[j]] == map->otherTeamID) {
-					canMove--;
-				}
-				canMove++;
-			}
-		}
-
-		//移動可能マス評価加算
-		sumOfEvalution += canMove* evalution[2];
-	}
-
 
 	int routeS = map->readTurn;
 	//Route更新（評価最大）
@@ -211,26 +52,109 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 
 
 
-//point計算
-int Evalution::calculateScore(pair<int, int>agentPosition, int turn)
+// フィールド評価point計算
+void Evalution::calculateEvalutionPoint()
 {
+	int dx[] = { 1,1,1,0,0,0,-1,-1,-1 };
+	int dy[] = { 1,0,-1,1,0,-1,1,0,-1 };
+
 	Map *map;
 	map = map->getMap();
 	Field *field;
 	field = field->getField();
+	Agents* agents;
+	agents = agents->getAgents();
 
-	int sum = 0;
-	if (turn == 4) {
-		return -3;
-	}
-	else if (field->tiled[agentPosition.first][agentPosition.second] == map->ourTeamID) {
-		// return 0
-	}
-	else {
-		sum = field->points[agentPosition.first][agentPosition.second];
-	}
 
-	return sum;
+	/*  移動可能マス計算	*/
+	vector<vector<int>>agentsPositionField(map->width, vector<int>(map->vertical,0));
+
+	//エージェント回数ループ
+	int agentsSize = agents->ourAgents.size();
+	rep(i, agentsSize) {
+		//味方　-2
+		agentsPositionField[agents->ourAgents[i][1]][agents->ourAgents[i][2]] = -2;
+		
+		//敵　-3
+		agentsPositionField[agents->otherAgents[i][1]][agents->otherAgents[i][2]] = -3;
+
+	}
+	//移動可能マス
+	float canMove = 0;
+
+
+
+	rep(i, map->width) {
+		rep(j, map->vertical) {
+			
+			
+
+			// Analys POINT
+			if (map->AnalysField == true) {
+				field->evalutionField[i][j] += field->AnalysisField[i][j] * evalution[6];
+			}
+
+			//相手タイル除去の場合
+			if (field->tiled[i][j] == map->otherTeamID) {
+
+				field->evalutionField[i][j] += field->points[i][j]* evalution[4] * magnificat[0];
+				
+			}
+			// 自チームタイルの場合
+			else if (field->tiled[i][j] == map->ourTeamID) {
+				field->evalutionField[i][j] += 0;
+			}
+			else {
+
+				// 相手より高いかどうかで評価に倍率補正がかかる
+				if (map->score[0][0] < map->score[1][0]) {
+					// tile POINT
+					field->evalutionField[i][j] = field->points[i][j] * evalution[3] * magnificat[2];
+				}
+				else {
+					// tile POINT
+					field->evalutionField[i][j] = field->points[i][j] * evalution[3];
+				}
+			}
+
+			//端に行くほど評価点は高くなる
+			field->evalutionField[i][j] += (abs(i - map->width / 2) + abs(j - map->vertical / 2))* evalution[5];
+		
+			// 移動可能マス計算
+			//９方向
+			rep(count, 9) {
+				//マスがそとでないならば
+				int newX = i + dx[count];
+				int newY = j + dy[count];
+
+				if (newX >= 0 && newX < map->width
+					&& newY >= 0 && newY < map->vertical) {
+
+					if (agentsPositionField[newX][newY] == -2 || field->tiled[newX][newY]== map->ourTeamID) {
+						
+						// エージェントなら
+						if (agentsPositionField[newX][newY] == -2) {
+							canMove += 0;
+						}
+						else {
+							canMove++;
+						}
+					}
+					else if (agentsPositionField[newX][newY] ==-3 || field->tiled[newX][newY] == map->otherTeamID) {
+						canMove += 0.5;
+					}
+					else {
+						canMove++;
+					}
+				}
+			}
+		
+		}
+	}
+	
+	
+
+	
 }
 
 
@@ -259,8 +183,8 @@ int Evalution::calculateAreaPoint(vector<vector<int>> moveUpTile) {
 
 
 
-	vector<vector<int>> tiledArea;
-	tiledArea.resize(map->width + 2, vector<int>(map->vertical + 2));
+	vector<vector<int>> agentsPositionField;
+	agentsPositionField.resize(map->width + 2, vector<int>(map->vertical + 2));
 	vector<pair<int, int>>lastMove(1);
 
 	int ddx[4] = { 1,-1,0,0 };
@@ -270,7 +194,7 @@ int Evalution::calculateAreaPoint(vector<vector<int>> moveUpTile) {
 	//初期化
 	rep(i, map->width + 2) {
 		rep(j, map->vertical + 2) {
-			tiledArea[i][j] = 0;
+			agentsPositionField[i][j] = 0;
 		}
 	}
 
@@ -278,7 +202,7 @@ int Evalution::calculateAreaPoint(vector<vector<int>> moveUpTile) {
 		rep(j, map->vertical) {
 			if (field->tiled[i][j] == map->ourTeamID)
 			{
-				tiledArea[i + 1][j + 1] = map->ourTeamID;
+				agentsPositionField[i + 1][j + 1] = map->ourTeamID;
 			}
 
 		}
@@ -288,7 +212,7 @@ int Evalution::calculateAreaPoint(vector<vector<int>> moveUpTile) {
 	lastMove[0] = make_pair(0, 0);
 
 
-	tiledArea[0][0] = -1;
+	agentsPositionField[0][0] = -1;
 	lastSize = 1;
 
 	//lastMoveを更新した時にすぐに書き換えたくない
@@ -310,8 +234,8 @@ int Evalution::calculateAreaPoint(vector<vector<int>> moveUpTile) {
 					lastMove[i].second + ddy[k] >= 0) {
 
 
-					if (tiledArea[lastMove[i].first + ddx[k]][lastMove[i].second + ddy[k]] == 0) {
-						tiledArea[lastMove[i].first + ddx[k]][lastMove[i].second + ddy[k]] = -1;
+					if (agentsPositionField[lastMove[i].first + ddx[k]][lastMove[i].second + ddy[k]] == 0) {
+						agentsPositionField[lastMove[i].first + ddx[k]][lastMove[i].second + ddy[k]] = -1;
 
 						stac.push_back(make_pair(lastMove[i].first + ddx[k], lastMove[i].second + ddy[k]));
 						//stac[counter].first = lastMove[i].first + ddx[k];
@@ -337,7 +261,7 @@ calc:;
 	//領域計算
 	rep(i, map->width) {
 		rep(j, map->vertical) {
-			if (tiledArea[i + 1][j + 1] == 0) {
+			if (agentsPositionField[i + 1][j + 1] == 0) {
 
 				lastAreaPoint += abs(field->points[i][j]);
 
@@ -374,8 +298,8 @@ int Evalution::calculateEnemyAreaPoint(vector<pair<int, pair<int, int>>>route) {
 
 
 
-	vector<vector<int>> tiledArea;
-	tiledArea.resize(map->width + 2, vector<int>(map->vertical + 2));
+	vector<vector<int>> agentsPositionField;
+	agentsPositionField.resize(map->width + 2, vector<int>(map->vertical + 2));
 	vector<pair<int, int>>lastMove(1);
 
 	int ddx[4] = { 1,-1,0,0 };
@@ -386,7 +310,7 @@ int Evalution::calculateEnemyAreaPoint(vector<pair<int, pair<int, int>>>route) {
 		//初期化
 		rep(i, map->width + 2) {
 			rep(j, map->vertical + 2) {
-				tiledArea[i][j] = 0;
+				agentsPositionField[i][j] = 0;
 			}
 		}
 
@@ -394,7 +318,7 @@ int Evalution::calculateEnemyAreaPoint(vector<pair<int, pair<int, int>>>route) {
 			rep(j, map->vertical) {
 				if (field->tiled[i][j] == map->otherTeamID)
 				{
-					tiledArea[i + 1][j + 1] = map->otherTeamID;
+					agentsPositionField[i + 1][j + 1] = map->otherTeamID;
 				}
 
 			}
@@ -403,7 +327,7 @@ int Evalution::calculateEnemyAreaPoint(vector<pair<int, pair<int, int>>>route) {
 
 		lastMove[0] = make_pair(0, 0);
 
-		tiledArea[0][0] = -1;
+		agentsPositionField[0][0] = -1;
 		lastSize = 1;
 
 		//lastMoveを更新した時にすぐに書き換えたくない
@@ -425,8 +349,8 @@ int Evalution::calculateEnemyAreaPoint(vector<pair<int, pair<int, int>>>route) {
 						lastMove[i].second + ddy[k] >= 0) {
 
 
-						if (tiledArea[lastMove[i].first + ddx[k]][lastMove[i].second + ddy[k]] == 0) {
-							tiledArea[lastMove[i].first + ddx[k]][lastMove[i].second + ddy[k]] = -1;
+						if (agentsPositionField[lastMove[i].first + ddx[k]][lastMove[i].second + ddy[k]] == 0) {
+							agentsPositionField[lastMove[i].first + ddx[k]][lastMove[i].second + ddy[k]] = -1;
 
 							stac.push_back(make_pair(lastMove[i].first + ddx[k], lastMove[i].second + ddy[k]));
 							//stac[counter].first = lastMove[i].first + ddx[k];
@@ -458,7 +382,7 @@ int Evalution::calculateEnemyAreaPoint(vector<pair<int, pair<int, int>>>route) {
 	//領域計算
 	rep(i, map->width) {
 		rep(j, map->vertical) {
-			if (tiledArea[i + 1][j + 1] == 0) {
+			if (agentsPositionField[i + 1][j + 1] == 0) {
 
 				lastAreaPoint += abs(field->points[i][j]);
 
