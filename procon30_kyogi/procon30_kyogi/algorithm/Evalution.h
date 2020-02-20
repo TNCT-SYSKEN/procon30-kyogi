@@ -5,8 +5,7 @@ class Evalution {
 public:
 	//•]‰¿“_ŒvŽZ
 	void calculateEvalution();
-	void calculateEvalutionPoint();
-
+	float calculateEvalutionPoint(int,int);
 
 
 	//int calculateAreaPoint(vector<vector<int>>);

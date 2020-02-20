@@ -18,10 +18,10 @@ void Prefetching::prefetching()
 	agentsEvalution = agentsEvalution->getAgentsEvalution();
 	AgentsAction *agentsAction;
 	agentsAction = agentsAction->getAgentsAction();
-
 	Field* field;
 	field = field->getField();
-	pair<int, int>agentPosition;
+	
+	Evalution evalution;
 
 
 	// <turn1(dX,dY),turn2(dx,dy)>
@@ -30,11 +30,20 @@ void Prefetching::prefetching()
 	
 	// 3手のビームサーチ候補
 	vector<vector<pair<int, int>>>fork(agents->ourAgents.size());
-	priority_queue<pair<float,pair<int,int>>> Pqueue;
+	
+
+	// agentsEvalutionのturnTiledFieldの初期化
+	agentsEvalution->turnTiledField.resize(map->width,vector<int>(map->vertical));
+	agentsEvalution->turnTiledField = field->tiled;
+	
+
 
 
 	//最初の3手を決定
 	rep(num, agents->ourAgents.size()) {
+
+		priority_queue<pair<float, pair<int, int>>> Pqueue;
+		
 		rep(counter, 9) {
 
 			int nowX = agents->ourAgents[num][1] + dx[counter];
@@ -46,7 +55,8 @@ void Prefetching::prefetching()
 			}
 			// evalutionFieldの値を代入
 			else {
-				Pqueue.push(make_pair(field->evalutionField[nowX][nowY],make_pair(dx[counter],dy[counter])));
+				float evalutionP = evalution.calculateEvalutionPoint(nowX, nowY);
+				Pqueue.push(make_pair(evalutionP, make_pair(dx[counter], dy[counter])));
 			}
 		}
 		//上位3手を選択

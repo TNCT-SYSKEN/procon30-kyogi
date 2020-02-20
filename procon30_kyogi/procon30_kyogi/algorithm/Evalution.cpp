@@ -53,10 +53,10 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 
 
 // フィールド評価point計算
-void Evalution::calculateEvalutionPoint()
+float Evalution::calculateEvalutionPoint(int PosX,int PosY)
 {
-	int dx[] = { 1,1,1,0,0,0,-1,-1,-1 };
-	int dy[] = { 1,0,-1,1,0,-1,1,0,-1 };
+	int dx[] = { 1,1,1,0,0,-1,-1,-1 };
+	int dy[] = { 1,0,-1,1,-1,1,0,-1 };
 
 	Map *map;
 	map = map->getMap();
@@ -64,6 +64,11 @@ void Evalution::calculateEvalutionPoint()
 	field = field->getField();
 	Agents* agents;
 	agents = agents->getAgents();
+	AgentsEvalution* agentsEvalution;
+	agentsEvalution = agentsEvalution->getAgentsEvalution();
+
+	// 評価値合計
+	float sumOfEvalutionPoint = 0;
 
 
 	/*  移動可能マス計算	*/
@@ -84,78 +89,74 @@ void Evalution::calculateEvalutionPoint()
 
 
 
-	rep(i, map->width) {
-		rep(j, map->vertical) {
-			
-			
 
-			// Analys POINT
-			if (map->AnalysField == true) {
-				field->evalutionField[i][j] += field->AnalysisField[i][j] * evalution[6];
-			}
 
-			//相手タイル除去の場合
-			if (field->tiled[i][j] == map->otherTeamID) {
+	// Analys POINT
+	if (map->AnalysField == true) {
+		sumOfEvalutionPoint += field->AnalysisField[PosX][PosY] * evalution[6];
+	}
 
-				field->evalutionField[i][j] += field->points[i][j]* evalution[4] * magnificat[0];
+	//相手タイル除去の場合
+	if (agentsEvalution->turnTiledField[PosX][PosY] == map->otherTeamID) {
+
+		sumOfEvalutionPoint += field->points[PosX][PosY]* evalution[4] * magnificat[0];
 				
-			}
-			// 自チームタイルの場合
-			else if (field->tiled[i][j] == map->ourTeamID) {
-				field->evalutionField[i][j] += 0;
-			}
-			else {
+	}
+	// 自チームタイルの場合
+	else if (field->tiled[PosX][PosY] == map->ourTeamID) {
+		sumOfEvalutionPoint -= 200;
+	}
+	else {
 
-				// 相手より高いかどうかで評価に倍率補正がかかる
-				if (map->score[0][0] < map->score[1][0]) {
-					// tile POINT
-					field->evalutionField[i][j] = field->points[i][j] * evalution[3] * magnificat[2];
-				}
-				else {
-					// tile POINT
-					field->evalutionField[i][j] = field->points[i][j] * evalution[3];
-				}
-			}
-
-			//端に行くほど評価点は高くなる
-			field->evalutionField[i][j] += (abs(i - map->width / 2) + abs(j - map->vertical / 2))* evalution[5];
-		
-			// 移動可能マス計算
-			//９方向
-			rep(count, 9) {
-				//マスがそとでないならば
-				int newX = i + dx[count];
-				int newY = j + dy[count];
-
-				if (newX >= 0 && newX < map->width
-					&& newY >= 0 && newY < map->vertical) {
-
-					if (agentsPositionField[newX][newY] == -2 || field->tiled[newX][newY]== map->ourTeamID) {
-						
-						// エージェントなら
-						if (agentsPositionField[newX][newY] == -2) {
-							canMove += 0;
-						}
-						else {
-							canMove++;
-						}
-					}
-					else if (agentsPositionField[newX][newY] ==-3 || field->tiled[newX][newY] == map->otherTeamID) {
-						canMove += 0.5;
-					}
-					else {
-						canMove++;
-					}
-				}
-			}
-
-			field->evalutionField[i][j] += canMove * evalution[2];
-		
+		// 相手より高いかどうかで評価に倍率補正がかかる
+		if (map->score[0][0] < map->score[1][0]) {
+			// tile POINT
+			sumOfEvalutionPoint += field->points[PosX][PosY] * evalution[3] * magnificat[2];
+		}
+		else {
+			// tile POINT
+			sumOfEvalutionPoint += field->points[PosX][PosY] * evalution[3];
 		}
 	}
-	
-	
 
+	//端に行くほど評価点は高くなる
+	sumOfEvalutionPoint += (abs(PosX - map->width / 2) + abs(PosY - map->vertical / 2))* evalution[5];
+		
+	// 移動可能マス計算
+	//９方向
+	rep(count, 8) {
+		//マスがそとでないならば
+		int newX = PosX + dx[count];
+		int newY = PosY + dy[count];
+
+		if (newX >= 0 && newX < map->width
+			&& newY >= 0 && newY < map->vertical) {
+
+			if (agentsPositionField[newX][newY] == -2 || field->tiled[newX][newY]== map->ourTeamID) {
+						
+				// エージェントなら
+				if (agentsPositionField[newX][newY] == -2) {
+					canMove += 0;
+				}
+				else {
+					canMove++;
+				}
+			}
+			else if (agentsPositionField[newX][newY] ==-3 || field->tiled[newX][newY] == map->otherTeamID) {
+				canMove += 0.5;
+			}
+			else {
+				canMove++;
+			}
+		}
+	}
+
+	sumOfEvalutionPoint += canMove * evalution[2];
+		
+
+	
+	
+	return sumOfEvalutionPoint;
 	
 }
 

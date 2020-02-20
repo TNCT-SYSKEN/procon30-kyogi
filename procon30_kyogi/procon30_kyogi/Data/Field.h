@@ -18,7 +18,6 @@ public:
 
 
 	vector<vector<int>> AnalysisField;
-	vector<vector<int>> evalutionField;
 
 
 private:

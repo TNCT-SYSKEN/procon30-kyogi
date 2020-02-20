@@ -13,6 +13,10 @@ public:
 	vector<vector<pair<int, pair<int, int>>>>maxRoute;
 	float maxEvalutionPoint;
 
+	// 評価点計算の時のターン先読みタイル状況
+	vector<vector<int>> turnTiledField;
+
+
 	/************* judge *******************/
 
 
