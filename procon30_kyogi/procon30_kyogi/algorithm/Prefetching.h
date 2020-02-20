@@ -9,6 +9,6 @@ public:
 	void changeDestination();
 
 private:
-	void calculateEvalution(vector<pair<int,pair<int,int>>>,pair<int,int>,vector<vector<vector<int>>>,int, int,int);
+	void calculatePrefetching(vector<vector<pair<int,int>>>,vector<pair<int,int>>,vector<vector<int>>,int);
 
 };

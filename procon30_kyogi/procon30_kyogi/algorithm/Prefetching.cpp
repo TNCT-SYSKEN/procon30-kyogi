@@ -8,10 +8,10 @@ void Prefetching::prefetching()
 	int dx[9] = { 1,1,1,0,0,0,-1,-1,-1 };
 	int dy[9] = { 1,0,-1,1,0,-1,1,0,-1 };
 
+	//限られたターンの中でどうやって最高評価点を出すか
+
 	Map *map;
 	map = map->getMap();
-
-
 	Agents* agents;
 	agents = agents->getAgents();
 	AgentsEvalution *agentsEvalution;
@@ -24,9 +24,40 @@ void Prefetching::prefetching()
 	pair<int, int>agentPosition;
 
 
-	//agentnumber,<agentpositionX,Y>
-	vector<pair<int, pair<int, int>>>route;//経路初期化
-	int ourAgentsS = agents->ourAgents.size();
+	// <turn1(dX,dY),turn2(dx,dy)>
+	// route の定義
+	vector<vector<pair<int, int>>>route(agents->ourAgents.size());
+	
+	// 3手のビームサーチ候補
+	vector<vector<pair<int, int>>>fork(agents->ourAgents.size());
+	priority_queue<pair<float,pair<int,int>>> Pqueue;
+
+
+	//最初の3手を決定
+	rep(num, agents->ourAgents.size()) {
+		rep(counter, 9) {
+
+			int nowX = agents->ourAgents[num][1] + dx[counter];
+			int nowY = agents->ourAgents[num][2] + dy[counter];
+
+			// 範囲外計算
+			if (nowX >= map->width || nowX < 0 || nowY >= map->vertical || nowY < 0) {
+				Pqueue.push(make_pair(mINF,make_pair(dx[counter],dy[counter])));
+			}
+			// evalutionFieldの値を代入
+			else {
+				Pqueue.push(make_pair(field->evalutionField[nowX][nowY],make_pair(dx[counter],dy[counter])));
+			}
+		}
+		//上位3手を選択
+		rep(tmp, 3) {
+			fork[num].push_back(Pqueue.top().second);
+			Pqueue.pop();
+		}
+	}
+
+
+
 
 
 	//maxRoute,actionDXDYの初期化
@@ -35,26 +66,52 @@ void Prefetching::prefetching()
 	
 
 	agentsAction->actionType.resize(0);
-	agentsAction->actionType.resize(ourAgentsS);
+	agentsAction->actionType.resize(agents->ourAgents.size());
 
-	// turn ごとのタイル状況
-	vector<vector<vector<int>>> moveUpTile;
-	moveUpTile.resize(map->readTurn, vector<vector<int>>(map->width, vector<int>(map->vertical)));
+
+
+
+	// moveUpTileの定義
+	vector<vector<int>> moveUpTile(map->width,vector<int>(map->vertical));
 	rep(i, map->width) {
 		rep(j, map->vertical) {
-			moveUpTile[0][i][j] = field->tiled[i][j];
+			moveUpTile[i][j] = field->tiled[i][j];
+		}
+	}
+
+	/******************新規記入****************/
+
+	// agentの現在位置 calculatePrefetchingで使う
+	vector<pair<int, int>> beforeAgentsPosition;
+	rep(num, agents->ourAgents.size()) {
+		beforeAgentsPosition.push_back(make_pair(agents->ourAgents[num][1], agents->ourAgents[num][2]));
+	}
+
+
+	rep(num, agents->ourAgents.size()) {
+		rep(FORK, fork[num].size()) {
+
+			//サイズを +1
+			route[num].push_back(fork[num][FORK]);
+			
+			// 計算
+			calculatePrefetching(route, beforeAgentsPosition, moveUpTile, map->readTurn-1);
+
+			// サイズを -1
+			route[num].resize(route[num].size()-1);
 		}
 	}
 
 
+
+
+
+	/****************************************/
+
+
 	//エージェントの数だけループ
 	for (int agentsnum = 0; agentsnum < ourAgentsS; agentsnum++) {
-		//
-		agentPosition = make_pair((agents->ourAgents[agentsnum][1]), (agents->ourAgents[agentsnum][2]));//
-
-
-			//agentの初期位置
-		route.push_back(make_pair(agents->ourAgents[agentsnum][0], agentPosition));
+		
 
 		//agentsEvalutionのmax評価値を初期化
 		agentsEvalution->maxEvalutionPoint = mINF;
@@ -131,8 +188,8 @@ void Prefetching::prefetching()
 
 
 //経路計算
-void  Prefetching::calculateEvalution(vector<pair<int, pair<int, int>>>route, pair<int, int> nowAgentPosition,
-	vector<vector<vector<int>>>moveUpTile, int agentsnum, int readTurn, int sum)
+void  Prefetching::calculatePrefetching(vector<vector<pair<int, int>>>route, vector<pair<int, int>> beforeAgentPosition,
+	vector<vector<int>>moveUpTile, int readTurn)
 {
 
 	int dx[9] = { 1,1,1,0,0,0,-1,-1,-1 };

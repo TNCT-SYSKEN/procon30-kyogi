@@ -148,6 +148,8 @@ void Evalution::calculateEvalutionPoint()
 					}
 				}
 			}
+
+			field->evalutionField[i][j] += canMove * evalution[2];
 		
 		}
 	}
