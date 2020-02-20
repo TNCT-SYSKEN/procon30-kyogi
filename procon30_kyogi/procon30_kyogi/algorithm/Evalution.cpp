@@ -53,7 +53,7 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 
 
 // フィールド評価point計算
-float Evalution::calculateEvalutionPoint(int PosX,int PosY)
+float Evalution::calculateEvalutionPoint(int PosX,int PosY, vector<pair<int,int>>beforeAgentsPosition)
 {
 	int dx[] = { 1,1,1,0,0,-1,-1,-1 };
 	int dy[] = { 1,0,-1,1,-1,1,0,-1 };
@@ -78,10 +78,10 @@ float Evalution::calculateEvalutionPoint(int PosX,int PosY)
 	int agentsSize = agents->ourAgents.size();
 	rep(i, agentsSize) {
 		//味方　-2
-		agentsPositionField[agents->ourAgents[i][1]][agents->ourAgents[i][2]] = -2;
+		agentsPositionField[beforeAgentsPosition[i].first][beforeAgentsPosition[i].second] = -2;
 		
 		//敵　-3
-		agentsPositionField[agents->otherAgents[i][1]][agents->otherAgents[i][2]] = -3;
+		agentsPositionField[beforeAgentsPosition[i].first][beforeAgentsPosition[i].second] = -3;
 
 	}
 	//移動可能マス
@@ -103,7 +103,7 @@ float Evalution::calculateEvalutionPoint(int PosX,int PosY)
 				
 	}
 	// 自チームタイルの場合
-	else if (field->tiled[PosX][PosY] == map->ourTeamID) {
+	else if (agentsEvalution->turnTiledField[PosX][PosY] == map->ourTeamID) {
 		sumOfEvalutionPoint -= 200;
 	}
 	else {
@@ -132,7 +132,7 @@ float Evalution::calculateEvalutionPoint(int PosX,int PosY)
 		if (newX >= 0 && newX < map->width
 			&& newY >= 0 && newY < map->vertical) {
 
-			if (agentsPositionField[newX][newY] == -2 || field->tiled[newX][newY]== map->ourTeamID) {
+			if (agentsPositionField[newX][newY] == -2 || agentsEvalution->turnTiledField[newX][newY] == map->ourTeamID) {
 						
 				// エージェントなら
 				if (agentsPositionField[newX][newY] == -2) {
@@ -142,7 +142,7 @@ float Evalution::calculateEvalutionPoint(int PosX,int PosY)
 					canMove++;
 				}
 			}
-			else if (agentsPositionField[newX][newY] ==-3 || field->tiled[newX][newY] == map->otherTeamID) {
+			else if (agentsPositionField[newX][newY] ==-3 || agentsEvalution->turnTiledField[newX][newY] == map->otherTeamID) {
 				canMove += 0.5;
 			}
 			else {

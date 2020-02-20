@@ -9,6 +9,8 @@ public:
 	void changeDestination();
 
 private:
+
+	bool checkCollision(vector<vector<pair<int,int>>>,vector<pair<int, int>>);
 	void calculatePrefetching(vector<vector<pair<int,int>>>,vector<pair<int,int>>,vector<vector<int>>,int,float);
 
 };

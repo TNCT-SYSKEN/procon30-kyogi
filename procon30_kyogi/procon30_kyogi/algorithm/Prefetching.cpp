@@ -36,6 +36,12 @@ void Prefetching::prefetching()
 	agentsEvalution->turnTiledField.resize(map->width,vector<int>(map->vertical));
 	agentsEvalution->turnTiledField = field->tiled;
 	
+	// agentの現在位置 calculatePrefetchingで使う
+	vector<pair<int, int>> beforeAgentsPosition;
+	rep(num, agents->ourAgents.size()) {
+		beforeAgentsPosition.push_back(make_pair(agents->ourAgents[num][1], agents->ourAgents[num][2]));
+	}
+
 
 	//forkでの評価値記録
 	vector<vector<float>> evalutionAgentPoint(agents->ourAgents.size());
@@ -57,7 +63,7 @@ void Prefetching::prefetching()
 			}
 			// evalutionFieldの値を代入
 			else {
-				float evalutionP = evalution.calculateEvalutionPoint(nowX, nowY);
+				float evalutionP = evalution.calculateEvalutionPoint(nowX, nowY, beforeAgentsPosition);
 				Pqueue.push(make_pair(evalutionP, make_pair(dx[counter], dy[counter])));
 			}
 		}
@@ -96,11 +102,6 @@ void Prefetching::prefetching()
 
 	/******************新規記入****************/
 
-	// agentの現在位置 calculatePrefetchingで使う
-	vector<pair<int, int>> beforeAgentsPosition;
-	rep(num, agents->ourAgents.size()) {
-		beforeAgentsPosition.push_back(make_pair(agents->ourAgents[num][1], agents->ourAgents[num][2]));
-	}
 	
 	// agentの数nビット、ビームサーチ探索mのm進数ビット列で考える
 	int maxBit = (agents->ourAgents.size() + 1 )* 3;
@@ -215,84 +216,165 @@ void Prefetching::prefetching()
 
 
 //経路計算
-void  Prefetching::calculatePrefetching(vector<vector<pair<int, int>>>route, vector<pair<int, int>> beforeAgentPosition,
+void  Prefetching::calculatePrefetching(vector<vector<pair<int, int>>>route, vector<pair<int, int>> beforeAgentsPosition,
 	vector<vector<int>>moveUpTile, int readTurn, float sumOfEvalution)
 {
-	
+	int dx[9] = { 1,1,1,0,0,0,-1,-1,-1 };
+	int dy[9] = { 1,0,-1,1,0,-1,1,0,-1 };
+
 	Map* map;
 	map = map->getMap();
 	Agents* agents;
 	agents = agents->getAgents();
 	Field* field;
 	field = field->getField();
+	AgentsEvalution* agentsEvalution;
+	agentsEvalution = agentsEvalution->getAgentsEvalution();
 	Evalution evalution;
 
-	int Dx = nowAgentPosition.first, Dy = nowAgentPosition.second;
-	int giveReadTurn;
 
-	rep(turn, 9) {
-		Dx = nowAgentPosition.first;
-		Dy = nowAgentPosition.second;
+	// 重複しないなら
+	if (checkCollision(route,beforeAgentsPosition)) {
+
+		//まだ計算するなら
+		if (readTurn > 0) {
+			
+			// beforeAgentPositionの位置更新
+			rep(num, agents->ourAgents.size()) {
+				int routeCalcS = route[0].size - 1;
+				int PosX = beforeAgentsPosition[num].first + route[num][routeCalcS].first;
+				int PosY = beforeAgentsPosition[num].second + route[num][routeCalcS].second;
+
+				// タイルふみ
+				if (field->tiled[PosX][PosY] == map->ourTeamID) {
+					beforeAgentsPosition[num].first += route[num][routeCalcS].first;
+					beforeAgentsPosition[num].second += route[num][routeCalcS].second;
+				}
+				else if (field->tiled[PosX][PosY] == 0) {
+					beforeAgentsPosition[num].first += route[num][routeCalcS].first;
+					beforeAgentsPosition[num].second += route[num][routeCalcS].second;
+					moveUpTile[PosX][PosY] = map->ourTeamID;
+				}
+				else {
+					moveUpTile[PosX][PosY] = 0;
+				}
+			}
+
+			// moveUpTile を反映
+			agentsEvalution->turnTiledField = moveUpTile;
 
 
-			//画面外
-		if (Dx + dx[turn] < 0 || Dx + dx[turn] >= map->width || Dy + dy[turn] < 0 || Dy + dy[turn] >= map->vertical) {
-			goto fini;
-		}
+			// 3手のビームサーチ候補
+			vector<vector<pair<int, int>>>fork(agents->ourAgents.size());
+			//forkでの評価値記録
+			vector<vector<float>> evalutionAgentPoint(agents->ourAgents.size());
 
-		//戻ろうとするときの除外
-		//dx,dyが入ってるとき
 
-		//移動先が自分チーム（戻るも含まれる）
-		if (moveUpTile[map->readTurn-readTurn][Dx + dx[turn]][Dy + dy[turn]] == map->ourTeamID) {
-			// sum を減らすかも
-		}
-		//移動先が相手チームタイルだったら
-		else if (moveUpTile[map->readTurn-readTurn][Dx + dx[turn]][Dy + dy[turn]] == map->otherTeamID) {
+			//最初の3手を決定
+			rep(num, agents->ourAgents.size()) {
 
-			moveUpTile[map->readTurn-readTurn][Dx + dx[turn]][Dy + dy[turn]] = 0;
-			Dx -= dx[turn];
-			Dy -= dy[turn];
+				priority_queue<pair<float, pair<int, int>>> Pqueue;
 
+				rep(counter, 9) {
+
+					int nowX = beforeAgentsPosition[num].first + dx[counter];
+					int nowY = beforeAgentsPosition[num].second + dy[counter];
+
+					// 範囲外計算
+					if (nowX >= map->width || nowX < 0 || nowY >= map->vertical || nowY < 0) {
+						Pqueue.push(make_pair(mINF, make_pair(dx[counter], dy[counter])));
+					}
+					// evalutionFieldの値を代入
+					else {
+						float evalutionP = evalution.calculateEvalutionPoint(nowX, nowY,beforeAgentsPosition);
+						Pqueue.push(make_pair(evalutionP, make_pair(dx[counter], dy[counter])));
+					}
+				}
+				//上位3手を選択
+				rep(tmp, 3) {
+					// 評価値記録
+					evalutionAgentPoint[num].push_back(Pqueue.top().first);
+					// x,y の代入
+					fork[num].push_back(Pqueue.top().second);
+					Pqueue.pop();
+				}
+			}
+
+
+			// agentの数nビット、ビームサーチ探索mのm進数ビット列で考える
+			int maxBit = (agents->ourAgents.size() + 1) * 3;
+
+			rep(bit, maxBit) {
+
+				float sumEvalution = 0;
+
+				//routeにpush
+				rep(num, agents->ourAgents.size()) {
+
+					// num Bit右にシフトさせて一つ上の位の値で割った余りを出す
+					int POS = (bit / (bit^num)) % (bit ^ (num + 1));
+
+					//サイズを +1
+					route[num].push_back(fork[num][POS]);
+					sumEvalution += evalutionAgentPoint[num][POS];
+				}
+
+				// 計算
+				calculatePrefetching(route, beforeAgentsPosition, moveUpTile, map->readTurn - 1, sumEvalution + sumOfEvalution);
+
+				// route からpop
+				rep(num, agents->ourAgents.size()) {
+					// サイズを -1
+					route[num].resize(route[num].size() - 1);
+				}
+			}
 		}
 		else {
-			// tile	を塗る	
-			moveUpTile[map->readTurn-readTurn][Dx + dx[turn]][Dy + dy[turn]] = map->ourTeamID;
+			// n番目に良いルートであるかを比較する
+			evalution.calculateEvalution();
+		}
+	}
+}
 
+
+
+
+
+// 移動先重複チェック
+bool checkCollision(vector<vector<pair<int,int>>>route,vector<pair<int, int>> beforeAgentPos) {
+	Map* map;
+	map = map->getMap();
+	Agents* agents;
+	agents = agents->getAgents();
+
+	int accessRouteSize = route[0].size() - 1;
+
+	rep(main, agents->ourAgents.size()) {
+		int mainX = beforeAgentPos[main].first + route[main][accessRouteSize].first;
+		int mainY = beforeAgentPos[main].second + route[main][accessRouteSize].second;
+
+		rep(partner, agents->ourAgents.size()) {
+			int partnerX = beforeAgentPos[partner].first + route[partner][accessRouteSize].first;
+			int partnerY = beforeAgentPos[partner].second + route[partner][accessRouteSize].second;
+
+			if (main == partner) {
+				continue;
+			}
+			if (mainX == partnerX && mainY == partnerY) {
+				return false;
+			}
 		}
 
-
-		//位置更新
-		Dx += dx[turn];
-		Dy += dy[turn];
-
-		//先読みターン数(readTurn)を再帰で呼び出すたびに-1
-		if (readTurn > 1) {
-			route.push_back(make_pair(route[0].first, make_pair(dx[turn], dy[turn])));
-			giveReadTurn = readTurn - 1;
-
-
-			calculateEvalution(route, make_pair(Dx, Dy), moveUpTile, agentsnum, giveReadTurn, sum);
-			route.resize(route.size() - 1);
-
+		if (mainX < 0 || mainX >= map->width || mainY < 0 || mainY >= map->vertical) {
+			return false;
 		}
-		else if (readTurn == 1) {
-			route.push_back(make_pair(route[0].first, make_pair(dx[turn], dy[turn])));
-
-			//評価計算
-			evalution.calculateEvalution(route, moveUpTile, agentsnum, sum);
-			route.resize(route.size() - 1);
-		}
-
-
-		//route.resize(route.size() - 1);
-		//routeSizeのためにエージェントの位置が範囲外でもpushしてからでないとnull参照を起こすから、
-		//push_backすべき
-
-	fini:;
 	}
 
+	return true;
 }
+
+
+
 
 
 
