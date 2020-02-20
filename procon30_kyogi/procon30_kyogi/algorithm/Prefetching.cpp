@@ -37,6 +37,8 @@ void Prefetching::prefetching()
 	agentsEvalution->turnTiledField = field->tiled;
 	
 
+	//forkでの評価値記録
+	vector<vector<float>> evalutionAgentPoint(agents->ourAgents.size());
 
 
 	//最初の3手を決定
@@ -61,6 +63,9 @@ void Prefetching::prefetching()
 		}
 		//上位3手を選択
 		rep(tmp, 3) {
+			// 評価値記録
+			evalutionAgentPoint[num].push_back(Pqueue.top().first);
+			// x,y の代入
 			fork[num].push_back(Pqueue.top().second);
 			Pqueue.pop();
 		}
@@ -96,22 +101,34 @@ void Prefetching::prefetching()
 	rep(num, agents->ourAgents.size()) {
 		beforeAgentsPosition.push_back(make_pair(agents->ourAgents[num][1], agents->ourAgents[num][2]));
 	}
+	
+	// agentの数nビット、ビームサーチ探索mのm進数ビット列で考える
+	int maxBit = (agents->ourAgents.size() + 1 )* 3;
 
+	rep(bit, maxBit) {
 
-	rep(num, agents->ourAgents.size()) {
-		rep(FORK, fork[num].size()) {
+		float sumEvalution = 0;
 
-			//サイズを +1
-			route[num].push_back(fork[num][FORK]);
+		//routeにpush
+		rep(num, agents->ourAgents.size()) {
+
+			// num Bit右にシフトさせて一つ上の位の値で割った余りを出す
+			int POS = (bit / (bit^num)) % (bit ^ (num + 1));
 			
-			// 計算
-			calculatePrefetching(route, beforeAgentsPosition, moveUpTile, map->readTurn-1);
+			//サイズを +1
+			route[num].push_back(fork[num][POS]);
+			sumEvalution += evalutionAgentPoint[num][POS];
+		}
 
+		// 計算
+		calculatePrefetching(route, beforeAgentsPosition, moveUpTile, map->readTurn - 1, sumEvalution);
+
+		// route からpop
+		rep(num, agents->ourAgents.size()) {
 			// サイズを -1
-			route[num].resize(route[num].size()-1);
+			route[num].resize(route[num].size() - 1);
 		}
 	}
-
 
 
 
@@ -199,11 +216,8 @@ void Prefetching::prefetching()
 
 //経路計算
 void  Prefetching::calculatePrefetching(vector<vector<pair<int, int>>>route, vector<pair<int, int>> beforeAgentPosition,
-	vector<vector<int>>moveUpTile, int readTurn)
+	vector<vector<int>>moveUpTile, int readTurn, float sumOfEvalution)
 {
-
-	int dx[9] = { 1,1,1,0,0,0,-1,-1,-1 };
-	int dy[9] = { 1,0,-1,1,0,-1,1,0,-1 };
 	
 	Map* map;
 	map = map->getMap();
