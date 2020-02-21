@@ -14,7 +14,7 @@ float magnificat[] = { 1.1 , 1.2,1,1,1,1 };
 
 */
 
-void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vector<vector<vector<int>>>moveUpTile, int agentsnum, int sum)
+void Evalution::calculateEvalution(vector<vector<pair<int, int>>> route, float sumOfEvalution)
 {
 
 	Map *map;
@@ -23,29 +23,15 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 	agentsEvalution = agentsEvalution->getAgentsEvalution();
 	
 
-
-	//エージェントがそのマスの付近にいたら評価を下げる（戦局次第では上げる）
-	//相手がタイルポイント以上の点を取ったら領域を取ったものとみなし、
-	//ポイントが大きければ大きいほど評価点の上がり調子も大きくする
-
-	// ↓ 評価を普通くらいにする
-	//自分のチームのtiledを踏もうとするときには評価点をめちゃ下げる
-	//もしくは評価しない
-
 	int routeS = map->readTurn;
+
 	//Route更新（評価最大）
-
-
 	if (agentsEvalution->maxEvalutionPoint < sumOfEvalution) {
 
-		//map->score[1][2]++;
 		agentsEvalution->maxEvalutionPoint = sumOfEvalution;
-
-		agentsEvalution->maxRoute[agentsnum].resize(0);
-		rep(i, routeS) {
-			// 初期位置は追加しない
-			agentsEvalution->maxRoute[agentsnum].push_back(route[i + 1]);
-		}
+		agentsEvalution->maxRoute.resize(0);
+		// maxRouteに更新
+		agentsEvalution->maxRoute = route;
 	}
 
 }
@@ -55,6 +41,14 @@ void Evalution::calculateEvalution(vector<pair<int, pair<int, int>>> route, vect
 // フィールド評価point計算
 float Evalution::calculateEvalutionPoint(int PosX,int PosY, vector<pair<int,int>>beforeAgentsPosition)
 {
+	//エージェントがそのマスの付近にいたら評価を下げる（戦局次第では上げる）
+	//相手がタイルポイント以上の点を取ったら領域を取ったものとみなし、
+	//ポイントが大きければ大きいほど評価点の上がり調子も大きくする
+
+	// ↓ 評価を普通くらいにする
+	//自分のチームのtiledを踏もうとするときには評価点をめちゃ下げる
+	//もしくは評価しない
+
 	int dx[] = { 1,1,1,0,0,-1,-1,-1 };
 	int dy[] = { 1,0,-1,1,-1,1,0,-1 };
 

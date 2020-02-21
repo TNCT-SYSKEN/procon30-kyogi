@@ -83,13 +83,14 @@ void Prefetching::prefetching()
 
 	//maxRoute,actionDXDYの初期化
 	agentsEvalution->maxRoute.resize(0);
-	agentsEvalution->maxRoute.resize(agents->ourAgents.size(), vector<pair<int, pair<int, int>>>(0));
+	agentsEvalution->maxRoute.resize(agents->ourAgents.size(), vector<pair<int, int>>(0));
 	
 
 	agentsAction->actionType.resize(0);
 	agentsAction->actionType.resize(agents->ourAgents.size());
 
-
+	//agentsEvalutionのmax評価値を初期化
+	agentsEvalution->maxEvalutionPoint = mINF;
 
 
 	// moveUpTileの定義
@@ -134,83 +135,56 @@ void Prefetching::prefetching()
 
 
 
-	/****************************************/
-
-
-	//エージェントの数だけループ
-	for (int agentsnum = 0; agentsnum < ourAgentsS; agentsnum++) {
-		
-
-		//agentsEvalutionのmax評価値を初期化
-		agentsEvalution->maxEvalutionPoint = mINF;
-
-
-		//何番目に計算
-		calculateEvalution(route, agentPosition, moveUpTile, agentsnum, map->readTurn, 0);
-
-		route.resize(0);
-
-
-		/*ここまで見た*/
-		/////////////////////////////////////////////////////////
-		//AgentsAction.hに書き込み
-		agentsAction->actionDxDy[agentsnum].resize(0);
-		agentsEvalution->maxEvalutionPoint = mINF;
-
-	}
-
 	//　移動先重複確認
 	changeDestination();
 	
 
+
+
 	//移動先決定 and 書き込み
-	for(int agentsnum=0;agentsnum<ourAgentsS;agentsnum++){
+	rep(num, agents->ourAgents.size()) {
 		//
-		int nowX = agents->ourAgents[agentsnum][1];
-		int nowY = agents->otherAgents[agentsnum][2];
+		int nowX = agents->ourAgents[num][1];
+		int nowY = agents->otherAgents[num][2];
+
+		agentsAction->actionDxDy[num].resize(0);
+
 
 		rep(i, map->readTurn) {
 			// 動いた後のPosition
-			nowX += agentsEvalution->maxRoute[agentsnum][i].second.first;
-			nowY += agentsEvalution->maxRoute[agentsnum][i].second.second;
+			nowX += agentsEvalution->maxRoute[num][i].first;
+			nowY += agentsEvalution->maxRoute[num][i].second;
 
-			agentsAction->actionDxDy[agentsnum].push_back(
-				agentsEvalution->maxRoute[agentsnum][i]);
-			if (agentsEvalution->maxRoute[agentsnum][i].second.first == 0 &&
-				agentsEvalution->maxRoute[agentsnum][i].second.second == 0) {
+			// actionDxDyにpush
+			agentsAction->actionDxDy[num].push_back(make_pair(agents->ourAgents[num][0], agentsEvalution->maxRoute[num][i]));
+
+
+			if (agentsEvalution->maxRoute[num][i].first == 0 &&
+				agentsEvalution->maxRoute[num][i].second == 0) {
 				//stay
-				agentsAction->actionType[agentsnum].push_back(0);
+				agentsAction->actionType[num].push_back(0);
 
 			}
-			else if (field->tiled[nowX][nowY] == map->otherTeamID){
+			else if (moveUpTile[nowX][nowY] == map->otherTeamID) {
 				//remove
-				agentsAction->actionType[agentsnum].push_back(-1);
+				agentsAction->actionType[num].push_back(-1);
 				// moveUpTileに更新
-				// 後のターンのタイルにも反映
-				for (int tmp = i; i < map->readTurn; i++) {
-					moveUpTile[tmp + 1][nowX][nowY] = 0;
-				}
-				
-				nowX -= agentsEvalution->maxRoute[agentsnum][i].second.first;
-				nowY -= agentsEvalution->maxRoute[agentsnum][i].second.second;
+
+				moveUpTile[nowX][nowY] = 0;
+
+				nowX -= agentsEvalution->maxRoute[num][i].first;
+				nowY -= agentsEvalution->maxRoute[num][i].second;
 			}
 			else {
 				//move	
 				// moveUpTileに更新
-				// 後のターンのタイルにも反映
-				for (int tmp = i; i < map->readTurn; i++) {
-					moveUpTile[tmp + 1][nowX][nowY] = map->ourTeamID;
-				}
-				agentsAction->actionType[agentsnum].push_back(1);
+
+				moveUpTile[nowX][nowY] = map->ourTeamID;
+				agentsAction->actionType[num].push_back(1);
 
 			}
 		}
 	}
-
-
-
-
-
 }
 
 
@@ -331,7 +305,7 @@ void  Prefetching::calculatePrefetching(vector<vector<pair<int, int>>>route, vec
 		}
 		else {
 			// n番目に良いルートであるかを比較する
-			evalution.calculateEvalution();
+			evalution.calculateEvalution(route,sumOfEvalution);
 		}
 	}
 }
@@ -412,7 +386,7 @@ void Prefetching::changeDestination() {
 	rep(turn, useReadTurn) {
 		turnTiled[turn] = field->tiled;
 	}
-
+	/*
 
 	// 2回同じペアを計算しないように重複判定を行う
 	rep(main, agents->ourAgents.size() - 1) {
@@ -424,11 +398,11 @@ void Prefetching::changeDestination() {
 			//調べる　先読みターン 1 ~ readTurn
 			//先読みターン数を大きくしすぎたら「まずい」からいったん上限を4にする
 			rep(turn, useReadTurn) {
-				mainAgent.first += agentsEvalution->maxRoute[main][turn].second.first;
-				mainAgent.second += agentsEvalution->maxRoute[main][turn].second.second;
+				mainAgent.first += agentsEvalution->maxRoute[main][turn].first;
+				mainAgent.second += agentsEvalution->maxRoute[main][turn].second;
 				
-				partnerAgent.first += agentsEvalution->maxRoute[partner][turn].second.first;
-				partnerAgent.second += agentsEvalution->maxRoute[partner][turn].second.second;
+				partnerAgent.first += agentsEvalution->maxRoute[partner][turn].first;
+				partnerAgent.second += agentsEvalution->maxRoute[partner][turn].second;
 
 
 				// check
@@ -481,7 +455,7 @@ void Prefetching::changeDestination() {
 			}
 		}
 	}
-
+	*/
 	// 重複判定完了
 	
 	//agentfield作成しようか

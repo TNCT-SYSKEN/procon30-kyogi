@@ -28,7 +28,7 @@ void Initialize::setupMap() {
 	map->readTurn = 3;
 
 	map->turnFlg = false;
-	map->isSearchAll = false;
+	//map->isSearchAll = false;
 }
 
 
@@ -49,8 +49,6 @@ void Initialize::setupField() {
 	//rep(i, map->readTurn + 1) {
 	//	field->turnTiled[i] = field->tiled;
 	//}
-
-	field->evalutionField.resize(20, (vector<int>(20, 0)));
 }
 
 
