@@ -94,7 +94,7 @@ void DrawMap::drawMapLine(const int turnFieldTurn) {
 		// turn+1のせいで範囲外アクセスするからreadTurn-1までしか扱えない
 		// turn を一定以上増えないように制御した
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
-			create.createMapLine(field->turnAgent[turnFieldTurn][i].first + 1, field->turnAgent[turnFieldTurn][i].second + 1, field->turnAgent[turnFieldTurn + 1][i].first + 1, field->turnAgent[turnFieldTurn + 1][i].second + 1);
+			create.createMapLine(field->turnAgent[turnFieldTurn][i].first, field->turnAgent[turnFieldTurn][i].second, field->turnAgent[turnFieldTurn + 1][i].first, field->turnAgent[turnFieldTurn + 1][i].second);
 		}
 	}
 }
