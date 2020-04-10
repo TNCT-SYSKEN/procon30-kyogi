@@ -8,5 +8,5 @@
 
 class CreateJson {
 public:
-	void createJson(string,string,string);
+	void createJson();
 };

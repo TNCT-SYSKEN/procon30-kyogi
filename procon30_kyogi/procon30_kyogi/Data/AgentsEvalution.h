@@ -2,20 +2,21 @@
 #include"../general.h"
 class AgentsEvalution {
 public:
+
+	/*************** new ver*************/
+
+	
 	//最高評価点ルート
 	//{ (agentnum1) {(turn 1){agentnum1,{dx,dy}}, (turn 2){agentnum1,{dx,dy}},...} , (agentnum 2){(turn1)}}
-	vector<vector<pair<int, pair<int, int>>>>maxRoute;
+	vector<vector<pair<int, int>>>maxRoute;
 	float maxEvalutionPoint;
 
-	vector<int>ourMaxGetPoint;
-	vector<vector<pair<int, pair<int, int>>>>ourMaxRoute;
+	// 評価点計算の時のターン先読みタイル状況
+	vector<vector<int>> turnTiledField;
 
-	//タイル除去チェック
-	//nターン先読み JudgeEvalutionで要素数は定義
-	vector < int > tileMoveupCheck;
 
-	vector<vector<pair<int, pair<int, int>>>>enemyMaxRoute;
-	vector<int> enemyMaxGetPoint;
+	/************* judge *******************/
+
 
 	static AgentsEvalution* getAgentsEvalution();
 

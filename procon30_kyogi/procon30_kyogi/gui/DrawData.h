@@ -1,8 +1,10 @@
 #pragma once
 #include "InputOutputManager.h"
-#include"../Data/Map.h"
 #include"../json/ParseJson.h"
 #include"../algorithm/Analysis.h"
+// token,json,matchID
+#include"../json/data/JsonOption.h"
+
 
 
 class DrawData
@@ -15,16 +17,13 @@ public:
 
 	void manualDirection(const int number);
 
-
-
 private:
 	void clickedButton();
 	void drawTiledScore();
 	void drawAreaScore();
 	void drawSumScore();
 	void outputTurn();
-
-
+	// token,•\Ž¦
 	void tokenSetUp();
 
 	void inputID();

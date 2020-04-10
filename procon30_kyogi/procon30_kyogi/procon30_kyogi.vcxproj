@@ -182,6 +182,7 @@
     <ClCompile Include="gui\OutputData.cpp" />
     <ClCompile Include="gui\TurnManager.cpp" />
     <ClCompile Include="Initialize\Initialize.cpp" />
+    <ClCompile Include="Initialize\Redefine.cpp" />
     <ClCompile Include="json\CreateJson.cpp" />
     <ClCompile Include="json\data\JsonOption.cpp" />
     <ClCompile Include="json\FetchJson.cpp" />
@@ -296,6 +297,7 @@
     <ClInclude Include="gui\TurnManager.h" />
     <ClInclude Include="gui\ManualInput.h" />
     <ClInclude Include="Initialize\Initialize.h" />
+    <ClInclude Include="Initialize\Redefine.h" />
     <ClInclude Include="json\CreateJson.h" />
     <ClInclude Include="json\data\JsonOption.h" />
     <ClInclude Include="json\FetchJson.h" />

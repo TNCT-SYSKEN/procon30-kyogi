@@ -16,7 +16,7 @@ DrawData::DrawData()
 	gui.addln(L"json_option", GUIText::Create(L"JSON_option"));
 
 	gui.add(L"token_name", GUIText::Create(L"トークン"));
-	gui.addln(L"token", GUITextArea::Create(1, 14));
+	gui.addln(L"token", GUITextArea::Create(1, 14,none,false));
 
 	gui.add(L"port_name", GUIText::Create(L"Port"));
 	gui.add(L"port", GUITextArea::Create(1, 4));
@@ -25,28 +25,23 @@ DrawData::DrawData()
 	gui.addln(L"matchNumber", GUITextArea::Create(1, 2));
 
 
-	gui.addln(L"AnalysButton", GUIButton::Create(L"Analys計算"));
-
-	//gui.add(L"bt1", GUIButton::Create(L"ターン終了"));
-
 	//アルゴリズム回す
 	gui.add(L"CalcAlgorithm", GUIButton::Create(L"評価計算"));
 
 	//JsonFile読み込み
 	gui.addln(L"getJSON", GUIButton::Create(L"MapJSON取得"));
 
-	//json生成(action)
-	gui.add(L"createJsonAction", GUIButton::Create(L"port,token,matchID確定"));
-
+	// Line
 	gui.add(L"hr", GUIHorizontalLine::Create(1));
 	gui.horizontalLine(L"hr").style.color = Color(127);
 
+	/**********************Toggle********************/
 	//領域計算ONoff
-	gui.addln(L"calcArea", GUIToggleSwitch::Create(L"領域計算", L"領域計算ON", false));
+	gui.addln(L"calcArea", GUIToggleSwitch::Create(L"評価計算 弱め", L"評価計算 強め", false));
 
 
 	//analys
-	gui.add(L"Analys", GUIToggleSwitch::Create(L"Analys False", L"Analys True", false));
+	gui.addln(L"Analys", GUIToggleSwitch::Create(L"Analys False", L"Analys True", false));
 
 	//Input
 	//水平線
@@ -173,11 +168,13 @@ void DrawData::drawDataManager() {
 	drawTiledScore();
 	drawAreaScore();
 	drawSumScore();
+	
+	tokenSetUp();
 
 	clickedButton();
 	drawMapFrame();
-	drawMap.drawMapManager(map->mapChange);
-	tokenSetUp();
+	drawMap.drawMapManager(map->mapChangeTurn);
+	
 }
 
 
@@ -233,6 +230,8 @@ void DrawData::clickedButton() {
 	agentsAction = agentsAction->getAgentsAction();
 	Agents* agents;
 	agents = agents->getAgents();
+	JsonOption* Joption;
+	Joption = Joption->getJsonOption();
 
 	const Size targetSize(1920, 1080);
 	//行動確定ボタン
@@ -244,47 +243,39 @@ void DrawData::clickedButton() {
 	//先読みターン数決定ボタン
 	if (gui.button(L"bt3").pushed) {
 		/////////////////////////////////////
-
+		Redefine redef;
+ 
 		//String->string->int
 		//先読みターン数更新
-		map->readTurn = Parse<int>(gui.textArea(L"ptnc").text);
-		//agentsAction dxdy の調整
-		agentsAction->actionDxDy.resize(agents->ourAgents.size(), vector<pair<int, pair<int, int>>>(map->readTurn));
+		int afterReadTurn = Parse<int>(gui.textArea(L"ptnc").text);
+		redef.readTurnChange(map->readTurn, afterReadTurn);
+		
 	}
 	//ID入力ボタン
 	if (gui.button(L"bt4").pushed) {
 		inputID();
 	}
-	if (gui.button(L"createJsonAction").pushed) {
-		CreateJson cre;
 
-
-
-		map->matchNumber = gui.textArea(L"matchNumber").text.narrow();
-
-
-		string token = gui.textArea(L"token").text.narrow();
-		string port = gui.textArea(L"port").text.narrow();
-		string matchID = gui.textArea(L"matchNumber").text.narrow();
-		//JSON書き込み + 送信
-		cre.createJson(token, port, matchID);
-
-
-	}
 	//JsonFileの読み込み
 	if (gui.button(L"getJSON").pushed) {
 		//gui.textArea(L"port").setText(gui.textArea(L"token").text)
 
 		FetchJson fetchJson;
 		//Fetch Setting
+
+		
+
+
 		string token = gui.textArea(L"token").text.narrow();
 		string port = gui.textArea(L"port").text.narrow();
-		string matchNumber = gui.textArea(L"matchNumber").text.narrow();
+		string matchNumber = Joption->matchID;
 
 		ParseJson parseJson;
 
 
-		map->matchNumber = gui.textArea(L"matchNumber").text.narrow();
+		 
+		
+		
 		//最初のMap取得
 		if (!map->firstJson) {
 			//サーバーから取ってくる
@@ -307,18 +298,15 @@ void DrawData::clickedButton() {
 			parseJson.parseTurn1("json/data/Map/turn" + to_string(map->turn) + ".json");
 		}
 	}
+	// アルゴリズム回す
 	if (gui.button(L"CalcAlgorithm").pushed) {
 		Action_manager AC;
 		AC.Action();
-		///////////////////////////////////////////////////////
-		string token = gui.textArea(L"token").text.narrow();
-		string port = gui.textArea(L"port").text.narrow();
-		string matchNumber = gui.textArea(L"matchNumber").text.narrow();
 
 
 		//自動
 		CreateJson createJson;
-		createJson.createJson(token, port, matchNumber);
+		createJson.createJson();
 
 	}
 	//MaxTurn入力ボタン
@@ -326,23 +314,17 @@ void DrawData::clickedButton() {
 		map->finalTurn = Parse<int>(gui.textArea(L"readMT").text);
 
 	}
-	if (gui.toggleSwitch(L"searchAll").isRight) {
-		map->isSearchAll = false;
-	}
-	if (gui.toggleSwitch(L"searchAll").isLeft) {
-		map->isSearchAll = true;
-	}
 
 	//Map切り替え
 	if (gui.button(L"bt6").pushed) {
-		if (map->mapChange > 0) {
-			map->mapChange--;
+		if (map->mapChangeTurn > 0) {
+			map->mapChangeTurn--;
 		}
 	}
 	if (gui.button(L"bt7").pushed) {
 		//-1を追加することでvector要素範囲外アクセスerror解消 
-		if (map->mapChange < map->readTurn -1) {
-			map->mapChange++;
+		if (map->mapChangeTurn < map->readTurn -1) {
+			map->mapChangeTurn++;
 		}
 	}
 
@@ -355,27 +337,21 @@ void DrawData::clickedButton() {
 			System::Exit();
 		}
 	}
-
+	// 
 	if (gui.toggleSwitch(L"calcArea").isRight) {
-		map->calcArea = true;
+		map->evalutionOptionToggle = true;
 	}
 	else if (gui.toggleSwitch(L"calcArea").isLeft) {
-		map->calcArea = false;
+		map->evalutionOptionToggle = false;
 	}
 
 	if (gui.toggleSwitch(L"Analys").isRight && map->AnalysCalcC) {
-		map->AnalysFieled = true;
+		map->AnalysField = true;
 	}
 	else if (gui.toggleSwitch(L"Analys").isLeft) {
-		map->AnalysFieled = false;
+		map->AnalysField = false;
 	}
-	if (gui.button(L"AnalysButton").pushed) {
-		if (map->firstJson == true) {
-			Analysis analysis;
-			analysis.AnalysisCalc();
-			gui.button(L"AnalysButton").enabled = false;
-		}
-	}
+
 
 
 }
@@ -385,21 +361,24 @@ void DrawData::outputTurn() {
 	map = map->getMap();
 
 	String Turn = Widen(to_string(map->turn));
-	String Rturn = Widen(to_string(map->readTurn));
+	String ReadTurn = Widen(to_string(map->readTurn));
 
 
 	gui.textArea(L"turn").setText(Turn);
-	gui.textArea(L"ptnc").setText(Rturn);
+	gui.textArea(L"ptnc").setText(ReadTurn);
 }
 
 
 
 
 void DrawData::tokenSetUp() {
-	Map* map;
-	map = map->getMap();
+	JsonOption* Joption;
+	Joption = Joption->getJsonOption();
 
-	String Token = Widen(map->token);
+
+	String Token = Widen(Joption->token);
+	Joption->port = Parse<int>(gui.textArea(L"port").text);
+	Joption->matchID = Parse<int>(gui.textArea(L"matchNumber").text);
 
 	gui.textArea(L"token").setText(Token);
 }
@@ -528,10 +507,6 @@ void DrawData::manualDirection(const int number) {
 	guiManual.setPos(250, 800);
 	CreateJson createJson;
 
-	string token = map->token;
-	string port = "";
-	string matchNumber = map->matchNumber;
-
 
 	DrawMap drawMap;
 	AgentsAction* agentsAction;
@@ -544,24 +519,24 @@ void DrawData::manualDirection(const int number) {
 			agentsAction->actionDxDy[number][0].second.first = -1;
 			agentsAction->actionDxDy[number][0].second.second = -1;
 
-			//createJson.createJson(token, port, matchNumber);
-			map->click = false;
+			createJson.createJson();
+			map->isClicked = false;
 			break;
 		}
 		if (guiManual.button(L"btm2").pushed) {
 			agentsAction->actionDxDy[number][0].second.first = 0;
 			agentsAction->actionDxDy[number][0].second.second = -1;
 
-			//createJson.createJson(token, port, matchNumber);
-			map->click = false;
+			createJson.createJson();
+			map->isClicked = false;
 			break;
 		}
 		if (guiManual.button(L"btm3").pushed) {
 			agentsAction->actionDxDy[number][0].second.first = 1;
 			agentsAction->actionDxDy[number][0].second.second = -1;
 
-			createJson.createJson(token, port, matchNumber);
-			map->click = false;
+			createJson.createJson();
+			map->isClicked = false;
 			break;
 		}
 		//中段
@@ -569,24 +544,24 @@ void DrawData::manualDirection(const int number) {
 			agentsAction->actionDxDy[number][0].second.first = -1;
 			agentsAction->actionDxDy[number][0].second.second = 0;
 
-			createJson.createJson(token, port, matchNumber);
-			map->click = false;
+			createJson.createJson();
+			map->isClicked = false;
 			break;
 		}
 		if (guiManual.button(L"btm5").pushed) {
 			agentsAction->actionDxDy[number][0].second.first = 0;
 			agentsAction->actionDxDy[number][0].second.second = 0;
 
-			createJson.createJson(token, port, matchNumber);
-			map->click = false;
+			createJson.createJson();
+			map->isClicked = false;
 			break;
 		}
 		if (guiManual.button(L"btm6").pushed) {
 			agentsAction->actionDxDy[number][0].second.first = 1;
 			agentsAction->actionDxDy[number][0].second.second = 0;
 
-			createJson.createJson(token, port, matchNumber);
-			map->click = false;
+			createJson.createJson();
+			map->isClicked = false;
 			break;
 		}
 		//下段
@@ -594,29 +569,29 @@ void DrawData::manualDirection(const int number) {
 			agentsAction->actionDxDy[number][0].second.first = -1;
 			agentsAction->actionDxDy[number][0].second.second = 1;
 
-			createJson.createJson(token, port, matchNumber);
-			map->click = false;
+			createJson.createJson();
+			map->isClicked = false;
 			break;
 		}
 		if (guiManual.button(L"btm8").pushed) {
 			agentsAction->actionDxDy[number][0].second.first = 0;
 			agentsAction->actionDxDy[number][0].second.second = 1;
 
-			createJson.createJson(token, port, matchNumber);
-			map->click = false;
+			createJson.createJson();
+			map->isClicked = false;
 			break;
 		}
 		if (guiManual.button(L"btm9").pushed) {
 			agentsAction->actionDxDy[number][0].second.first = 1;
 			agentsAction->actionDxDy[number][0].second.second = 1;
 
-			createJson.createJson(token, port, matchNumber);
-			map->click = false;
+			createJson.createJson();
+			map->isClicked = false;
 			break;
 		}
 		//キャンセル
 		if (guiManual.button(L"btm10").pushed) {
-			map->click = false;
+			map->isClicked = false;
 			break;
 		}
 	}

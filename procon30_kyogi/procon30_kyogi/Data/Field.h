@@ -19,6 +19,7 @@ public:
 
 	vector<vector<int>> AnalysisField;
 
+
 private:
 	static Field* field;
 };

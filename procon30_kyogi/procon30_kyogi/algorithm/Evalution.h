@@ -4,10 +4,12 @@
 class Evalution {
 public:
 	//•]‰¿“_ŒvŽZ
-	void calculateEvalution(vector<pair<int, pair<int, int>>>, vector<vector<int>>, int, int);
+	void calculateEvalution(vector<vector<pair<int,int>>>, float);
+	float calculateEvalutionPoint(int,int, vector<pair<int,int>>);
 
-	int calculateAreaPoint(vector<vector<int>>);
-	int calculateEnemyAreaPoint(vector<pair<int, pair<int, int>>>);
+
+	//int calculateAreaPoint(vector<vector<int>>);
+	//int calculateEnemyAreaPoint(vector<pair<int, pair<int, int>>>);
 
 
 };

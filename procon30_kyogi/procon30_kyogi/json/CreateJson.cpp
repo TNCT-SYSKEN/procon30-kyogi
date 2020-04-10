@@ -7,7 +7,7 @@ string escapeStr(string str) {
 }
 
 
-void CreateJson::createJson(string token, string port, string matchID)
+void CreateJson::createJson()
 {
 	/*using v = picojson::value;
 	using o = picojson::object;
@@ -29,6 +29,8 @@ void CreateJson::createJson(string token, string port, string matchID)
 			})
 		})
 	} };*/
+	JsonOption* Joption;
+	Joption = Joption->getJsonOption();
 	Agents* agents;
 	agents = agents->getAgents();
 	AgentsAction* agentsAcn;
@@ -37,7 +39,12 @@ void CreateJson::createJson(string token, string port, string matchID)
 	field = field->getField();
 	Map* map;
 	map = map->getMap();
-	///////////////////
+
+
+	// json setting
+	string token = Joption->token;
+	string port = Joption->port;
+	string matchID = Joption->matchID;
 
 
 	picojson::object lisence;

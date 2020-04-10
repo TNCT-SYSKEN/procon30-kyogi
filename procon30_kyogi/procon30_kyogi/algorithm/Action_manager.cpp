@@ -23,17 +23,19 @@ void Action_manager::Action()
 	Agents* agents;
 	agents = agents->getAgents();
 
-	Prefetching prefetching;
+	Prefetching Pre;
 	Judge judge;
 
-	//ŒvZ
-	//‘S’Tõƒ‚[ƒh‚Å‚È‚©‚Á‚½‚ç
-	if (map->isSearchAll) {
-		prefetching.hyoukaKeisan();
+	//true ‚È‚çjudge, false‚È‚çprefetching
+	if (map->evalutionOptionToggle) {
+		// •Êƒ‚[ƒh
+		//judge.changeDestination();
 	}
 	else {
-		judge.fullSearch();
+		// •]‰¿ŒvZ
+		Pre.prefetching();
 	}
+
 
 
 	//•]‰¿ŒvZI‚í‚Á‚½Œã
@@ -48,14 +50,14 @@ void Action_manager::Action()
 	int nowX[8], nowY[8];
 
 	rep(i, agentS) {
-		nowX[i] = agents->ourAgents[i][1] - 1;
-		nowY[i] = agents->ourAgents[i][2] - 1;
+		nowX[i] = agents->ourAgents[i][1];
+		nowY[i] = agents->ourAgents[i][2];
 
 		field->turnAgent[0][i] = make_pair(nowX[i], nowY[i]);
 	}
-	rep(turn, map->readTurn + 1) {
-		field->turnTiled[turn] = field->tiled;
-	}
+	
+	// turn 0
+	field->turnTiled[0] = field->tiled;
 
 
 	rep(turn, map->readTurn) {

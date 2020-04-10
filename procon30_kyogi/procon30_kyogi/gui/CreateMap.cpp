@@ -1,15 +1,17 @@
 #include"CreateMap.h"
 
-//MapFrame
+/*****************このファイルの関数はDrawMap.cppからしか呼び出されない**************/
+
+// フィールドの枠線draw
+// drawMapFrame() -> 
 void CreateMap::createMapFrame(const int vertical, const int side) {
 	int k, c;
 	for (int i = 0; i < side + 1; i++) {
 		k = 600 + 60 * i;
 		c = 40 * vertical;
-		//1
+		
 		Line(k, 30, k, c + 30).draw(5);
-		//2
-		//Line(k + 800, 30, k + 800, c + 30).draw(5);
+		
 	}
 
 	for (int i = 0; i < vertical + 1; i++) {
@@ -17,106 +19,66 @@ void CreateMap::createMapFrame(const int vertical, const int side) {
 		c = 60 * side;
 		//1
 		Line(600, k - 10, c + 600, k - 10).draw(5);
-		//2
-		//Line(1100, k-10, c + 1100, k-10).draw(5);
+		
 	}
 }
 
+// tiled 状況 draw
 //ColorMap1
-void CreateMap::createMapState1(const int state, const int x, const int y) {
-	Rect rect(600 + 60 * (x - 1), 30 + 40 * (y - 1), 60, 40);
+void CreateMap::createMapState(const int state, const int x, const int y) {
+	Rect rect(600 + 60 * (x), 30 + 40 * (y), 60, 40);
 	Map* map;
 	map = map->getMap();
 	if (state == map->ourTeamID) {
+		// us
 		rect.draw(Palette::Blue);
 	}
 	else if (state == map->otherTeamID) {
+		// enemy
 		rect.draw(Palette::Red);
 	}
-	else if (state == 9999) {
+	else if (state == -1) {
+		//エージェント選択モード（移動方向変更可能）
 		rect.draw(Palette::Yellow);
 	}
 	else {
+		// BackGround Color
 		rect.draw(Palette::Black);
 	}
 }
 
-//ColorMap2
-void CreateMap::createMapState2(const int state, const int x, const int y) {
-	Rect rect(1100 + 60 * (x - 1), 30 + 40 * (y - 1), 60, 40);
-	Map* map;
-	map = map->getMap();
-	if (state == map->ourTeamID) {
-		rect.draw(Palette::Blue);
-	}
-	else if (state == map->otherTeamID) {
-		rect.draw(Palette::Red);
-	}
-	else if (state == 9999) {
-		rect.draw(Palette::Yellow);
-	}
-	else {
-		rect.draw(Palette::Black);
-	}
-}
-
+// AgentPosition draw
 //AgentsMap1
-void CreateMap::createMapAgent1(const int who, const int x, const int y) {
-	Circle circle(600 + 60 * (x - 1) + 20, 30 + 40 * (y - 1) + 20, 15);
+void CreateMap::createMapAgent(const int who, const int x, const int y) {
+	Circle circle(600 + 60 * (x) + 20, 30 + 40 * (y) + 20, 15);
+	
 	switch (who) {
 	case 1:
+		// us
 		circle.draw(Palette::Lightskyblue);
 		break;
 	case 2:
+		//enemy
 		circle.draw(Palette::Pink);
 		break;
 	}
 }
 
-//AgentsMap2
-void CreateMap::createMapAgent2(const int who, const int x, const int y) {
-	Circle circle(1100 + 60 * (x - 1) + 20, 30 + 40 * (y - 1) + 20, 15);
-	switch (who) {
-	case 1:
-		circle.draw(Palette::Lightskyblue);
-		break;
-	case 2:
-		circle.draw(Palette::Pink);
-		break;
-	}
-}
-
-//PointMap1
-void CreateMap::createMapPoint1(const int point, const int x, const int y) {
+//PointMap
+void CreateMap::createMapPoint(const int point, const int x, const int y) {
 	if (point >= 0) {
-		font(point).draw(600 + 60 * (x - 1) + 12, 30 + 40 * (y - 1) - 2, Palette::White);
+		font(point).draw(600 + 60 * (x) + 12, 30 + 40 * (y) - 2, Palette::White);
 	}
 	else {
-		font(point).draw(600 + 60 * (x - 1) + 4, 30 + 40 * (y - 1) - 2, Palette::White);
+		font(point).draw(600 + 60 * (x) + 4, 30 + 40 * (y) - 2, Palette::White);
 	}
 }
 
-//PointMap2
-void CreateMap::createMapPoint2(const int point, const int x, const int y) {
-	if (point >= 0) {
-		font(point).draw(1100 + 60 * (x - 1) + 12, 30 + 40 * (y - 1) - 2, Palette::White);
-	}
-	else {
-		font(point).draw(1100 + 60 * (x - 1) + 4, 30 + 40 * (y - 1) - 2, Palette::White);
-	}
+//移動先表示
+//LineMap
+void CreateMap::createMapLine(const int x1, const int y1, const int x2, const int y2) {
+	Line(600 + 60 * (x1) + 20, 30 + 40 * (y1) + 20, 600 + 60 * (x2) + 20, 30 + 40 * (y2) + 20).draw(5, Palette::White);
 }
-
-//LineMap1
-void CreateMap::createMapLine1(const int x1, const int y1, const int x2, const int y2) {
-	Line(600 + 60 * (x1 - 1) + 20, 30 + 40 * (y1 - 1) + 20, 600 + 60 * (x2 - 1) + 20, 30 + 40 * (y2 - 1) + 20).draw(5, Palette::White);
-}
-
-//LineMap2
-void CreateMap::createMapLine2(const int x1, const int y1, const int x2, const int y2) {
-	Line(1100 + 60 * (x1 - 1) + 20, 30 + 40 * (y1 - 1) + 20, 1100 + 60 * (x2 - 1) + 20, 30 + 40 * (y2 - 1) + 20).draw(5, Palette::White);
-}
-
-
 
 
 /*

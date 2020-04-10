@@ -160,6 +160,15 @@ void ParseJson::parse(string path) {
 	map->firstJson = true;
 	map->turnFlg = true;
 	// actions
+
+	// analys‚ðON‚©‚ÂŽÀs‚µ‚Ä‚¢‚È‚¢Žž
+	if (map->AnalysField && !map->AnalysCalcC) {
+		Analysis analysis;
+		analysis.AnalysisCalc();
+	}
+
+
+
 }
 
 

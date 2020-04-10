@@ -22,6 +22,6 @@ void Main()
 
 		// drawManager
 		drawData.drawDataManager();
-		// sys.systemManager();
+		sys.systemManager();
 	}
 }

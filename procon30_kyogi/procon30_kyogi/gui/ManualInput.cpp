@@ -7,14 +7,14 @@ void ManualInput::mousePosition() {
 	Map* map;
 	map = map->getMap();
 	int posx, posy;
-	if (map->mapChange == 0) {
+	if (map->mapChangeTurn == 0) {
 		posx = Mouse::Pos().x;
 		posy = Mouse::Pos().y;
 		onMap(posx, posy);
 	}
 }
 
-//デバッグ用
+//　そのマスにいるかどうか判定
 void ManualInput::onMap(const int posx, const int posy) {
 	Map* map;
 	map = map->getMap();
@@ -24,6 +24,7 @@ void ManualInput::onMap(const int posx, const int posy) {
 	}
 }
 
+// agentの位置を変換
 void ManualInput::onMapAgents(const int posx, const int posy) {
 	Agents* agents;
 	agents = agents->getAgents();
@@ -34,14 +35,14 @@ void ManualInput::onMapAgents(const int posx, const int posy) {
 	CreateMap create;
 	DrawData drawData;
 	int x, y;
-	x = (posx - 600) / 60 + 1;
-	y = (posy - 30) / 40 + 1;
+	x = (posx - 600) / 60;
+	y = (posy - 30) / 40;
 	for (int i = 0; i < agents->ourAgents.size(); i++) {
 		if (x == agents->ourAgents[i][1] && y == agents->ourAgents[i][2]) {
 			if (Input::MouseL.clicked) {
-				map->x = x;
-				map->y = y;
-				map->click = true;
+				map->clickedPosx = x;
+				map->clickedPosy = y;
+				map->isClicked = true;
 				drawData.manualDirection(i);
 			}
 		}
@@ -50,35 +51,6 @@ void ManualInput::onMapAgents(const int posx, const int posy) {
 
 void ManualInput::clickedMap(const int x, const int y) {
 	CreateMap create;
-	create.createMapState1(9999, x, y);
+	create.createMapState(-1, x, y);
 }
 
-
-
-
-
-/*
-void ManualInput::onMap(const int x,const int y) {
-	Map* map;
-	map = map->getMap();
-
-	if ((300<=x&&x<=300+40*map->width)&&(30<=y&&y<=30+40*map->vertical)) {
-		onMapAgents(x,y);
-	}
-}
-
-void ManualInput::onMapAgents(const int x,const int y){
-	Agents* agents;
-	agents = agents->getAgents();
-	for (int i = 0; i < agents->ourAgents.size();i++) {
-		if ((300 + 40 * (agents->ourAgents[i][0]-1)<x&&x<300+40*(agents->ourAgents[i][0]))&&((30+40*(agents->ourAgents[i][1]-1)<y)&&(y<30+40*(agents->ourAgents[i][1])))) {
-
-		}
-	}
-}
-
-
-void ManualInput::mapStateChange(){
-
-}
-*/

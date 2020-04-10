@@ -1,34 +1,39 @@
 #include"DrawMap.h"
 #include"ManualInput.h"
 
-//FrameMap
+// FrameMap -> createMapFrame()
 void DrawMap::drawMapFrame() {
-	Map* map1;
-	map1 = map1->getMap();
-	CreateMap map;
-	map.createMapFrame(map1->vertical, map1->width);
+	Map* map;
+	map = map->getMap();
+	CreateMap Cmap;
+
+	// フィールド枠線
+	Cmap.createMapFrame(map->vertical, map->width);
 }
 
+
+// Tield 状況 draw
 //StateMap
-void DrawMap::drawMapState2(const int turn) {
+void DrawMap::drawMapState(const int turnFieldTurn) {
 	Field* field;
 	field = field->getField();
 	Map* map;
 	map = map->getMap();
-	CreateMap create;
-	if (turn == 0) {
+	CreateMap Cmap;
+
+	if (turnFieldTurn == 0) {
 		for (int i = 0; i < map->vertical; i++) {
 			for (int j = 0; j < map->width; j++) {
-				create.createMapState1(field->tiled[i][j], i + 1, j + 1);
+				Cmap.createMapState(field->tiled[i][j], i, j);
 			}
 		}
 	}
 	else {
 		for (int i = 0; i < map->vertical; i++) {
 			for (int j = 0; j < map->width; j++) {
-				create.createMapState1(field->tiled[i][j], i + 1, j + 1);
-				if (field->turnTiled[turn][j][i] == map->ourTeamID) {
-					create.createMapState1(field->turnTiled[turn][i][j], i + 1, j + 1);
+				Cmap.createMapState(field->tiled[i][j], i, j);
+				if (field->turnTiled[turnFieldTurn][j][i] == map->ourTeamID) {
+					Cmap.createMapState(field->turnTiled[turnFieldTurn][i][j], i, j);
 				}
 			}
 		}
@@ -36,28 +41,28 @@ void DrawMap::drawMapState2(const int turn) {
 }
 
 //AgentsMap
-void DrawMap::drawMap2AgentsTurn(const int turn) {
+void DrawMap::drawMapAgentsTurn(const int turnFieldTurn) {
 	Agents* agents;
 	agents = agents->getAgents();
 	Field* field;
 	field = field->getField();
 	CreateMap create;
-	if (turn == 0) {
+	if (turnFieldTurn == 0) {
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
-			create.createMapAgent1(1, agents->ourAgents[i][1], agents->ourAgents[i][2]);
-			create.createMapAgent1(2, agents->otherAgents[i][1], agents->otherAgents[i][2]);
+			create.createMapAgent(1, agents->ourAgents[i][1], agents->ourAgents[i][2]);
+			create.createMapAgent(2, agents->otherAgents[i][1], agents->otherAgents[i][2]);
 		}
 	}
 	else {
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
-			create.createMapAgent1(2, agents->otherAgents[i][1], agents->otherAgents[i][2]);
-			create.createMapAgent1(1, field->turnAgent[turn][i].first + 1, field->turnAgent[turn][i].second + 1);
+			create.createMapAgent(2, agents->otherAgents[i][1], agents->otherAgents[i][2]);
+			create.createMapAgent(1, field->turnAgent[turnFieldTurn][i].first, field->turnAgent[turnFieldTurn][i].second);
 		}
 	}
 }
 
 //PointMap
-void DrawMap::drawMapPoint2() {
+void DrawMap::drawMapPoint() {
 	Field* field;
 	field = field->getField();
 	Map* map;
@@ -65,13 +70,13 @@ void DrawMap::drawMapPoint2() {
 	CreateMap create;
 	for (int i = 0; i < map->vertical; i++) {
 		for (int j = 0; j < map->width; j++) {
-			create.createMapPoint1(field->points[i][j], i + 1, j + 1);
+			create.createMapPoint(field->points[i][j], i, j);
 		}
 	}
 }
 
 //LineMap2
-void DrawMap::drawMapLine2(const int turn) {
+void DrawMap::drawMapLine(const int turnFieldTurn) {
 	Agents* agents;
 	agents = agents->getAgents();
 	Field* field;
@@ -79,208 +84,44 @@ void DrawMap::drawMapLine2(const int turn) {
 	Map* map;
 	map = map->getMap();
 	CreateMap create;
-	if (turn == map->readTurn) {
+	if (turnFieldTurn == map->readTurn) {
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
-			create.createMapLine1(field->turnAgent[turn][i].first, field->turnAgent[turn][i].second, field->turnAgent[turn + 1][i].first, field->turnAgent[turn + 1][i].second);
+			create.createMapLine(field->turnAgent[turnFieldTurn][i].first, field->turnAgent[turnFieldTurn][i].second, field->turnAgent[turnFieldTurn + 1][i].first, field->turnAgent[turnFieldTurn + 1][i].second);
 		}
 	}
 	else {
-		// error吐くかも
+		// error吐くかも -> 解決
 		// turn+1のせいで範囲外アクセスするからreadTurn-1までしか扱えない
+		// turn を一定以上増えないように制御した
 		for (int i = 0; i < agents->ourAgents.size(); i++) {
-			create.createMapLine1(field->turnAgent[turn][i].first + 1, field->turnAgent[turn][i].second + 1, field->turnAgent[turn + 1][i].first + 1, field->turnAgent[turn + 1][i].second + 1);
+			create.createMapLine(field->turnAgent[turnFieldTurn][i].first, field->turnAgent[turnFieldTurn][i].second, field->turnAgent[turnFieldTurn + 1][i].first, field->turnAgent[turnFieldTurn + 1][i].second);
 		}
 	}
 }
 
 //DrawMapManager
-void DrawMap::drawMapManager(const int turn) {
+void DrawMap::drawMapManager(const int turnFieldTurn) {
 	Map* map;
 	map = map->getMap();
-	drawMapState2(turn);
+	drawMapState(turnFieldTurn);
+
 
 	//manualInput
 	ManualInput manualInput;
+	// clickの範囲判定
 	manualInput.mousePosition();
-	if (map->click == true) {
-		manualInput.clickedMap(map->x, map->y);
+	
+	if (map->isClicked == true) {
+		// エージェント選択モード（移動方向変更可能）
+		manualInput.clickedMap(map->clickedPosx, map->clickedPosy);
 	}
 
-	drawMap2AgentsTurn(turn);
-	drawMapPoint2();
+	drawMapAgentsTurn(turnFieldTurn);
+	drawMapPoint();
 	// error
-	drawMapLine2(turn);
+	drawMapLine(turnFieldTurn);
 	drawMapFrame();
 
 }
 
 
-/*
-//FrameMap
-void DrawMap::drawMapFrame() {
-	Map* map1;
-	map1 = map1->getMap();
-	CreateMap map;
-	map.createMapFrame(map1->vertical, map1->width);
-}
-
-//StateMap1
-void DrawMap::drawMapState1(const int turn) {
-	Field* field;
-	field = field->getField();
-	Map* map;
-	map = map->getMap();
-	CreateMap create;
-	if (turn == map->readTurn) {
-
-	}else if(turn==0){
-		for (int i = 0; i < map->vertical; i++) {
-			for (int j = 0; j < map->width; j++) {
-				create.createMapState1(field->tiled[i][j], i+1, j+1);
-			}
-		}
-	}else {
-		for (int i = 0; i < map->vertical; i++) {
-			for (int j = 0; j < map->width; j++) {
-				create.createMapState1(field->turnTiled[turn][i][j], i + 1, j + 1);
-			}
-		}
-	}
-}
-
-//StateMap2
-void DrawMap::drawMapState2(const int turn) {
-	Field* field;
-	field = field->getField();
-	Map* map;
-	map = map->getMap();
-	CreateMap create;
-	if (turn == 0) {
-
-	}else{
-		for (int i = 0; i < map->vertical; i++) {
-			for (int j = 0; j < map->width; j++) {
-				create.createMapState2(field->turnTiled[turn][i][j], i + 1, j + 1);
-			}
-		}
-	}
-}
-
-//AgentsMap1
-void DrawMap::drawMap1AgentsTurn(const int turn) {
-	Agents* agents;
-	agents = agents->getAgents();
-	Field* field;
-	field = field->getField();
-	Map* map;
-	map = map->getMap();
-	CreateMap create;
-	if (turn == map->readTurn) {
-
-	}else if(turn == 0){
-		for (int i = 0; i < agents->ourAgents.size(); i++) {
-			create.createMapAgent1(1, field->turnAgent[turn][i].first, field->turnAgent[turn][i].second);
-			create.createMapAgent1(2, agents->otherAgents[i][1], agents->otherAgents[i][2]);
-		}
-	}else{
-		for (int i = 0; i < agents->ourAgents.size(); i++) {
-			create.createMapAgent1(1,field->turnAgent[turn][i].first,field->turnAgent[turn][i].second);
-		}
-	}
-}
-
-//AgentsMap2
-void DrawMap::drawMap2AgentsTurn(const int turn) {
-	Agents* agents;
-	agents = agents->getAgents();
-	Field* field;
-	field = field->getField();
-	CreateMap create;
-	if (turn == 0) {
-
-	}else{
-		for (int i = 0; i < agents->ourAgents.size(); i++) {
-			create.createMapAgent2(1, field->turnAgent[turn][i].first, field->turnAgent[turn][i].second);
-		}
-	}
-}
-
-//PointMap1
-void DrawMap::drawMapPoint1() {
-	Field* field;
-	field = field->getField();
-	Map* map;
-	map = map->getMap();
-	CreateMap create;
-	for (int i = 0; i < map->vertical; i++) {
-		for (int j = 0; j < map->width; j++) {
-			create.createMapPoint1(field->points[i][j], i + 1, j + 1);
-		}
-	}
-}
-
-//PointMap2
-void DrawMap::drawMapPoint2() {
-	Field* field;
-	field = field->getField();
-	Map* map;
-	map = map->getMap();
-	CreateMap create;
-	for (int i = 0; i < map->vertical; i++) {
-		for (int j = 0; j < map->width; j++) {
-			create.createMapPoint2(field->points[i][j], i + 1, j + 1);
-		}
-	}
-}
-
-//LineMap1
-void DrawMap::drawMapLine1(const int turn) {
-	Agents* agents;
-	agents = agents->getAgents();
-	Field* field;
-	field = field->getField();
-	Map* map;
-	map = map->getMap();
-	CreateMap create;
-	if (turn == map->readTurn) {
-
-	}else{
-		for (int i = 0; i < agents->ourAgents.size(); i++) {
-			create.createMapLine1(field->turnAgent[turn][i].first, field->turnAgent[turn][i].second, field->turnAgent[turn+1][i].first, field->turnAgent[turn+1][i].second);
-		}
-	}
-}
-
-//LineMap2
-void DrawMap::drawMapLine2(const int turn) {
-	Agents* agents;
-	agents = agents->getAgents();
-	Field* field;
-	field = field->getField();
-	Map* map;
-	map = map->getMap();
-	CreateMap create;
-	if (turn == map->readTurn) {
-		//for (int i = 0; i < agents->ourAgents.size(); i++) {
-			//create.createMapLine1(field->turnAgent[turn][i].first, field->turnAgent[turn][i].second, field->turnAgent[turn + 1][i].first, field->turnAgent[turn + 1][i].second);
-		//}
-	}else{
-		for (int i = 0; i < agents->ourAgents.size(); i++) {
-			create.createMapLine1(field->turnAgent[turn][i].first, field->turnAgent[turn][i].second, field->turnAgent[turn + 1][i].first, field->turnAgent[turn + 1][i].second);
-		}
-	}
-}
-
-//DrawMapManager
-void DrawMap::drawMapManager(const int turn) {
-	drawMapState1(turn);
-	drawMapState2(turn+1);
-	drawMap1AgentsTurn(turn);
-	drawMap2AgentsTurn(turn+1);
-	drawMapLine1(turn);
-	drawMapLine2(turn+1);
-	drawMapPoint1();
-	drawMapPoint2();
-	drawMapFrame();
-}
-*/

@@ -9,4 +9,6 @@ public:
 	void setupField();
 	void setupAgents();
 	void setupAgentsAction();
+
+	void setupAgentsEvalution();
 };
