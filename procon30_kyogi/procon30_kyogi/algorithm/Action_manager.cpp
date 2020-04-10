@@ -50,14 +50,14 @@ void Action_manager::Action()
 	int nowX[8], nowY[8];
 
 	rep(i, agentS) {
-		nowX[i] = agents->ourAgents[i][1] - 1;
-		nowY[i] = agents->ourAgents[i][2] - 1;
+		nowX[i] = agents->ourAgents[i][1];
+		nowY[i] = agents->ourAgents[i][2];
 
 		field->turnAgent[0][i] = make_pair(nowX[i], nowY[i]);
 	}
-	rep(turn, map->readTurn + 1) {
-		field->turnTiled[turn] = field->tiled;
-	}
+	
+	// turn 0
+	field->turnTiled[0] = field->tiled;
 
 
 	rep(turn, map->readTurn) {

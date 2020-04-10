@@ -100,16 +100,5 @@ void Initialize::setupAgentsEvalution() {
 	AgentsEvalution* agentsEvalution;
 	agentsEvalution = agentsEvalution->getAgentsEvalution();
 
-	// ‚Ü‚ ‚Ü‚ –³’ƒ‚È‰Šú‰»
-	rep(count1, 8) {
-		rep(count2,9) {
-			rep(count3, 9) {
-				rep(count4, 9) {
-					rep(count5,9) {
-						agentsEvalution->readTurnEvalutionPointDP[count1][count2][count3][count4][count5] = 0;
-					}
-				}
-			}
-		}
-	}
+	
 }
